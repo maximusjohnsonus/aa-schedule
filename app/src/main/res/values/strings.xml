@@ -1,6 +1,18 @@
 <resources>
-    <string name="app_name">aa-schedule</string>
+    <string name="app_name">AA Schedule</string>
 
-    <string name="hello_world">Hello world!</string>
+    <string-array name="sidebar_options">
+        <item>View Schedule</item>
+        <item>Edit Schedule</item>
+        <item>Settings</item>
+        <item>Help</item>
+        <item>About</item>
+        <item>Feedback</item>
+    </string-array>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_example">Example action</string>
+
     <string name="action_settings">Settings</string>
 </resources>
