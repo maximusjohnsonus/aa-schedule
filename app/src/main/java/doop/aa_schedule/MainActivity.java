@@ -1,9 +1,10 @@
 package doop.aa_schedule;
 
 import android.app.Activity;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
@@ -16,7 +17,7 @@ import android.widget.ListView;
 //import doop.aa_schedule.R;
 
 
-public class ViewSchedule extends ActionBarActivity
+public class MainActivity extends ActionBarActivity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks {
 
     //Fragment managing the behaviors, interactions and presentation of the navigation drawer.
@@ -31,7 +32,7 @@ public class ViewSchedule extends ActionBarActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_view_schedule);
+        setContentView(R.layout.activity_main);
 
         mNavigationDrawerFragment = (NavigationDrawerFragment) getSupportFragmentManager().
                 findFragmentById(R.id.navigation_drawer);
@@ -47,16 +48,26 @@ public class ViewSchedule extends ActionBarActivity
 
     }
 
+
+
     @Override
     public void onNavigationDrawerItemSelected(int position) {
         // update the main content by replacing fragments
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction().replace(R.id.container,
-                PlaceholderFragment.newInstance(position + 1)).commit();
+        /*FragmentManager fragmentManager = getSupportFragmentManager();
+        fragmentManager.beginTransaction().replace(R.id.container,PlaceholderFragment.newInstance(position)).commit();*/
+
+
+        FragmentManager fm = getFragmentManager();
+        FragmentTransaction ft = fm.beginTransaction();
+        if(position==3)ft.replace(R.id.container,new Help()).commit();
+        if(position==4)ft.replace(R.id.container,new About()).commit();
+
+
+
     }
 
     public void onSectionAttached(int number) {
-        mTitle = getResources().getStringArray(R.array.sidebar_options)[number-1];
+        mTitle = getResources().getStringArray(R.array.sidebar_options)[number];
         /*switch (number) {
             case 1:
                 mTitle = getString(R.string.title_section1);
@@ -125,14 +136,14 @@ public class ViewSchedule extends ActionBarActivity
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_main, container, false);
+            View rootView = inflater.inflate(R.layout.fragment_view_schedule, container, false);
             return rootView;
         }
 
         @Override
         public void onAttach(Activity activity) {
             super.onAttach(activity);
-            ((ViewSchedule) activity).onSectionAttached(
+            ((MainActivity) activity).onSectionAttached(
                     getArguments().getInt(ARG_SECTION_NUMBER));
         }
     }
