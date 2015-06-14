@@ -1,0 +1,54 @@
+Features labeled low priority are not integral to app. They take lower priority than unmarked features, but higher than bonus
+Features labeled bonus should not be added unless they are easy to add. Else, wait until the rest of the app is functional
+
+Features in side bar:
+    View Schedule:
+        Defaults to today's schedule
+        Swipe to left to see future days
+        Days labeled with week day, cycle day, date?
+        In portrait:
+            periods labeled with time range, class name, room number?, teacher?
+            periods color coded
+            weekends exist
+            Low priority: events:
+                User-added events show up as a bar or a bracket over a time period (if given and during the school day)
+                swipe up to view list of events (on days w/ events, a down arrow is present indicating their existence)
+            Bonus: lunch periods show first item on menu, tap to see full menu
+            Bonus: free periods show number of friends that share free, tap to see full list
+        In landscape:
+            periods color coded
+            view current week (5 days) (first day shown could be monday of current week or current day, depending on overall app flow)
+            no weekend - dividing line between Fri and Mon
+        
+    low priority: Events:
+        User can add events
+        Specify day(s) - one time, weekly, cycle-ly, weekly + cycle-ly (e.g. only on day 4 tuesdays)
+            (could select list of cycle days and week days and use intersection - if no week days selected, assume all (and vice versa)) (this is poorly communicated, ask Dylan or Max)
+        Specify start and end time (both optional - if one not provided, default to relevant midnight)
+        Specify title/description (title mandatory, desciption optional)
+        Specify whether to notify
+        
+    Edit Schedule:
+        Proposed: Like vertical view schedule
+            First page: option to re-download schedule, edit each period block (e.g. period D is bio)
+            pages 2-11: edit each day (manually add frees, choose between long and short block, etc.)
+        
+    Settings:
+        low priority: Notifications:
+            Some presets (e.g. notify me when free block ends)
+            Add custom notification:
+                Choose between Event, Class, Time? (why do I have time written down? that could be an event, or done through alarm app. email max if you figure out why we need something other than events and class)
+                Event: choose from existing events, set length of time to notify before
+                Class: choose a set of class periods, set length of time to notify before
+    Help:
+        Nice version of this doc
+        
+    About:
+        doop
+        
+    Feedback:
+        we can make an email for feedback
+        
+    Bonus: Friends
+        Add friends and view their schedules (esp. common frees)
+    
