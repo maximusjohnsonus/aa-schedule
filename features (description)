@@ -1,6 +1,10 @@
 Features labeled low priority are not integral to app. They take lower priority than unmarked features, but higher than bonus
 Features labeled bonus should not be added unless they are easy to add. Else, wait until the rest of the app is functional
 
+Proposed storage method for schedule:
+    array (10 items) of arraylists of periods
+    period (class (i.e. java Class)): time range, class name, room, color or block
+
 Features in side bar:
     View Schedule:
         Defaults to today's schedule
@@ -26,7 +30,9 @@ Features in side bar:
             (could select list of cycle days and week days and use intersection - if no week days selected, assume all (and vice versa)) (this is poorly communicated, ask Dylan or Max)
         Specify start and end time (both optional - if one not provided, default to relevant midnight)
         Specify title/description (title mandatory, desciption optional)
-        Specify whether to notify
+        Specify whether to notify (and time before notification)
+        Proposed storage method:
+            use three tables- one for one-time events, one for cycle-ly, one for weekly. latter two can be checked only on relevant days
         
     Edit Schedule:
         Proposed: Like vertical view schedule
@@ -36,6 +42,7 @@ Features in side bar:
     Settings:
         low priority: Notifications:
             Some presets (e.g. notify me when free block ends)
+            Show custom notifications
             Add custom notification:
                 Choose between Event, Class, Time? (why do I have time written down? that could be an event, or done through alarm app. email max if you figure out why we need something other than events and class)
                 Event: choose from existing events, set length of time to notify before
