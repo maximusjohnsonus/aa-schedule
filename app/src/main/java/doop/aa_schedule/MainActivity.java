@@ -8,6 +8,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -17,7 +18,7 @@ import android.widget.ListView;
 //import doop.aa_schedule.R;
 
 
-public class MainActivity extends ActionBarActivity
+public class MainActivity extends AppCompatActivity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks {
 
     //Fragment managing the behaviors, interactions and presentation of the navigation drawer.
@@ -61,6 +62,8 @@ public class MainActivity extends ActionBarActivity
         FragmentTransaction ft = fm.beginTransaction();
         if(position==3)ft.replace(R.id.container,new Help()).commit();
         if(position==4)ft.replace(R.id.container,new About()).commit();
+        if(position==5)ft.replace(R.id.container,new Feedback()).commit();
+
 
 
 
