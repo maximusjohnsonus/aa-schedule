@@ -59,9 +59,22 @@ public class MainActivity extends AppCompatActivity
 
         FragmentManager fm = getFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
-        if(position==3)ft.replace(R.id.container,new Help()).commit();
-        if(position==4)ft.replace(R.id.container,new About()).commit();
-        if(position==5)ft.replace(R.id.container,new Feedback()).commit();
+
+        switch (position){
+            case 0:
+                ft.replace(R.id.container,new ViewSchedule()).commit();
+                break;
+            case 3:
+                ft.replace(R.id.container,new Help()).commit();
+                break;
+            case 4:
+                ft.replace(R.id.container,new About()).commit();
+                break;
+            case 5:
+                ft.replace(R.id.container,new Feedback()).commit();
+                break;
+        }
+
 
 
 
