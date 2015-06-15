@@ -61,6 +61,7 @@ public class MainActivity extends AppCompatActivity
         FragmentTransaction ft = fm.beginTransaction();
         if(position==3)ft.replace(R.id.container,new Help()).commit();
         if(position==4)ft.replace(R.id.container,new About()).commit();
+        if(position==5)ft.replace(R.id.container,new Feedback()).commit();
 
 
 
