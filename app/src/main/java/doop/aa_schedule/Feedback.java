@@ -20,6 +20,7 @@ import android.widget.Toast;
 public class Feedback extends Fragment implements View.OnClickListener {
 
     EditText feedbackText;
+    EditText feedbackName;
     Button feedbackButton;
     RadioGroup feedbackType;
     RadioButton selectedButton;
@@ -29,6 +30,7 @@ public class Feedback extends Fragment implements View.OnClickListener {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
         view=inflater.inflate(R.layout.fragment_feedback,container,false);
         feedbackText = (EditText) view.findViewById(R.id.feedbackText);
+        feedbackName = (EditText) view.findViewById(R.id.feedbackName);
         feedbackButton = (Button) view.findViewById(R.id.feedbackButton);
         feedbackButton.setOnClickListener(this);
         feedbackType = (RadioGroup) view.findViewById(R.id.feedbackType);
@@ -40,6 +42,10 @@ public class Feedback extends Fragment implements View.OnClickListener {
         int selected = feedbackType.getCheckedRadioButtonId();
         selectedButton = (RadioButton) view.findViewById(selected);
         String message = feedbackText.getText().toString();
+        String name = feedbackName.getText().toString();
+        // Really nice if syntax Mims never taught us
+        String nameTag = name.length()>0 ? "(Name/Email: "+name+")" : "(Anonymous)";
+        String type= selectedButton.getText().toString();
 
         if(selectedButton==null) {
             Toast.makeText(getActivity(), "Must Select Type", Toast.LENGTH_SHORT).show();
@@ -49,11 +55,12 @@ public class Feedback extends Fragment implements View.OnClickListener {
 
             try {
                 feedbackSender sender = new feedbackSender("aascheduleapp@gmail.com", "pizzapizza2");
-                sender.sendMail(selectedButton.getText().toString(),
-                        message);
+                sender.sendMail(type,
+                        message + "\n\n" + nameTag);
                 Toast.makeText(getActivity(), "Feedback Sent", Toast.LENGTH_SHORT).show();
                 // Clear inputs
                 feedbackText.setText("");
+                feedbackName.setText("");
                 feedbackType.clearCheck();
             } catch (Exception e) {
                 Log.e("SendMail", e.getMessage(), e);

@@ -50,6 +50,17 @@
         android:hint="@string/feedback_entry"
         />
 
+    <EditText
+        android:layout_margin="5dp"
+        android:id="@+id/feedbackName"
+        android:layout_width="match_parent"
+        android:inputType="textMultiLine|textCapSentences"
+        android:layout_height="wrap_content"
+        android:background="@drawable/rectangle"
+        android:gravity="top"
+        android:hint="@string/feedback_name"
+        />
+
     <Button
         android:id="@+id/feedbackButton"
         android:layout_width="wrap_content"
