@@ -21,6 +21,8 @@
     <string name="type_suggest_feature">Suggest Feature</string>
     <string name="type_report_bug">Report Bug</string>
     <string name="type_other">Other</string>
+    <string name="feedback_name">Name/Email (Optional)</string>
+
     <string name="hello_world">Hello world!</string>
 
     <!-- File/pref names:-->
