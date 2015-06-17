@@ -11,7 +11,7 @@ public class Period {
     protected int startTime; //minutes
     protected int endTime;  //minutes
     protected String className;
-    protected int block; //stores which block the period occurs in. A is 0, B is 1, etc. Used for coloring and probably editing
+    protected int block; //stores which block the period occurs in. A=0,B=1,...,G=6,Lunch=7,other stuff continues. Used for coloring and probably editing
     protected String room; //optional
     /*private String JSON_start_time =
     private String JSON_end_time =
@@ -53,10 +53,8 @@ public class Period {
         className = name;
     }
     public String toString(){
-        String startMin=startTime%60+"";
-        if (startTime%60<10) startMin="0"+startMin;
-        String endMin=endTime%60+"";
-        if (endTime%60<10) endMin="0"+endMin;
+        String startMin = startTime%60<10? "0" + startTime%60 : startTime%60+"";
+        String endMin = endTime%60<10? "0" + endTime%60 : endTime%60+"";
         return "["+startTime/60+":"+startMin+" - "+endTime/60+":"+endMin+", "+className+", "+block+", "+room+"]";
     }
 
