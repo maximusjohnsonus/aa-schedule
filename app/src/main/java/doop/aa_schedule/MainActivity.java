@@ -1,10 +1,10 @@
 package doop.aa_schedule;
 
 import android.app.Activity;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
@@ -56,7 +56,6 @@ public class MainActivity extends AppCompatActivity
         //mDrawerList.setAdapter(new ArrayAdapter<String>(this, R.layout.drawer_list_item, navOptions));
 
         getSchedule();
-
     }
 
 
@@ -68,12 +67,13 @@ public class MainActivity extends AppCompatActivity
         fragmentManager.beginTransaction().replace(R.id.container,PlaceholderFragment.newInstance(position)).commit();*/
 
 
-        FragmentManager fm = getFragmentManager();
+        FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
 
         switch (position){
             case 0:
-                ft.replace(R.id.container,new ViewSchedule()).commit();
+                ViewSchedule vs = new ViewSchedule();
+                ft.replace(R.id.container,vs).commit();
                 break;
             case 3:
                 ft.replace(R.id.container,new Help()).commit();

@@ -1,34 +1,46 @@
 package doop.aa_schedule;
 
-import android.app.Fragment;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
-import java.util.Calendar;
+import java.util.ArrayList;
+import java.util.List;
 
-
-public class ViewSchedule extends Fragment {
-    View view;
+public class ViewSchedule extends Fragment { //PageViewActivity
+    MyPageAdapter pageAdapter;
+    /*@Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.fragment_view_schedule);
+        List<Fragment> fragments = getFragments();
+        pageAdapter = new MyPageAdapter(getSupportFragmentManager(), fragments);
+        ViewPager pager = (ViewPager) getActivity().findViewById(R.id.viewpager);
+        pager.setAdapter(pageAdapter);
+    }*/
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
-        super.onCreateView(inflater, container, savedInstanceState);
-        view=inflater.inflate(R.layout.fragment_view_schedule,container,false);
+        View view=inflater.inflate(R.layout.fragment_view_schedule,container,false);
+        List<Fragment> fragments = getFragments();
+        pageAdapter = new MyPageAdapter(getActivity().getSupportFragmentManager(), fragments);
+        ViewPager pager = (ViewPager) view.findViewById(R.id.viewpager);
 
-        Calendar cal = Calendar.getInstance();
-        int hour=cal.get(Calendar.HOUR_OF_DAY);
-        int min=cal.get(Calendar.MINUTE);
-        setText("The time this frag was created was "+hour+":"+min+", or "+(60*hour+min)+" minutes");
+        pager.setAdapter(pageAdapter);
+
         return view;
     }
 
-    public void setText(String item){
+    private List<Fragment> getFragments() {
+        List<Fragment> fList = new ArrayList<>();
 
-        TextView Tview=(TextView) view.findViewById(R.id.viewSText);
+        fList.add(DayFragment.newInstance("Fragment 1"));
+        fList.add(DayFragment.newInstance("Fragment 2"));
+        fList.add(DayFragment.newInstance("Fragment 3"));
 
-        Tview.setText(item);
+        return fList;
     }
 }
