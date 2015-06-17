@@ -19,7 +19,7 @@ public class ViewSchedule extends Fragment {
         view=inflater.inflate(R.layout.fragment_view_schedule,container,false);
 
         Calendar cal = Calendar.getInstance();
-        int hour=cal.get(Calendar.HOUR);
+        int hour=cal.get(Calendar.HOUR_OF_DAY);
         int min=cal.get(Calendar.MINUTE);
         setText("The time this frag was created was "+hour+":"+min+", or "+(60*hour+min)+" minutes");
         return view;
