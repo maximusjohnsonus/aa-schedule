@@ -54,7 +54,7 @@
         android:layout_margin="5dp"
         android:id="@+id/feedbackName"
         android:layout_width="match_parent"
-        android:inputType="textMultiLine|textCapSentences"
+        android:inputType="textPersonName|textEmailAddress"
         android:layout_height="wrap_content"
         android:background="@drawable/rectangle"
         android:gravity="top"

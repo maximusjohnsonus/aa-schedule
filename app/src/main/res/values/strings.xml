@@ -4,6 +4,7 @@
     <string-array name="sidebar_options">
         <item>View Schedule</item>
         <item>Edit Schedule</item>
+        <item>Events</item>
         <item>Settings</item>
         <item>Help</item>
         <item>About</item>
@@ -26,6 +27,23 @@
     <string name="type_report_bug">Report Bug</string>
     <string name="type_other">Other</string>
     <string name="feedback_name">Name/Email (Optional)</string>
+    
+    <string name="event_add_button">Done</string>
+    <string name="event_add">+</string>
+    <string name="event_add_top">Add Event</string>
+    <string name="event_add_title">Title</string>
+    <string name="event_add_description">Description (Optional)</string>
+    <string name="event_add_weekdays">Weekdays (Leave blank for all)</string>
+    <string name="event_add_cycledays">Cycle Days (Leave blank for all)</string>
+    <string name="JSON_event_title">event_title</string>
+    <string name="JSON_event_description">event_description</string>
+    <string name="JSON_event_start_time">event_start_time</string>
+    <string name="JSON_event_end_time">event_end_time</string>
+    <string name="JSON_event_weekdays">event_weekdays</string>
+    <string name="JSON_event_cycledays">event_cycledays</string>
+
+
+
 
     <string name="hello_world">Hello world!</string>
 </resources>

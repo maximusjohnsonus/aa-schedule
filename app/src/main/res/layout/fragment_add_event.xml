@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:touchscreenBlocksFocus="false"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/eventAddTop"
+        android:textSize="15sp"
+        android:textColor="#000000"
+        android:layout_margin="5dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/event_add_top"/>
+
+
+    <EditText
+        android:layout_margin="5dp"
+        android:id="@+id/eventAddTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/rectangle"
+        android:gravity="top"
+        android:hint="@string/event_add_title"/>
+
+
+    <EditText
+        android:layout_margin="5dp"
+        android:id="@+id/eventAddDescription"
+        android:layout_width="match_parent"
+        android:inputType="textMultiLine|textCapSentences"
+        android:layout_height="wrap_content"
+        android:background="@drawable/rectangle"
+        android:gravity="top"
+        android:lines="3"
+        android:hint="@string/event_add_description"/>
+
+
+
+    <TabHost
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TabWidget
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            </TabWidget>
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:textColor="#000000"
+                        android:layout_margin="0dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/event_add_weekdays"/>
+
+                    <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <ToggleButton
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="S"
+                            android:id="@+id/event_Sun"
+                            android:textOff=" "
+                            android:textOn=" "/>
+
+                        <ToggleButton
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="M"
+                            android:id="@+id/event_mon"
+                            android:textOff=" "
+                            android:textOn=" "/>
+
+                        <ToggleButton
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="T"
+                            android:id="@+id/event_tue"
+                            android:longClickable="false"
+                            android:textOff=" "
+                            android:textOn=" "
+                            android:textColor="#000000" />
+
+                        <ToggleButton
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="W"
+                            android:id="@+id/event_wed"
+                            android:textOff=" "
+                            android:textOn=" "/>
+
+                        <ToggleButton
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="T"
+                            android:id="@+id/event_thu"
+                            android:textOff=" "
+                            android:textOn=" "/>
+
+                        <ToggleButton
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="F"
+                            android:id="@+id/event_fri"
+                            android:textOff=" "
+                            android:textOn=" "/>
+
+                        <ToggleButton
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="S"
+                            android:id="@+id/event_sat"
+                            android:textOff=" "
+                            android:textOn=" "/>
+
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                </LinearLayout>
+
+            </FrameLayout>
+        </LinearLayout>
+    </TabHost>
+
+    <Button
+        android:id="@+id/eventAddButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginLeft="20dp"
+        android:text="@string/event_add_button" />
+
+</LinearLayout>
