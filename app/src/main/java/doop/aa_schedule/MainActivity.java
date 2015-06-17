@@ -52,7 +52,7 @@ public class MainActivity extends AppCompatActivity
 
         // Set up the drawer.
         mNavigationDrawerFragment.setUp(R.id.navigation_drawer, (DrawerLayout) findViewById(R.id.drawer_layout));
-        String[] navOptions = { "View Schedule","Edit Schedule","Settings","Help","About","Feedback" };
+        String[] navOptions = { "View Schedule","Edit Schedule","Events","Settings","Help","About","Feedback" };
         //mDrawerList.setAdapter(new ArrayAdapter<String>(this, R.layout.drawer_list_item, navOptions));
 
         getSchedule();
@@ -75,13 +75,16 @@ public class MainActivity extends AppCompatActivity
             case 0:
                 ft.replace(R.id.container,new ViewSchedule()).commit();
                 break;
-            case 3:
-                ft.replace(R.id.container,new Help()).commit();
+            case 2:
+                ft.replace(R.id.container,new Events()).commit();
                 break;
             case 4:
-                ft.replace(R.id.container,new About()).commit();
+                ft.replace(R.id.container,new Help()).commit();
                 break;
             case 5:
+                ft.replace(R.id.container,new About()).commit();
+                break;
+            case 6:
                 ft.replace(R.id.container,new Feedback()).commit();
                 break;
         }
