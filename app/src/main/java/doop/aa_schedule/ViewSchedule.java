@@ -10,18 +10,8 @@ import android.view.ViewGroup;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ViewSchedule extends Fragment { //PageViewActivity
+public class ViewSchedule extends Fragment { //http://architects.dzone.com/articles/android-tutorial-using
     MyPageAdapter pageAdapter;
-    /*@Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.fragment_view_schedule);
-        List<Fragment> fragments = getFragments();
-        pageAdapter = new MyPageAdapter(getSupportFragmentManager(), fragments);
-        ViewPager pager = (ViewPager) getActivity().findViewById(R.id.viewpager);
-        pager.setAdapter(pageAdapter);
-    }*/
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
         View view=inflater.inflate(R.layout.fragment_view_schedule,container,false);
