@@ -1,5 +1,6 @@
 package doop.aa_schedule;
 
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -8,73 +9,65 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+
 public class DayFragment extends Fragment {
-    public static final String EXTRA_MESSAGE = "EXTRA_MESSAGE";
+    //public ArrayList<ArrayList<Period>> schedule;
+    private ArrayList<Period> day; //you could make this static and use newInstance; just bundle your data (ArrayList needs to be parcelable)
+    private int cycleDay;
     
-    public static final DayFragment newInstance(String message) {
+    /*public static DayFragment newInstance(ArrayList<ArrayList<Period>> scheduleArr, int dayNum) {
         DayFragment f = new DayFragment();
-        Bundle bdl = new Bundle(1);
-        bdl.putString(EXTRA_MESSAGE, message);
-        f.setArguments(bdl);
+        /*Bundle bdl = new Bundle(1);
+        bdl.putArr(DAY, day);
+        f.setArguments(bdl);* /
+
+        //day = copyDay(_day, r);
+        cycleDay=_i;
         return f;
-    }
+    }*/
     
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        String message = getArguments().getString(EXTRA_MESSAGE);
+        //ArrayList<Period> day = getArguments().getParcelableArrayList(DAY);
         View v = inflater.inflate(R.layout.view_day, container, false);
-        TextView messageTextView = (TextView) v.findViewById(R.id.dayText);
-        messageTextView.setText(message);
         LinearLayout ll = (LinearLayout) v.findViewById(R.id.day_layout);
+
         LinearLayout.LayoutParams params;
+        View periodView;
+        TextView perStart;
+        TextView perEnd;
+        TextView perMain;
 
-        View p1 = inflater.inflate(R.layout.view_period, container, false);
-        TextView perStart1 = (TextView) p1.findViewById(R.id.per_start_text);
-        TextView perEnd1 = (TextView) p1.findViewById(R.id.per_end_text);
-        TextView perMain1 = (TextView) p1.findViewById(R.id.per_main_text);
-        perStart1.setText("11:24");
-        perEnd1.setText("12:02");
-        perMain1.setText("AP Biology (S123)");
-        params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,0,74f);
-        ll.addView(p1, params);
-
-        View p2 = inflater.inflate(R.layout.view_period, container, false);
-        TextView perStart2 = (TextView) p2.findViewById(R.id.per_start_text);
-        TextView perEnd2 = (TextView) p2.findViewById(R.id.per_end_text);
-        TextView perMain2 = (TextView) p2.findViewById(R.id.per_main_text);
-        perStart2.setText("12:15");
-        perEnd2.setText("1:06");
-        perMain2.setText("Lunch");
-        params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,0,56f);
-        ll.addView(p2, params);
-
-        View p3 = inflater.inflate(R.layout.view_period, container, false);
-        TextView perStart3 = (TextView) p3.findViewById(R.id.per_start_text);
-        TextView perEnd3 = (TextView) p3.findViewById(R.id.per_end_text);
-        TextView perMain3 = (TextView) p3.findViewById(R.id.per_main_text);
-        perStart3.setText("1:11");
-        perEnd3.setText("1:45");
-        perMain3.setText("Free");
-        params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,0,32f);
-        ll.addView(p3, params);
-
-        View p4 = inflater.inflate(R.layout.view_period, container, false);
-        TextView perStart4 = (TextView) p4.findViewById(R.id.per_start_text);
-        TextView perEnd4 = (TextView) p4.findViewById(R.id.per_end_text);
-        TextView perMain4 = (TextView) p4.findViewById(R.id.per_main_text);
-        perStart4.setText("1:52");
-        perEnd4.setText("3:32");
-        perMain4.setText("English IV (B404)");
-        params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,0,47f);
-        ll.addView(p4,params);
-
-
-
+        for(Period p:day){
+            periodView = inflater.inflate(R.layout.view_period, container, false);
+            perStart = (TextView) periodView.findViewById(R.id.per_start_text);
+            perEnd = (TextView) periodView.findViewById(R.id.per_end_text);
+            perMain = (TextView) periodView.findViewById(R.id.per_main_text);
+            perStart.setText(p.getStartString());
+            perEnd.setText(p.getEndString());
+            perMain.setText(p.getMainText());
+            params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,0,p.getLength());
+            ll.addView(periodView, params);
+        }
         return v;
     }
 
-    @Override
-    public void onViewCreated(View view, Bundle savedInstanceState){
-
+    public static ArrayList<Period> copyDay (ArrayList<Period> _day, Resources r){
+        ArrayList<Period> day = new ArrayList<>();
+        for(Period p:_day){
+            day.add(new Period(p.toJSON(r), r));
+        }
+        return day;
     }
+
+    public void setValues(int _cycleDay, ArrayList<Period> _day){
+        cycleDay = _cycleDay;
+        day = _day;
+    }
+
+    public String toString(){
+        return cycleDay+", "+day.toString();
+    }
+
 }

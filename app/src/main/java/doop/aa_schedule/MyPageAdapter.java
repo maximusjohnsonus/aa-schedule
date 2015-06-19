@@ -15,6 +15,15 @@ class MyPageAdapter extends FragmentPagerAdapter {
         fragments = _fragments;
     }
 
+    public MyPageAdapter(FragmentManager fm) {
+        super(fm);
+    }
+
+    public void setData(List<Fragment> _fragments){
+        fragments = _fragments;
+        notifyDataSetChanged();
+    }
+
     @Override
     public Fragment getItem(int position) {
         return this.fragments.get(position);

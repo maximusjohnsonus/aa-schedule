@@ -26,7 +26,6 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks {
-
     //Fragment managing the behaviors, interactions and presentation of the navigation drawer.
     private NavigationDrawerFragment mNavigationDrawerFragment;
 
@@ -55,7 +54,7 @@ public class MainActivity extends AppCompatActivity
         String[] navOptions = { "View Schedule","Edit Schedule","Settings","Help","About","Feedback" };
         //mDrawerList.setAdapter(new ArrayAdapter<String>(this, R.layout.drawer_list_item, navOptions));
 
-        getSchedule();
+        if(scheduleArray==null)getSchedule();
     }
 
 
@@ -73,6 +72,8 @@ public class MainActivity extends AppCompatActivity
         switch (position){
             case 0:
                 ViewSchedule vs = new ViewSchedule();
+                if(scheduleArray==null) getSchedule();
+                vs.sendScheduleArray(scheduleArray);
                 ft.replace(R.id.container,vs).commit();
                 break;
             case 3:
@@ -174,7 +175,7 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-    public void getSchedule() { //first three periods until I get an actual sample schedule (Mr Kim said he'd send it to me 6-17)
+    public void getSchedule() {
         String prefName = getResources().getString(R.string.pref_storage);
         SharedPreferences sp = getSharedPreferences(prefName, 0);
         String key=getResources().getString(R.string.schedule_JSON);

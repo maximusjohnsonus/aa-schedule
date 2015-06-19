@@ -13,11 +13,7 @@ public class Period {
     protected String className;
     protected int block; //stores which block the period occurs in. A=0,B=1,...,G=6,Lunch=7,other stuff continues. Used for coloring and probably editing
     protected String room; //optional
-    /*private String JSON_start_time =
-    private String JSON_end_time =
-    private String JSON_class_name =
-    private String JSON_room =
-    private String JSON_block = */
+
 
     public Period(int start, int end, String name, int vBlock, String vRoom){ //constructor for normal class/study hall
         startTime = start;
@@ -52,6 +48,7 @@ public class Period {
     public void setClassName(String name){
         className = name;
     }
+
     public String toString(){
         String startMin = startTime%60<10? "0" + startTime%60 : startTime%60+"";
         String endMin = endTime%60<10? "0" + endTime%60 : endTime%60+"";
@@ -73,5 +70,18 @@ public class Period {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public String getStartString() {
+        return startTime/60 + ":" + (startTime%60 < 10 ? "0"+startTime%60 : startTime%60);
+    }
+    public String getEndString() {
+        return endTime/60 + ":" + (endTime%60 < 10 ? "0"+endTime%60 : endTime%60);
+    }
+    public String getMainText() {
+        return className + (room==null ? "" : " ("+room+")");
+    }
+    public float getLength(){
+        return endTime - startTime;
     }
 }
