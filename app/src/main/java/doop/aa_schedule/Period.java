@@ -1,13 +1,15 @@
 package doop.aa_schedule;
 
 import android.content.res.Resources;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.util.Log;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 //used to store class periods
-public class Period {
+public class Period implements Parcelable {
     protected int startTime; //minutes
     protected int endTime;  //minutes
     protected String className;
@@ -84,4 +86,39 @@ public class Period {
     public float getLength(){
         return endTime - startTime;
     }
+
+
+    //Parcelable part
+    public Period(Parcel in){
+        int[] iArgs = new int[3];
+        String[] sArgs = new String[2];
+        in.readIntArray(iArgs);
+        in.readStringArray(sArgs);
+        startTime = iArgs[0];
+        endTime = iArgs[1];
+        block = iArgs[2];
+        className = sArgs[0];
+        room = sArgs[1];
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeIntArray(new int[]{startTime,endTime,block});
+        dest.writeStringArray(new String[]{className,room});
+    }
+
+    public static final Parcelable.Creator CREATOR = new Parcelable.Creator() {
+        public Period createFromParcel(Parcel in) {
+            return new Period(in);
+        }
+
+        public Period[] newArray(int size) {
+            return new Period[size];
+        }
+    };
 }

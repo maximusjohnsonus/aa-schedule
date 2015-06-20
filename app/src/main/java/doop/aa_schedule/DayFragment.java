@@ -3,6 +3,7 @@ package doop.aa_schedule;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,26 +13,35 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 public class DayFragment extends Fragment {
+    private static final String DAY_NUM = "DAY_NUM";
+    private static final String DAY_SCHEDULE = "DAY_SCHEDULE";
+    private static ArrayList<ArrayList<Period>> schedule;
     //public ArrayList<ArrayList<Period>> schedule;
-    private ArrayList<Period> day; //you could make this static and use newInstance; just bundle your data (ArrayList needs to be parcelable)
-    private int cycleDay;
+    //private ArrayList<Period> day; //you could make this static and use newInstance; just bundle your data (ArrayList needs to be parcelable)
+    //private int cycleDay;
     
-    /*public static DayFragment newInstance(ArrayList<ArrayList<Period>> scheduleArr, int dayNum) {
+    public static DayFragment newInstance(int dayNum) {
         DayFragment f = new DayFragment();
-        /*Bundle bdl = new Bundle(1);
-        bdl.putArr(DAY, day);
-        f.setArguments(bdl);* /
+        Bundle bdl = new Bundle(1);
+        //bdl.putParcelableArrayList(DAY_SCHEDULE,daySchedule);
+        bdl.putInt(DAY_NUM,dayNum);
+        f.setArguments(bdl);
 
         //day = copyDay(_day, r);
-        cycleDay=_i;
         return f;
-    }*/
+    }
     
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        //ArrayList<Period> day = getArguments().getParcelableArrayList(DAY);
+        Log.d("DayFragment 513", savedInstanceState!=null ? savedInstanceState.toString() : "null");
+        //ArrayList<Period> day = getArguments().getParcelableArrayList(DAY_SCHEDULE);
+        int dayNum = getArguments().getInt(DAY_NUM);
+        ArrayList<Period> day = schedule.get((dayNum-1)%10);
+
         View v = inflater.inflate(R.layout.view_day, container, false);
         LinearLayout ll = (LinearLayout) v.findViewById(R.id.day_layout);
+        TextView label = (TextView) v.findViewById(R.id.dayText);
+        label.setText("Day no. "+dayNum);
 
         LinearLayout.LayoutParams params;
         View periodView;
@@ -61,13 +71,17 @@ public class DayFragment extends Fragment {
         return day;
     }
 
-    public void setValues(int _cycleDay, ArrayList<Period> _day){
+    public void setSchedule(ArrayList<ArrayList<Period>> _schedule){
+        schedule = _schedule;
+    }
+
+    /*public void setValues(int _cycleDay, ArrayList<Period> _day){
         cycleDay = _cycleDay;
         day = _day;
     }
 
     public String toString(){
         return cycleDay+", "+day.toString();
-    }
+    }*/
 
 }

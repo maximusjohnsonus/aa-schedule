@@ -11,9 +11,10 @@ import android.view.ViewGroup;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ViewSchedule extends Fragment implements FragmentCommunicator { // http://architects.dzone.com/articles/android-tutorial-using
+public class ViewSchedule extends Fragment { // http://architects.dzone.com/articles/android-tutorial-using
     MyPageAdapter pageAdapter;
     ArrayList<ArrayList<Period>> scheduleArray;
+    //static final int ITEMS = 180;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
@@ -31,26 +32,16 @@ public class ViewSchedule extends Fragment implements FragmentCommunicator { // 
     private List<Fragment> getFragments() {
         List<Fragment> fList = new ArrayList<>();
 
-        for(int i=0; i<scheduleArray.size();i++){
+        for(int i=0; i<180;i++){
             DayFragment df = new DayFragment();
-            df.setValues((i+1)%10, scheduleArray.get(i));
-            fList.add(df);
-                    //DayFragment.newInstance(copyDay(scheduleArray.get(i)),(i+1)%10,getResources()));
-            Log.d("ViewSchedule 193", fList.toString());
+            df.setSchedule(scheduleArray);
+            fList.add(df.newInstance((i+1)%10));
+            //Log.d("ViewSchedule 193", fList.toString());
 
         }
         return fList;
     }
 
-    public ArrayList<Period> copyDay (ArrayList<Period> _day){
-        ArrayList<Period> day = new ArrayList<>();
-        for(Period p:_day){
-            day.add(new Period(p.toJSON(getResources()),getResources()));
-        }
-        return day;
-    }
-
-    @Override
     public void sendScheduleArray(ArrayList<ArrayList<Period>> schArr) {
         scheduleArray = schArr;
         if(scheduleArray==null) Log.e("ViewSchedule 343","scheduleArray is null");
