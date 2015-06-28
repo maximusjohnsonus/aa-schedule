@@ -21,6 +21,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 //import doop.aa_schedule.R;
 
 
@@ -34,7 +35,10 @@ public class MainActivity extends AppCompatActivity
 
     private DrawerLayout mDrawerLayout;
     private ListView mDrawerList;
-    private ArrayList<ArrayList<Period>>scheduleArray;
+    private ArrayList<ArrayList<Period>> scheduleArray;
+    private ArrayList<Integer> dayList; //0=day 0, 1=day 1, ... , -1=no school
+    private int currentDay=-1;
+
 
 
     @Override
@@ -55,7 +59,10 @@ public class MainActivity extends AppCompatActivity
         //mDrawerList.setAdapter(new ArrayAdapter<String>(this, R.layout.drawer_list_item, navOptions));
 
         if(scheduleArray==null)getSchedule();
+        if(dayList==null)getDayList();
+        if(currentDay==-1)getCurDay();
     }
+
 
 
 
@@ -73,7 +80,9 @@ public class MainActivity extends AppCompatActivity
             case 0:
                 ViewSchedule vs = new ViewSchedule();
                 if(scheduleArray==null) getSchedule();
-                vs.sendScheduleArray(scheduleArray);
+                if(dayList==null)getDayList();
+                if(currentDay==-1)getCurDay();
+                vs.sendArgs(scheduleArray, dayList, currentDay);
                 ft.replace(R.id.container,vs).commit();
                 break;
             case 3:
@@ -342,5 +351,23 @@ public class MainActivity extends AppCompatActivity
         }
 
         Log.d("MainActivity 986",scheduleArray.toString());
+    }
+
+    public void getDayList(){
+        //0=day 0, 1=day 1, ... , -1=no school
+        int[] tempDayList = {0, 1, 2, 3, 4, -1, -1, 5, 6, 7, 8, 9, -1, -1, 1, 2, 3, 4, 5, -1, -1, 6, 7, 8, 9, 1, -1, -1, 2, 3, 4, 0, 5, -1, -1, 6, 7, 8, 9, 1, -1, -1, 2, 3, 4, 5, 6, -1, -1, 7, 8, 9, 1, 2, -1, -1, 3, 4, 5, 6, -1, -1, -1, 7, 8, 9, 0, 1, -1, -1, -1, -1, 2, 3, 4, -1, -1, 5, 6, 7, 8, 9, -1, -1, 1, 2, 3, 4, 5, -1, -1, 6, 7, 8, 9, 1, -1, -1, 2, 3, 4, 5, 6, -1, -1, 7, 8, 9, 1, 2, -1, -1, 3, 4, 5, 6, 7, -1, -1, 8, 9, 1, 2, 3, -1, -1, 4, 5, 6, 7, 8, -1, -1, 9, 1, 2, 3, 4, -1, -1, 5, 6, 7, 8, 9, -1, -1, 0, 1, 0, 2, 3, -1, -1, 4, 5, 6, 7, 8, -1, -1, 9, 1, 0, 2, 3, -1, -1, 4, -1, 5, 6, 7, -1, -1, 8, 9, 1, 2, 3, -1, -1, 4, 5, 0, 6, 7, -1, -1, 8, 9, 1, 2, -1, -1, -1, 3, 4, 5, 6, 7, -1, -1, 8, 9, 1, 2, 3, -1, -1, 4, 5, -1, 0, 6, -1, -1, 7, 8, 9, 1, 2, -1, -1, 3, 4, 5, 6, 7, -1, -1, 8, 9, 1, 2, 3, -1, -1, 4, 5, 6, 7, 8, -1, -1, 9, 1, 0, 2, 3, -1, -1, 4, 5, 6, 7, 8, -1, -1, 9, 1, 2, 3, 4, -1, -1, 5, 6, 7, 8, 9, -1, -1, 1, 2, 3, 4, 5, -1, -1, 6, 7, 8, 9, 0, -1, -1, 1, 2, 3, 4, 5, -1, -1};
+        dayList = new ArrayList<>(0);
+        for(int i:tempDayList)
+            dayList.add(i);
+    }
+
+    public void getCurDay(){
+        Calendar cal = Calendar.getInstance();
+        int y = cal.get(Calendar.YEAR) - 2015;
+        int d = cal.get(Calendar.DAY_OF_YEAR);
+        int day = y*365+d;
+        int startDay = (getResources().getInteger(R.integer.start_year)-2015)*365 + getResources().getInteger(R.integer.start_day);
+        currentDay = day-startDay;
+        //Log.d("Start Day",""+R.integer.start_day+", "+R.integer.start_year);
     }
 }

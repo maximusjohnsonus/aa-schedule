@@ -3,7 +3,6 @@ package doop.aa_schedule;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,9 +15,6 @@ public class DayFragment extends Fragment {
     private static final String DAY_NUM = "DAY_NUM";
     private static final String DAY_SCHEDULE = "DAY_SCHEDULE";
     private static ArrayList<ArrayList<Period>> schedule;
-    //public ArrayList<ArrayList<Period>> schedule;
-    //private ArrayList<Period> day; //you could make this static and use newInstance; just bundle your data (ArrayList needs to be parcelable)
-    //private int cycleDay;
     
     public static DayFragment newInstance(int dayNum) {
         DayFragment f = new DayFragment();
@@ -33,34 +29,42 @@ public class DayFragment extends Fragment {
     
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        Log.d("DayFragment 513", savedInstanceState!=null ? savedInstanceState.toString() : "null");
+        //Log.d("DayFragment 513", savedInstanceState!=null ? savedInstanceState.toString() : "null");
         //ArrayList<Period> day = getArguments().getParcelableArrayList(DAY_SCHEDULE);
-        int dayNum = getArguments().getInt(DAY_NUM);
-        ArrayList<Period> day = schedule.get((dayNum-1)%10);
+        int dayNum = getArguments().getInt(DAY_NUM); //0=day 0, 1=day 1, ... , -1=no school
+        if(dayNum==-1){ //no school
+            View v = inflater.inflate(R.layout.view_day, container, false);
+            TextView label = (TextView) v.findViewById(R.id.dayText);
+            label.setText("sjfas NO SCHOOL!"); //Do NOT use this text in final - use xml resource
 
-        View v = inflater.inflate(R.layout.view_day, container, false);
-        LinearLayout ll = (LinearLayout) v.findViewById(R.id.day_layout);
-        TextView label = (TextView) v.findViewById(R.id.dayText);
-        label.setText("Day no. "+dayNum);
+            return v;
+        } else {
+            ArrayList<Period> day = schedule.get((dayNum+9)%10); //converted to index: 0=day 1, ... , 8=day 9, 9=day 0
 
-        LinearLayout.LayoutParams params;
-        View periodView;
-        TextView perStart;
-        TextView perEnd;
-        TextView perMain;
+            View v = inflater.inflate(R.layout.view_day, container, false);
+            LinearLayout ll = (LinearLayout) v.findViewById(R.id.day_layout);
+            TextView label = (TextView) v.findViewById(R.id.dayText);
+            label.setText("sjfas Day " + dayNum); //Do NOT use this text in final - use xml resource
 
-        for(Period p:day){
-            periodView = inflater.inflate(R.layout.view_period, container, false);
-            perStart = (TextView) periodView.findViewById(R.id.per_start_text);
-            perEnd = (TextView) periodView.findViewById(R.id.per_end_text);
-            perMain = (TextView) periodView.findViewById(R.id.per_main_text);
-            perStart.setText(p.getStartString());
-            perEnd.setText(p.getEndString());
-            perMain.setText(p.getMainText());
-            params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,0,p.getLength());
-            ll.addView(periodView, params);
+            LinearLayout.LayoutParams params;
+            View periodView;
+            TextView perStart;
+            TextView perEnd;
+            TextView perMain;
+
+            for (Period p : day) {
+                periodView = inflater.inflate(R.layout.view_period, container, false);
+                perStart = (TextView) periodView.findViewById(R.id.per_start_text);
+                perEnd = (TextView) periodView.findViewById(R.id.per_end_text);
+                perMain = (TextView) periodView.findViewById(R.id.per_main_text);
+                perStart.setText(p.getStartString());
+                perEnd.setText(p.getEndString());
+                perMain.setText(p.getMainText());
+                params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 0, p.getLength());
+                ll.addView(periodView, params);
+            }
+            return v;
         }
-        return v;
     }
 
     public static ArrayList<Period> copyDay (ArrayList<Period> _day, Resources r){

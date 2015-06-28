@@ -14,7 +14,9 @@ import java.util.List;
 public class ViewSchedule extends Fragment { // http://architects.dzone.com/articles/android-tutorial-using
     MyPageAdapter pageAdapter;
     ArrayList<ArrayList<Period>> scheduleArray;
-    //static final int ITEMS = 180;
+    ArrayList<Integer> dayList; //0=day 0, 1=day 1, ... , -1=no school
+    int currentDay;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
@@ -25,6 +27,7 @@ public class ViewSchedule extends Fragment { // http://architects.dzone.com/arti
         ViewPager pager = (ViewPager) view.findViewById(R.id.viewpager);
 
         pager.setAdapter(pageAdapter);
+        pager.setCurrentItem(currentDay);
 
         return view;
     }
@@ -32,22 +35,21 @@ public class ViewSchedule extends Fragment { // http://architects.dzone.com/arti
     private List<Fragment> getFragments() {
         List<Fragment> fList = new ArrayList<>();
 
-        for(int i=0; i<180;i++){
+        for(Integer i:dayList){
             DayFragment df = new DayFragment();
             df.setSchedule(scheduleArray);
-            fList.add(df.newInstance((i+1)%10));
+            fList.add(df.newInstance(i)); //0=day 0, 1=day 1, ... , -1=no school
             //Log.d("ViewSchedule 193", fList.toString());
 
         }
         return fList;
     }
 
-    public void sendScheduleArray(ArrayList<ArrayList<Period>> schArr) {
+    public void sendArgs(ArrayList<ArrayList<Period>> schArr, ArrayList<Integer> days, int curDay) {
         scheduleArray = schArr;
+        dayList = days; //0=day 0, 1=day 1, ... , -1=no school
+        currentDay = curDay;
         if(scheduleArray==null) Log.e("ViewSchedule 343","scheduleArray is null");
-        //if(pageAdapter==null) Log.e("ViewSchedule 344","pageAdapter is null");
-        //pageAdapter.startUpdate((ViewGroup) getView());
-        //pageAdapter.setData(getFragments());
-
+        if(dayList==null) Log.e("ViewSchedule 344","dayList is null");
     }
 }
