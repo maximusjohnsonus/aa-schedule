@@ -33,4 +33,5 @@
     <string name="JSON_period_class_name">per_class_name</string>
     <string name="JSON_period_room">per_room</string>
     <string name="JSON_period_block">per_block</string>
+    <string name="JSON_period_type">per_type</string>
 </resources>

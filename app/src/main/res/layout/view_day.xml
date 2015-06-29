@@ -1,12 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/day_layout"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical" >
+    android:layout_height="match_parent">
+
     <TextView
         android:id="@+id/dayText"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
-    
-</LinearLayout>
+        android:layout_height="wrap_content"
+        android:paddingLeft="28dp"
+        android:paddingTop="4dp"/>
+    <LinearLayout
+        android:id="@+id/day_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:paddingTop="24dp"
+        android:paddingBottom="24dp"
+        android:paddingLeft="12dp"
+        android:paddingRight="12dp">
+
+
+    </LinearLayout>
+</RelativeLayout>

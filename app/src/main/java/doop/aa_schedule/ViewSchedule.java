@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 public class ViewSchedule extends Fragment { // http://architects.dzone.com/articles/android-tutorial-using
@@ -35,12 +36,14 @@ public class ViewSchedule extends Fragment { // http://architects.dzone.com/arti
     private List<Fragment> getFragments() {
         List<Fragment> fList = new ArrayList<>();
 
-        for(Integer i:dayList){
-            DayFragment df = new DayFragment();
-            df.setSchedule(scheduleArray);
-            fList.add(df.newInstance(i)); //0=day 0, 1=day 1, ... , -1=no school
+        DayFragment df = new DayFragment();
+        df.setSchedule(scheduleArray);
+        Calendar cal = Calendar.getInstance();
+        cal.set(getResources().getInteger(R.integer.start_year),getResources().getInteger(R.integer.start_month),getResources().getInteger(R.integer.start_day));
+        for(int i=0;i<dayList.size();i++){
+            fList.add(df.newInstance(dayList.get(i),cal,i==currentDay)); //dayList.get(i): 0=day 0, 1=day 1, ... , -1=no school
+            cal.add(Calendar.DAY_OF_YEAR,1);
             //Log.d("ViewSchedule 193", fList.toString());
-
         }
         return fList;
     }

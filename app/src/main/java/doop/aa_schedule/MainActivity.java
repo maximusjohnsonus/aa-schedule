@@ -2,10 +2,11 @@ package doop.aa_schedule;
 
 import android.app.Activity;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.app.Fragment;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -22,6 +23,7 @@ import org.json.JSONException;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.GregorianCalendar;
 //import doop.aa_schedule.R;
 
 
@@ -58,13 +60,10 @@ public class MainActivity extends AppCompatActivity
         String[] navOptions = { "View Schedule","Edit Schedule","Settings","Help","About","Feedback" };
         //mDrawerList.setAdapter(new ArrayAdapter<String>(this, R.layout.drawer_list_item, navOptions));
 
-        if(scheduleArray==null)getSchedule();
-        if(dayList==null)getDayList();
-        if(currentDay==-1)getCurDay();
+        if(scheduleArray==null)scheduleArray = getSchedule();
+        if(dayList==null)dayList = getDayList();
+        if(currentDay==-1)currentDay = getCurDay();
     }
-
-
-
 
     @Override
     public void onNavigationDrawerItemSelected(int position) {
@@ -79,9 +78,9 @@ public class MainActivity extends AppCompatActivity
         switch (position){
             case 0:
                 ViewSchedule vs = new ViewSchedule();
-                if(scheduleArray==null) getSchedule();
-                if(dayList==null)getDayList();
-                if(currentDay==-1)getCurDay();
+                if(scheduleArray==null) scheduleArray = getSchedule();
+                if(dayList==null) dayList = getDayList();
+                if(currentDay==-1)currentDay = getCurDay();
                 vs.sendArgs(scheduleArray, dayList, currentDay);
                 ft.replace(R.id.container,vs).commit();
                 break;
@@ -184,97 +183,98 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-    public void getSchedule() {
+    public ArrayList<ArrayList<Period>> getSchedule() {
         String prefName = getResources().getString(R.string.pref_storage);
         SharedPreferences sp = getSharedPreferences(prefName, 0);
         String key=getResources().getString(R.string.schedule_JSON);
         String scheduleJSONString=sp.getString(key, "");
 
-        Log.d("MainActivity 357","JSON string recovered:"+scheduleJSONString);
+        //Log.d("MainActivity 357","JSON string recovered:"+scheduleJSONString);
         boolean rewrite=true; //set to true to rewrite the data
         if(scheduleJSONString.length()>0 && !rewrite) {
             try {
                 JSONArray scheduleJSONArray = new JSONArray(scheduleJSONString);
 
-                scheduleArray=new ArrayList<>();
+                ArrayList<ArrayList<Period>> tempScheduleArray=new ArrayList<>();
                 JSONArray dayJSON;
                 Period p;
                 for(int i=0; i<scheduleJSONArray.length(); i++){ //for day in cycle
                     dayJSON = scheduleJSONArray.getJSONArray(i);
-                    Log.d("MainActivity 735", "Day JSON recovered:" + dayJSON.toString());
+                    //Log.d("MainActivity 735", "Day JSON recovered:" + dayJSON.toString());
 
                     ArrayList<Period> day=new ArrayList<>();
                     for(int j=0; j<dayJSON.length(); j++){ //for period in day
-                        Log.d("MainActivity 046","Period JSON recovered:"+dayJSON.getJSONObject(j).toString());
+                        //Log.d("MainActivity 046","Period JSON recovered:"+dayJSON.getJSONObject(j).toString());
                         p = new Period(dayJSON.getJSONObject(j), getResources());
-                        Log.d("MainActivity 829","Period recovered:"+p.toString());
+                        //Log.d("MainActivity 829","Period recovered:"+p.toString());
                         day.add(p);
                     }
-                    Log.d("MainActivity 437","Day recovered:"+day.toString());
-                    scheduleArray.add(day);
-                    Log.d("MainActivity 193","Schedule so far:"+scheduleArray);
+                    //Log.d("MainActivity 437","Day recovered:"+day.toString());
+                    tempScheduleArray.add(day);
+                    //Log.d("MainActivity 193","Schedule so far:"+tempScheduleArray);
                 }
-                Log.d("MainActivity 476","should have loaded schedule from sharedpreference.");
+                //Log.d("MainActivity 476","should have loaded schedule from sharedpreference.");
+                return tempScheduleArray;
             } catch(JSONException e){
                 Log.e("MainActivity 304","error retrieving JSON array from string. string: "+scheduleJSONString);
                 e.printStackTrace();
             }
+            return null;
 
         } else{
-            Period AFreeShort = new Period(480, 527, "Free", 0);
-            Period AFreeLong = new Period(480, 554, "Free", 0);
+            Period AFreeShort = new Period(480, 527, "Free", 0, 2);
+            AFreeShort.setColor(Color.RED);
+            Period AFreeLong = new Period(480, 554, "Free", 0, 2);
 
-            Period BShort1 = new Period(507, 554, "AP Calc AB", 1, "S101");
-            Period BShort2 = new Period(534, 581, "AP Calc AB", 1, "S101");
-            Period BLong = new Period(561, 635, "AP Calc AB", 1, "S101");
-            Period BFree = new Period(480, 507, "Free", 1);
+            Period BShort1 = new Period(507, 554, "AP Calc AB", 1, 0, "S101");
+            Period BShort2 = new Period(534, 581, "AP Calc AB", 1, 0, "S101");
+            Period BLong = new Period(561, 635, "AP Calc AB", 1, 0, "S101");
+            BLong.setColor(Color.DKGRAY);
+            Period BFree = new Period(480, 507, "Free", 1, 2);
 
-            Period CShort = new Period(588, 635, "Symph Band", 2, "M154");
-            Period CFree = new Period(561, 588, "Free", 2);
+            Period CShort = new Period(588, 635, "Symph Band", 2, 0, "M154");
+            Period CFree = new Period(561, 588, "Free", 2, 2);
 
-            Period DFreeShort1 = new Period(642, 689, "Free", 3);
-            Period DFreeShort2 = new Period(676, 723, "Free", 3);
-            Period DFreeLong = new Period(643, 716, "Free", 3);
+            Period DFreeShort1 = new Period(642, 689, "Free", 3, 2);
+            Period DFreeShort2 = new Period(676, 723, "Free", 3, 2);
+            Period DFreeLong = new Period(643, 716, "Free", 3, 2);
 
-            Period EShort1 = new Period(750, 797, "Hums", 4, "M16");
-            Period EShort2 = new Period(777, 824, "Hums", 4, "M16");
-            Period ELong1 = new Period(750, 824, "Hums", 4, "M16");
-            Period ELong2 = new Period(777, 851, "Hums", 4, "M16");
-            Period EGroup = new Period(655, 702, "Large Group Hums", 4);
-            Period EFree1 = new Period(750, 797, "Free", 4);
-            Period EFree2 = new Period(777, 824, "Free", 4);
+            Period EShort1 = new Period(750, 797, "Hums", 4, 0, "M16");
+            Period EShort2 = new Period(777, 824, "Hums", 4, 0, "M16");
+            Period ELong1 = new Period(750, 824, "Hums", 4, 0, "M16");
+            Period ELong2 = new Period(777, 851, "Hums", 4, 0, "M16");
+            Period EGroup = new Period(655, 702, "Large Group Hums", 4, 0);
+            EGroup.setColor(Color.rgb(0,0,64));
+            Period EFree1 = new Period(750, 797, "Free", 4, 2);
+            Period EFree2 = new Period(777, 824, "Free", 4, 2);
 
-            Period FShort1 = new Period(804, 851, "AP Physics I", 5, "S212");
-            Period FShort2 = new Period(831, 878, "AP Physics I", 5, "S212");
-            Period FLong = new Period(804, 878, "AP Physics I", 5, "S212");
-            Period FFree = new Period(831, 878, "Free", 5);
+            Period FShort1 = new Period(804, 851, "AP Physics I", 5, 0, "S212");
+            Period FShort2 = new Period(831, 878, "AP Physics I", 5, 0, "S212");
+            Period FLong = new Period(804, 878, "AP Physics I", 5, 0, "S212");
+            Period FFree = new Period(831, 878, "Free", 5, 2);
 
-            Period GShort = new Period(885, 932, "English IV", 6, "B404");
-            Period GLong = new Period(858, 932, "English IV", 6, "B404");
-            Period GFree = new Period(885, 932, "Free", 6);
+            Period GShort = new Period(885, 932, "English IV", 6, 0, "B404");
+            Period GLong = new Period(858, 932, "English IV", 6, 0, "B404");
+            Period GFree = new Period(885, 932, "Free", 6, 0);
 
-            Period Lunch1 = new Period(696, 743, "Lunch", 7);
-            Period Lunch2 = new Period(709, 743, "Lunch", 7);
-            Period Lunch3Short = new Period(723, 770, "Lunch", 7);
-            Period Lunch3Long = new Period(723, 797, "Lunch", 7);
-            Period Lunch4 = new Period(730, 770, "Lunch", 7);
-            Period Lunch0 = new Period(696, 770, "Lunch", 7);
-
-
-            Period Club = new Period(642, 669, "Club", 8); //8 is miscellaneous here
-            Period DivAss = new Period(642, 669, "Division Assembly", 8);
-            Period Common = new Period(885, 932, "Common Time", 8);
-            Period DinkyFree = new Period(635, 655, "Free", 8);
-
+            Period Lunch1 = new Period(696, 743, "Lunch", 7, 1);
+            Period Lunch2 = new Period(709, 743, "Lunch", 7, 1);
+            Period Lunch3Short = new Period(723, 770, "Lunch", 7, 1);
+            Period Lunch3Long = new Period(723, 797, "Lunch", 7, 1);
+            Period Lunch4 = new Period(730, 770, "Lunch", 7, 1);
+            Lunch4.setColor(Color.WHITE);
+            Log.d("MainActivity 274",Color.WHITE+"");
+            Period Lunch0 = new Period(696, 770, "Lunch", 7, 1);
 
 
+            Period Club = new Period(642, 669, "Club", 8, 3); //8 is miscellaneous here
+            Club.setColor(Color.MAGENTA);
+            Period DivAss = new Period(642, 669, "Division Assembly", 8, 3);
+            Period Common = new Period(885, 932, "Common Time", 8, 3);
+            Period DinkyFree = new Period(635, 655, "Free", 8, 2);
+            
 
-
-
-
-
-
-            scheduleArray=new ArrayList<>();
+            ArrayList <ArrayList<Period>> tempScheduleArray=new ArrayList<>();
             ArrayList<Period> day1=new ArrayList<>();
             ArrayList<Period> day2=new ArrayList<>();
             ArrayList<Period> day3=new ArrayList<>();
@@ -288,9 +288,7 @@ public class MainActivity extends AppCompatActivity
 
             day1.add(AFreeLong); day1.add(BLong); day1.add(DivAss); day1.add(DFreeShort2);
                 day1.add(Lunch4); day1.add(EShort2); day1.add(FShort2); day1.add(GShort);
-
-            //NO TOUCHY^^^^^
-
+            
             day2.add(AFreeShort); day2.add(BShort2); day2.add(CShort); day2.add(DFreeLong);
                 day2.add(Lunch3Long); day2.add(FLong); day2.add(GShort);
 
@@ -320,21 +318,21 @@ public class MainActivity extends AppCompatActivity
             
             
             
-            scheduleArray.add(day1);
-            scheduleArray.add(day2);
-            scheduleArray.add(day3);
-            scheduleArray.add(day4);
-            scheduleArray.add(day5);
-            scheduleArray.add(day6);
-            scheduleArray.add(day7);
-            scheduleArray.add(day8);
-            scheduleArray.add(day9);
-            scheduleArray.add(day0);
+            tempScheduleArray.add(day1);
+            tempScheduleArray.add(day2);
+            tempScheduleArray.add(day3);
+            tempScheduleArray.add(day4);
+            tempScheduleArray.add(day5);
+            tempScheduleArray.add(day6);
+            tempScheduleArray.add(day7);
+            tempScheduleArray.add(day8);
+            tempScheduleArray.add(day9);
+            tempScheduleArray.add(day0);
 
 
             JSONArray days=new JSONArray();
             JSONArray day=new JSONArray();
-            for(ArrayList<Period> arr:scheduleArray){ //for day in cycle
+            for(ArrayList<Period> arr:tempScheduleArray){ //for day in cycle
                 day=new JSONArray();
                 for(Period p:arr){ //for period in day
                     day.put(p.toJSON(getResources()));
@@ -343,31 +341,37 @@ public class MainActivity extends AppCompatActivity
 
             }
             scheduleJSONString=days.toString();
-            Log.d("MainActivity 014","String to be written:"+scheduleJSONString);
+            //Log.d("MainActivity 014","String to be written:"+scheduleJSONString);
             SharedPreferences.Editor editor=sp.edit();
             editor.putString(key, scheduleJSONString);
             editor.commit();
-            Log.d("MainActivity 295","should have stored schedule as sharedpreference");
+            //Log.d("MainActivity 295","should have stored schedule as sharedpreference");
+            return tempScheduleArray;
         }
 
-        Log.d("MainActivity 986",scheduleArray.toString());
+        //Log.d("MainActivity 986",tempScheduleArray.toString());
     }
 
-    public void getDayList(){
+    public ArrayList<Integer> getDayList(){
         //0=day 0, 1=day 1, ... , -1=no school
-        int[] tempDayList = {0, 1, 2, 3, 4, -1, -1, 5, 6, 7, 8, 9, -1, -1, 1, 2, 3, 4, 5, -1, -1, 6, 7, 8, 9, 1, -1, -1, 2, 3, 4, 0, 5, -1, -1, 6, 7, 8, 9, 1, -1, -1, 2, 3, 4, 5, 6, -1, -1, 7, 8, 9, 1, 2, -1, -1, 3, 4, 5, 6, -1, -1, -1, 7, 8, 9, 0, 1, -1, -1, -1, -1, 2, 3, 4, -1, -1, 5, 6, 7, 8, 9, -1, -1, 1, 2, 3, 4, 5, -1, -1, 6, 7, 8, 9, 1, -1, -1, 2, 3, 4, 5, 6, -1, -1, 7, 8, 9, 1, 2, -1, -1, 3, 4, 5, 6, 7, -1, -1, 8, 9, 1, 2, 3, -1, -1, 4, 5, 6, 7, 8, -1, -1, 9, 1, 2, 3, 4, -1, -1, 5, 6, 7, 8, 9, -1, -1, 0, 1, 0, 2, 3, -1, -1, 4, 5, 6, 7, 8, -1, -1, 9, 1, 0, 2, 3, -1, -1, 4, -1, 5, 6, 7, -1, -1, 8, 9, 1, 2, 3, -1, -1, 4, 5, 0, 6, 7, -1, -1, 8, 9, 1, 2, -1, -1, -1, 3, 4, 5, 6, 7, -1, -1, 8, 9, 1, 2, 3, -1, -1, 4, 5, -1, 0, 6, -1, -1, 7, 8, 9, 1, 2, -1, -1, 3, 4, 5, 6, 7, -1, -1, 8, 9, 1, 2, 3, -1, -1, 4, 5, 6, 7, 8, -1, -1, 9, 1, 0, 2, 3, -1, -1, 4, 5, 6, 7, 8, -1, -1, 9, 1, 2, 3, 4, -1, -1, 5, 6, 7, 8, 9, -1, -1, 1, 2, 3, 4, 5, -1, -1, 6, 7, 8, 9, 0, -1, -1, 1, 2, 3, 4, 5, -1, -1};
-        dayList = new ArrayList<>(0);
-        for(int i:tempDayList)
-            dayList.add(i);
+        int[] tempDayArray = {0, 1, 2, 3, 4, -1, -1, 5, 6, 7, 8, 9, -1, -1, 1, 2, 3, 4, 5, -1, -1, 6, 7, 8, 9, 1, -1, -1, 2, 3, 4, 0, 5, -1, -1, 6, 7, 8, 9, 1, -1, -1, 2, 3, 4, 5, 6, -1, -1, 7, 8, 9, 1, 2, -1, -1, 3, 4, 5, 6, -1, -1, -1, 7, 8, 9, 0, 1, -1, -1, -1, -1, 2, 3, 4, -1, -1, 5, 6, 7, 8, 9, -1, -1, 1, 2, 3, 4, 5, -1, -1, 6, 7, 8, 9, 1, -1, -1, 2, 3, 4, 5, 6, -1, -1, 7, 8, 9, 1, 2, -1, -1, 3, 4, 5, 6, 7, -1, -1, 8, 9, 1, 2, 3, -1, -1, 4, 5, 6, 7, 8, -1, -1, 9, 1, 2, 3, 4, -1, -1, 5, 6, 7, 8, 9, -1, -1, 0, 1, 0, 2, 3, -1, -1, 4, 5, 6, 7, 8, -1, -1, 9, 1, 0, 2, 3, -1, -1, 4, -1, 5, 6, 7, -1, -1, 8, 9, 1, 2, 3, -1, -1, 4, 5, 0, 6, 7, -1, -1, 8, 9, 1, 2, -1, -1, -1, 3, 4, 5, 6, 7, -1, -1, 8, 9, 1, 2, 3, -1, -1, 4, 5, -1, 0, 6, -1, -1, 7, 8, 9, 1, 2, -1, -1, 3, 4, 5, 6, 7, -1, -1, 8, 9, 1, 2, 3, -1, -1, 4, 5, 6, 7, 8, -1, -1, 9, 1, 0, 2, 3, -1, -1, 4, 5, 6, 7, 8, -1, -1, 9, 1, 2, 3, 4, -1, -1, 5, 6, 7, 8, 9, -1, -1, 1, 2, 3, 4, 5, -1, -1, 6, 7, 8, 9, 0, -1, -1, 1, 2, 3, 4, 5, -1, -1};
+        ArrayList <Integer> tempDayList = new ArrayList<>(0);
+        for(int i:tempDayArray)
+            tempDayList.add(i);
+        return tempDayList;
     }
 
-    public void getCurDay(){
-        Calendar cal = Calendar.getInstance();
-        int y = cal.get(Calendar.YEAR) - 2015;
-        int d = cal.get(Calendar.DAY_OF_YEAR);
-        int day = y*365+d;
-        int startDay = (getResources().getInteger(R.integer.start_year)-2015)*365 + getResources().getInteger(R.integer.start_day);
-        currentDay = day-startDay;
-        //Log.d("Start Day",""+R.integer.start_day+", "+R.integer.start_year);
+    public int getCurDay(){
+        Calendar cal = new GregorianCalendar();
+        Calendar startDay = new GregorianCalendar();
+        startDay.set(getResources().getInteger(R.integer.start_year), getResources().getInteger(R.integer.start_month), getResources().getInteger(R.integer.start_day));
+        //Log.d("MainActivity 287", "" + cal.get(Calendar.DAY_OF_YEAR));
+        //Log.d("MainActivity 288", ""+startDay.get(Calendar.DAY_OF_YEAR));
+
+
+        int date = (cal.get(Calendar.YEAR)-2015)*365+cal.get(Calendar.DAY_OF_YEAR);
+        int startDate = (startDay.get(Calendar.YEAR)-2015)*365+startDay.get(Calendar.DAY_OF_YEAR);
+
+        return date-startDate;
     }
 }
