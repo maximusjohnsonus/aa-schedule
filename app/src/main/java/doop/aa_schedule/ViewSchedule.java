@@ -1,34 +1,58 @@
 package doop.aa_schedule;
 
-import android.app.Fragment;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
+public class ViewSchedule extends Fragment { // http://architects.dzone.com/articles/android-tutorial-using
+    MyPageAdapter pageAdapter;
+    ArrayList<ArrayList<Period>> scheduleArray;
+    ArrayList<Integer> dayList; //0=day 0, 1=day 1, ... , -1=no school
+    int currentDay;
 
-public class ViewSchedule extends Fragment {
-    View view;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
-        super.onCreateView(inflater, container, savedInstanceState);
-        view=inflater.inflate(R.layout.fragment_view_schedule,container,false);
+        View view=inflater.inflate(R.layout.fragment_view_schedule,container,false);
+        List<Fragment> fragments = getFragments();
+        pageAdapter = new MyPageAdapter(getActivity().getSupportFragmentManager(), fragments);
+        //pageAdapter = new MyPageAdapter(getActivity().getSupportFragmentManager());
+        ViewPager pager = (ViewPager) view.findViewById(R.id.viewpager);
 
-        Calendar cal = Calendar.getInstance();
-        int hour=cal.get(Calendar.HOUR_OF_DAY);
-        int min=cal.get(Calendar.MINUTE);
-        setText("The time this frag was created was "+hour+":"+min+", or "+(60*hour+min)+" minutes");
+        pager.setAdapter(pageAdapter);
+        pager.setCurrentItem(currentDay);
+
         return view;
     }
 
-    public void setText(String item){
+    private List<Fragment> getFragments() {
+        List<Fragment> fList = new ArrayList<>();
 
-        TextView Tview=(TextView) view.findViewById(R.id.viewSText);
+        DayFragment df = new DayFragment();
+        df.setSchedule(scheduleArray);
+        Calendar cal = Calendar.getInstance();
+        cal.set(getResources().getInteger(R.integer.start_year),getResources().getInteger(R.integer.start_month),getResources().getInteger(R.integer.start_day));
+        for(int i=0;i<dayList.size();i++){
+            fList.add(df.newInstance(dayList.get(i),cal,i==currentDay)); //dayList.get(i): 0=day 0, 1=day 1, ... , -1=no school
+            cal.add(Calendar.DAY_OF_YEAR,1);
+            //Log.d("ViewSchedule 193", fList.toString());
+        }
+        return fList;
+    }
 
-        Tview.setText(item);
+    public void sendArgs(ArrayList<ArrayList<Period>> schArr, ArrayList<Integer> days, int curDay) {
+        scheduleArray = schArr;
+        dayList = days; //0=day 0, 1=day 1, ... , -1=no school
+        currentDay = curDay;
+        if(scheduleArray==null) Log.e("ViewSchedule 343","scheduleArray is null");
+        if(dayList==null) Log.e("ViewSchedule 344","dayList is null");
     }
 }
