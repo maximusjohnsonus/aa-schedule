@@ -1,4 +1,2 @@
 A few important notes on how we (I) have implemented certain things.
-
-For saving modified periods in EditSchedule, the main activity passes the schedule double array to the edit fragment, which passes it to the EditDayView, so all its instances (the cycle days) have access to it. They pass the appropriate period to the period editor, which edits the period object directly (also saved as JSON string for the future)
-Bottom Line: editing periods involves editing the schedule array shared by all of the app. Because of this, you should avoid making a copy of a period/day/schedule object for any reason, in case it has trouble editing. ALSO, when making the import part of the app, make sure every period is its own object. Good example of how not to do it: the sample schedule I have right now. But it's just for testing and making an individual object for every single period would be really hard in this context.
+nvm I don't have anything to put here. But you can!
