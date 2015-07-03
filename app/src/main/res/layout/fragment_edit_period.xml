@@ -1,0 +1,115 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="doop.aa_schedule.EditPeriodFragment">
+
+    <TextView android:id="@+id/class_text"
+        android:textSize="@dimen/abc_text_size_medium_material"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/class_tag" />
+    <EditText android:id="@+id/class_edit"
+        android:layout_margin="5dp"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/rectangle"
+        android:layout_toRightOf="@+id/class_text"
+        android:layout_alignTop="@+id/class_text"
+        android:inputType="textCapWords"/>
+
+    <TextView android:id="@+id/room_text"
+        android:textSize="@dimen/abc_text_size_medium_material"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/room_tag"
+        android:layout_below="@+id/class_edit"/>
+    <EditText android:id="@+id/room_edit"
+        android:layout_margin="5dp"
+        android:layout_width="75dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/rectangle"
+        android:layout_toRightOf="@+id/room_text"
+        android:layout_alignTop="@+id/room_text"
+        android:inputType="textCapCharacters"/>
+
+    <!--TODO:try a picker instead of text entry-->
+    <TextView android:id="@+id/start_text"
+        android:textSize="@dimen/abc_text_size_medium_material"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/start_tag"
+        android:layout_below="@+id/room_edit"/>
+    <!--<EditText android:id="@+id/start_edit"
+        android:layout_margin="5dp"
+        android:layout_width="60dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/rectangle"
+        android:layout_toRightOf="@+id/start_text"
+        android:layout_alignTop="@+id/start_text"
+        android:inputType="time"/> -->
+
+    <Button android:id="@+id/start_edit"
+        android:layout_margin="5dp"
+        android:layout_width="60dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/rectangle"
+        android:layout_toRightOf="@+id/start_text"
+        android:layout_alignTop="@+id/start_text" />
+
+    <TextView android:id="@+id/end_text"
+        android:textSize="@dimen/abc_text_size_medium_material"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/end_tag"
+        android:layout_below="@+id/start_edit"/>
+    <Button android:id="@+id/end_edit"
+        android:layout_margin="5dp"
+        android:layout_width="60dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/rectangle"
+        android:layout_toRightOf="@+id/end_text"
+        android:layout_alignTop="@+id/end_text"/>
+
+    <TextView android:id="@+id/type_text"
+        android:textSize="@dimen/abc_text_size_medium_material"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/type_tag"
+        android:layout_below="@+id/end_edit"/>
+    <Spinner android:id="@+id/type_edit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/rectangle"
+        android:layout_toRightOf="@+id/type_text"
+        android:layout_alignTop="@+id/type_text"/>
+
+    <Button android:id="@+id/color_edit"
+        android:textSize="@dimen/abc_text_size_medium_material"
+        android:text="@string/color_tag"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/type_edit"/>
+
+    <Button android:id="@+id/save"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/save_button"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"/>
+    <Button android:id="@+id/cancel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/cancel_button"
+        android:layout_alignParentBottom="true"
+        android:layout_toLeftOf="@+id/save"/>
+
+        <!--android:gravity="top"-->
+    <!--android:inputType="textMultiLine|textCapSentences"-->
+
+
+    <!--type, color-->
+
+
+
+</RelativeLayout>
