@@ -2,7 +2,6 @@ package doop.aa_schedule;
 
 import android.app.Activity;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -74,8 +73,12 @@ public class MainActivity extends AppCompatActivity
 
         FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
+        /*ft.add(R.id.container, epf, "");
+        ft.remove((Fragment) fm.getBackStackEntryAt(fm.getBackStackEntryCount()-1));
+        ft.addToBackStack(null);
+        ft.commit();*/
 
-        switch (position){
+        switch (position){ //TODO: back button in each fragment returns to viewSchedule or last visited page
             case 0:
                 ViewSchedule vs = new ViewSchedule();
                 if(scheduleArray==null) scheduleArray = getSchedule();
@@ -83,6 +86,14 @@ public class MainActivity extends AppCompatActivity
                 if(currentDay==-1)currentDay = getCurDay();
                 vs.sendArgs(scheduleArray, dayList, currentDay);
                 ft.replace(R.id.container,vs).commit();
+                break;
+            case 1:
+                EditSchedule es = new EditSchedule();
+                if(scheduleArray==null) scheduleArray = getSchedule();
+                es.sendArgs(scheduleArray);
+                ft.replace(R.id.container,es).commit();
+                break;
+            case 2:
                 break;
             case 3:
                 ft.replace(R.id.container,new Help()).commit();
@@ -103,7 +114,7 @@ public class MainActivity extends AppCompatActivity
 
     public void onSectionAttached(int number) {
         mTitle = getResources().getStringArray(R.array.sidebar_options)[number];
-        /*switch (number) {
+        /*switch (number) { //TODO: make this a thing
             case 1:
                 mTitle = getString(R.string.title_section1);
                 break;
@@ -151,6 +162,10 @@ public class MainActivity extends AppCompatActivity
         return super.onOptionsItemSelected(item);
     }
 
+    public void updateSchedule(ArrayList<ArrayList<Period>> scheduleArray){
+        this.scheduleArray = scheduleArray;
+    }
+
     //A placeholder fragment containing a simple view.
     public static class PlaceholderFragment extends Fragment {
         //The fragment argument representing the section number for this fragment
@@ -190,7 +205,9 @@ public class MainActivity extends AppCompatActivity
         String scheduleJSONString=sp.getString(key, "");
 
         //Log.d("MainActivity 357","JSON string recovered:"+scheduleJSONString);
-        boolean rewrite=true; //set to true to rewrite the data
+        boolean rewrite=false; //set to true to rewrite the data
+        if(rewrite)
+            Log.e("MainActivity 052", "Rewrite is true, revert when finished testing");
         if(scheduleJSONString.length()>0 && !rewrite) {
             try {
                 JSONArray scheduleJSONArray = new JSONArray(scheduleJSONString);
@@ -223,13 +240,12 @@ public class MainActivity extends AppCompatActivity
 
         } else{
             Period AFreeShort = new Period(480, 527, "Free", 0, 2);
-            AFreeShort.setColor(Color.RED);
+            Period AFreeShortCopy = new Period(480, 527, "Free", 0, 2);
             Period AFreeLong = new Period(480, 554, "Free", 0, 2);
 
             Period BShort1 = new Period(507, 554, "AP Calc AB", 1, 0, "S101");
             Period BShort2 = new Period(534, 581, "AP Calc AB", 1, 0, "S101");
             Period BLong = new Period(561, 635, "AP Calc AB", 1, 0, "S101");
-            BLong.setColor(Color.DKGRAY);
             Period BFree = new Period(480, 507, "Free", 1, 2);
 
             Period CShort = new Period(588, 635, "Symph Band", 2, 0, "M154");
@@ -244,7 +260,6 @@ public class MainActivity extends AppCompatActivity
             Period ELong1 = new Period(750, 824, "Hums", 4, 0, "M16");
             Period ELong2 = new Period(777, 851, "Hums", 4, 0, "M16");
             Period EGroup = new Period(655, 702, "Large Group Hums", 4, 0);
-            EGroup.setColor(Color.rgb(0,0,64));
             Period EFree1 = new Period(750, 797, "Free", 4, 2);
             Period EFree2 = new Period(777, 824, "Free", 4, 2);
 
@@ -262,17 +277,14 @@ public class MainActivity extends AppCompatActivity
             Period Lunch3Short = new Period(723, 770, "Lunch", 7, 1);
             Period Lunch3Long = new Period(723, 797, "Lunch", 7, 1);
             Period Lunch4 = new Period(730, 770, "Lunch", 7, 1);
-            Lunch4.setColor(Color.WHITE);
-            Log.d("MainActivity 274",Color.WHITE+"");
             Period Lunch0 = new Period(696, 770, "Lunch", 7, 1);
 
 
             Period Club = new Period(642, 669, "Club", 8, 3); //8 is miscellaneous here
-            Club.setColor(Color.MAGENTA);
             Period DivAss = new Period(642, 669, "Division Assembly", 8, 3);
             Period Common = new Period(885, 932, "Common Time", 8, 3);
             Period DinkyFree = new Period(635, 655, "Free", 8, 2);
-            
+
 
             ArrayList <ArrayList<Period>> tempScheduleArray=new ArrayList<>();
             ArrayList<Period> day1=new ArrayList<>();
@@ -287,37 +299,35 @@ public class MainActivity extends AppCompatActivity
             ArrayList<Period> day0=new ArrayList<>();
 
             day1.add(AFreeLong); day1.add(BLong); day1.add(DivAss); day1.add(DFreeShort2);
-                day1.add(Lunch4); day1.add(EShort2); day1.add(FShort2); day1.add(GShort);
-            
-            day2.add(AFreeShort); day2.add(BShort2); day2.add(CShort); day2.add(DFreeLong);
-                day2.add(Lunch3Long); day2.add(FLong); day2.add(GShort);
+            day1.add(Lunch4); day1.add(EShort2); day1.add(FShort2); day1.add(GShort);
+
+            day2.add(AFreeShortCopy); day2.add(BShort2); day2.add(CShort); day2.add(DFreeLong);
+            day2.add(Lunch3Long); day2.add(FLong); day2.add(GShort);
 
             day3.add(AFreeShort); day3.add(BShort2); day3.add(CShort); day3.add(Club); day3.add(DFreeShort2);
-                day3.add(Lunch4); day3.add(EShort2); day3.add(FShort2); day3.add(GFree);
+            day3.add(Lunch4); day3.add(EShort2); day3.add(FShort2); day3.add(GFree);
 
             day4.add(AFreeLong); day4.add(CFree); day4.add(CShort); day4.add(DFreeShort1);
-                day4.add(Lunch1); day4.add(ELong1); day4.add(FFree); day4.add(GShort);
+            day4.add(Lunch1); day4.add(ELong1); day4.add(FFree); day4.add(GShort);
 
             day5.add(AFreeShort); day5.add(BShort2); day5.add(CShort); day5.add(DinkyFree); day5.add(EGroup);
-                day5.add(Lunch2); day5.add(EShort1); day5.add(FShort1); day5.add(GLong);
+            day5.add(Lunch2); day5.add(EShort1); day5.add(FShort1); day5.add(GLong);
 
             day6.add(AFreeShort); day6.add(BShort2); day6.add(CShort); day6.add(DFreeLong);
-                day6.add(Lunch3Short); day6.add(EFree2); day6.add(FShort2); day6.add(GShort);
+            day6.add(Lunch3Short); day6.add(EFree2); day6.add(FShort2); day6.add(GShort);
 
             day7.add(BFree); day7.add(BShort1); day7.add(CFree); day7.add(CShort); day7.add(DivAss); day7.add(DFreeShort2);
-                day7.add(Lunch4); day7.add(EShort2); day7.add(FShort2); day7.add(GShort);
+            day7.add(Lunch4); day7.add(EShort2); day7.add(FShort2); day7.add(GShort);
 
             day8.add(AFreeShort); day8.add(BShort2); day8.add(CShort); day8.add(DFreeShort1);
-                day8.add(Lunch1); day8.add(EFree1); day8.add(FLong); day8.add(Common);
+            day8.add(Lunch1); day8.add(EFree1); day8.add(FLong); day8.add(Common);
 
             day9.add(AFreeShort); day9.add(BShort2); day9.add(CShort); day9.add(Club); day9.add(DFreeShort2);
-                day9.add(Lunch4); day9.add(ELong2); day9.add(GLong);
+            day9.add(Lunch4); day9.add(ELong2); day9.add(GLong);
 
             day0.add(AFreeShort); day0.add(BShort2); day0.add(CShort); day0.add(DFreeShort1);
-                day0.add(Lunch0); day0.add(EShort2); day0.add(FShort2); day0.add(GShort);
-            
-            
-            
+            day0.add(Lunch0); day0.add(EShort2); day0.add(FShort2); day0.add(GShort);
+
             tempScheduleArray.add(day1);
             tempScheduleArray.add(day2);
             tempScheduleArray.add(day3);
@@ -330,28 +340,16 @@ public class MainActivity extends AppCompatActivity
             tempScheduleArray.add(day0);
 
 
-            JSONArray days=new JSONArray();
-            JSONArray day=new JSONArray();
-            for(ArrayList<Period> arr:tempScheduleArray){ //for day in cycle
-                day=new JSONArray();
-                for(Period p:arr){ //for period in day
-                    day.put(p.toJSON(getResources()));
-                }
-                days.put(day);
+            CustomMethods customMethods = new CustomMethods();
+            if (!customMethods.saveSchedule(tempScheduleArray, this))
+                Log.e("MainActivity 248","Error in saving sharedpreference");
 
-            }
-            scheduleJSONString=days.toString();
-            //Log.d("MainActivity 014","String to be written:"+scheduleJSONString);
-            SharedPreferences.Editor editor=sp.edit();
-            editor.putString(key, scheduleJSONString);
-            editor.commit();
             //Log.d("MainActivity 295","should have stored schedule as sharedpreference");
             return tempScheduleArray;
         }
 
         //Log.d("MainActivity 986",tempScheduleArray.toString());
     }
-
     public ArrayList<Integer> getDayList(){
         //0=day 0, 1=day 1, ... , -1=no school
         int[] tempDayArray = {0, 1, 2, 3, 4, -1, -1, 5, 6, 7, 8, 9, -1, -1, 1, 2, 3, 4, 5, -1, -1, 6, 7, 8, 9, 1, -1, -1, 2, 3, 4, 0, 5, -1, -1, 6, 7, 8, 9, 1, -1, -1, 2, 3, 4, 5, 6, -1, -1, 7, 8, 9, 1, 2, -1, -1, 3, 4, 5, 6, -1, -1, -1, 7, 8, 9, 0, 1, -1, -1, -1, -1, 2, 3, 4, -1, -1, 5, 6, 7, 8, 9, -1, -1, 1, 2, 3, 4, 5, -1, -1, 6, 7, 8, 9, 1, -1, -1, 2, 3, 4, 5, 6, -1, -1, 7, 8, 9, 1, 2, -1, -1, 3, 4, 5, 6, 7, -1, -1, 8, 9, 1, 2, 3, -1, -1, 4, 5, 6, 7, 8, -1, -1, 9, 1, 2, 3, 4, -1, -1, 5, 6, 7, 8, 9, -1, -1, 0, 1, 0, 2, 3, -1, -1, 4, 5, 6, 7, 8, -1, -1, 9, 1, 0, 2, 3, -1, -1, 4, -1, 5, 6, 7, -1, -1, 8, 9, 1, 2, 3, -1, -1, 4, 5, 0, 6, 7, -1, -1, 8, 9, 1, 2, -1, -1, -1, 3, 4, 5, 6, 7, -1, -1, 8, 9, 1, 2, 3, -1, -1, 4, 5, -1, 0, 6, -1, -1, 7, 8, 9, 1, 2, -1, -1, 3, 4, 5, 6, 7, -1, -1, 8, 9, 1, 2, 3, -1, -1, 4, 5, 6, 7, 8, -1, -1, 9, 1, 0, 2, 3, -1, -1, 4, 5, 6, 7, 8, -1, -1, 9, 1, 2, 3, 4, -1, -1, 5, 6, 7, 8, 9, -1, -1, 1, 2, 3, 4, 5, -1, -1, 6, 7, 8, 9, 0, -1, -1, 1, 2, 3, 4, 5, -1, -1};
@@ -360,7 +358,6 @@ public class MainActivity extends AppCompatActivity
             tempDayList.add(i);
         return tempDayList;
     }
-
     public int getCurDay(){
         Calendar cal = new GregorianCalendar();
         Calendar startDay = new GregorianCalendar();

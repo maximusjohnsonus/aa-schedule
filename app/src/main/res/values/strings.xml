@@ -8,6 +8,12 @@
         <item>About</item>
         <item>Feedback</item>
     </string-array>
+    <string-array name="types">
+        <item>Class</item>
+        <item>Lunch</item>
+        <item>Free</item>
+        <item>Other</item>
+    </string-array>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="action_example">Example action</string>
@@ -22,8 +28,30 @@
     <string name="type_report_bug">Report Bug</string>
     <string name="type_other">Other</string>
     <string name="feedback_name">Name/Email (Optional)</string>
+    <string name="class_tag">Class Name:</string>
+    <string name="room_tag">Room:</string>
+    <string name="start_tag">Start Time:</string>
+    <string name="end_tag">End Time:</string>
+    <string name="color_tag">Select Color</string>
+    <string name="type_tag">Type:</string>
+    <string name="save_button">Save</string>
+    <string name="cancel_button">Cancel</string>
+    <string name="select_start">Select Start Time</string>
+    <string name="select_end">Select End Time</string>
+    <string name="free_name">Free</string>
+    <string name="insane_time">Invalid time. Please enter a time between 8:00AM and 3:32PM.</string>
+    <string name="misordered_time">The start time actually goes <i>before</i> the end time.</string>
 
     <string name="hello_world">Hello world!</string>
+
+    <!--bundle tags-->
+    <string name="bdl_name">BDL_NAME</string>
+    <string name="bdl_start">BDL_START</string>
+    <string name="bdl_end">BDL_END</string>
+    <string name="bdl_room">BDL_ROOM</string>
+    <string name="bdl_color">BDL_COLOR</string>
+    <string name="bdl_set_color">BDL_SET_COLOR</string>
+    <string name="bdl_type">BDL_TYPE</string>
 
     <!-- File/pref names:-->
     <string name="pref_storage">storage</string> <!--used for storing data-->
@@ -34,4 +62,6 @@
     <string name="JSON_period_room">per_room</string>
     <string name="JSON_period_block">per_block</string>
     <string name="JSON_period_type">per_type</string>
+    <string name="JSON_period_color">per_color</string>
+    <string name="JSON_period_has_color">per_has_color</string>
 </resources>

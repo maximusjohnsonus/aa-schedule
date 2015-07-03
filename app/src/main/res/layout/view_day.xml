@@ -14,10 +14,10 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:paddingTop="24dp"
-        android:paddingBottom="24dp"
-        android:paddingLeft="12dp"
-        android:paddingRight="12dp">
+        android:paddingTop="@dimen/view_padding"
+        android:paddingBottom="@dimen/view_padding"
+        android:paddingLeft="@dimen/view_side_padding"
+        android:paddingRight="@dimen/view_side_padding">
 
 
     </LinearLayout>

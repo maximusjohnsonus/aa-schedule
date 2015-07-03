@@ -19,13 +19,15 @@ public class DayFragment extends Fragment {
     private static final String BORDER = "BORDER";
     private static final String DAY_SCHEDULE = "DAY_SCHEDULE";
     private static ArrayList<ArrayList<Period>> schedule;
+
+    //TODO: make these stored as sharedPreferences (or other)
     private static int[] colors = {Color.RED, Color.rgb(255, 128, 0), Color.YELLOW, Color.GREEN, Color.BLUE, Color.CYAN, Color.rgb(128, 0, 128), Color.rgb(0,150,0), Color.rgb(128, 64, 32), Color.rgb(32, 32, 32)};
     private static int freeColor = Color.LTGRAY;
     private static String[] daysOfWeek = {"Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"};
 
     public static DayFragment newInstance(int dayNum, Calendar cal, boolean border) {
         DayFragment f = new DayFragment();
-        Bundle bdl = new Bundle(1);
+        Bundle bdl = new Bundle();
         //bdl.putParcelableArrayList(DAY_SCHEDULE,daySchedule);
         bdl.putInt(DAY_NUM, dayNum);
         int[] date={cal.get(Calendar.MONTH),cal.get(Calendar.DAY_OF_MONTH),cal.get(Calendar.DAY_OF_WEEK)};
@@ -56,7 +58,7 @@ public class DayFragment extends Fragment {
             ArrayList<Period> day = schedule.get((dayNum+9)%10); //converted to index: 0=day 1, ... , 8=day 9, 9=day 0
             LinearLayout ll = (LinearLayout) v.findViewById(R.id.day_layout);
             TextView label = (TextView) v.findViewById(R.id.dayText);
-            label.setText(daysOfWeek[date[2]-1]+", "+(date[0]+1)+"/"+date[1]+", Day "+dayNum); //Do NOT use this text in final - use xml resource
+            label.setText(daysOfWeek[date[2]-1]+", "+(date[0]+1)+"/"+date[1]+", Day "+dayNum);
 
             LinearLayout.LayoutParams params;
             View periodView;
@@ -79,8 +81,11 @@ public class DayFragment extends Fragment {
                     periodView.setBackgroundColor(p.getColor());
                 } else if(p.getType()!=2)
                     periodView.setBackgroundColor(colors[p.getBlock()]);
-                else
-                    periodView.setBackgroundColor(freeColor);
+                else {
+                    CustomMethods customMethods = new CustomMethods();
+                    periodView.setBackgroundColor(customMethods.paleColor(colors[p.getBlock()]));
+                }
+                    //periodView.setBackgroundColor(freeColor);
                 params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 0, p.getLength());
                 ll.addView(periodView, params);
             }
