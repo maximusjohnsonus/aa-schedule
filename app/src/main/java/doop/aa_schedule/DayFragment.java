@@ -43,6 +43,7 @@ public class DayFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         //Log.d("DayFragment 513", savedInstanceState!=null ? savedInstanceState.toString() : "null");
         //ArrayList<Period> day = getArguments().getParcelableArrayList(DAY_SCHEDULE);
+
         int dayNum = getArguments().getInt(DAY_NUM); //0=day 0, 1=day 1, ... , -1=no school
         int[] date = getArguments().getIntArray(DATE);
         boolean border = getArguments().getBoolean(BORDER);
@@ -67,7 +68,7 @@ public class DayFragment extends Fragment {
             //TextView perEnd;
             TextView perMain;
 
-            for (Period p : day) {
+            for (final Period p : day) {
                 periodView = inflater.inflate(R.layout.view_period, container, false);
                 perTime = (TextView) periodView.findViewById(R.id.per_time_text);
                 //perStart = (TextView) periodView.findViewById(R.id.per_start_text);
@@ -85,7 +86,21 @@ public class DayFragment extends Fragment {
                     CustomMethods customMethods = new CustomMethods();
                     periodView.setBackgroundColor(customMethods.paleColor(colors[p.getBlock()]));
                 }
-                    //periodView.setBackgroundColor(freeColor);
+
+                //Adds notes to period. TODO: implement later. needs another storage method to save notes by day. Period should not store notes
+                /*periodView.setOnClickListener(new View.OnClickListener() {
+                    public void onClick(View v) {
+                        FragmentManager fm = getActivity().getSupportFragmentManager();
+                        FragmentTransaction ft = fm.beginTransaction();
+                        PeriodNotes notes = new PeriodNotes();
+                        notes.sendArgs(p);
+                        ft.add(R.id.container, notes, "");
+                        ft.remove(DayFragment.this);
+                        ft.addToBackStack(null);
+                        ft.commit();
+                    }
+                });*/
+
                 params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 0, p.getLength());
                 ll.addView(periodView, params);
             }

@@ -36,6 +36,8 @@ public class EditPeriodFragment extends Fragment implements ColorPickerDialog.On
     int newColor;
     boolean setColor = false;
 
+    boolean time24=false;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
@@ -54,7 +56,7 @@ public class EditPeriodFragment extends Fragment implements ColorPickerDialog.On
         startButton.setOnClickListener(new View.OnClickListener() {
 
             @Override
-            public void onClick(View v) { //TODO: check time is in day
+            public void onClick(View v) {
                 //newStart = period.getStart();
                 int hour = newStart / 60;
                 int minute = newStart % 60;
@@ -65,22 +67,22 @@ public class EditPeriodFragment extends Fragment implements ColorPickerDialog.On
                         int oldNewStart = newStart;
                         newStart = selectedHour * 60 + selectedMinute;
                         if(newStart<8*60 || newStart>15*60+32){
-                            Toast.makeText(getActivity(), getResources().getString(R.string.insane_time), Toast.LENGTH_LONG).show(); //TODO: 24hr compat
+                            Toast.makeText(getActivity(), getResources().getString(time24 ? R.string.insane_time24 : R.string.insane_time12), Toast.LENGTH_LONG).show();
                             newStart = oldNewStart;
                         }
                         if(newStart>newEnd){
-                            Toast.makeText(getActivity(), getResources().getString(R.string.misordered_time), Toast.LENGTH_LONG).show(); //TODO: 24hr compat
+                            Toast.makeText(getActivity(), getResources().getString(R.string.misordered_time), Toast.LENGTH_LONG).show();
                             newStart = oldNewStart;
                         }
-                        startButton.setText(newStart/60 + ":" + (newStart%60<10 ? "0" : "") + newStart%60);
+                        startButton.setText( ((newStart/60) % (time24 ? 24:12) ) + ":" + (newStart%60<10 ? "0" : "") + newStart%60);
                     }
-                }, hour, minute, false);//TODO: 12 vs 24 time (that boolean)
+                }, hour, minute, time24);
                 startTimePicker.setTitle(getResources().getString(R.string.select_start));
                 startTimePicker.show();
             }
         });
 
-        endButton = (Button) view.findViewById(R.id.end_edit); //TODO: check time is in day
+        endButton = (Button) view.findViewById(R.id.end_edit);
         endButton.setText(period.getEndString());
         endButton.setOnClickListener(new View.OnClickListener() {
 
@@ -96,16 +98,16 @@ public class EditPeriodFragment extends Fragment implements ColorPickerDialog.On
                         int oldNewEnd = newEnd;
                         newEnd = selectedHour * 60 + selectedMinute;
                         if(newEnd<8*60 || newEnd>15*60+32){
-                            Toast.makeText(getActivity(), getResources().getString(R.string.insane_time), Toast.LENGTH_LONG).show(); //TODO: 24hr compat
+                            Toast.makeText(getActivity(), getResources().getString(time24 ? R.string.insane_time24 : R.string.insane_time12), Toast.LENGTH_LONG).show();
                             newEnd = oldNewEnd;
                         }
                         if(newStart>newEnd){
                             Toast.makeText(getActivity(), getResources().getString(R.string.misordered_time), Toast.LENGTH_LONG).show(); //TODO: 24hr compat
                             newEnd = oldNewEnd;
                         }
-                        endButton.setText(newEnd/60 + ":" + (newEnd%60<10 ? "0" : "") + newEnd%60);
+                        endButton.setText( ((newEnd/60) % (time24 ? 24 : 12)) + ":" + (newEnd%60<10 ? "0" : "") + newEnd%60);
                     }
-                }, hour, minute, false);//TODO: 12 vs 24 time (that boolean)
+                }, hour, minute, time24);
                 endTimePicker.setTitle(getResources().getString(R.string.select_end));
                 endTimePicker.show();
             }

@@ -79,7 +79,6 @@ public class EditDayViewFragment extends Fragment {
 
             periodView.setOnClickListener(new PeriodOnClickListener(p, dayNum, i) {
                 public void onClick(View v) {
-                    //Log.i("myApp", "newsMenu clicked!");
                     FragmentManager fm = getActivity().getSupportFragmentManager();
                     FragmentTransaction ft = fm.beginTransaction();
                     EditPeriodFragment epf = new EditPeriodFragment();

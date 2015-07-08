@@ -17,6 +17,8 @@ public class Period{
     private int type; //0=class, 1=lunch, 2=free, 3=other
     private int color; //optional, set is hasColor is true
     private boolean hasColor=false;
+    private String notes;
+    private boolean time24=false;
 
     public Period(int start, int end, String name, int vBlock, int vType, String vRoom){ //constructor for normal class/study hall
         startTime = start;
@@ -46,12 +48,13 @@ public class Period{
         room = p.getRoom();
         color = p.getColor();
         hasColor = p.hasColor();
+        notes = p.getNotes();
     }
     public Period(JSONObject p, Resources r){ //constructor for JSON interpreting
         try{
             startTime=p.getInt(r.getString(R.string.JSON_period_start_time));
             endTime=p.getInt(r.getString(R.string.JSON_period_end_time));
-            className=p.getString(r.getString(R.string.JSON_period_class_name));
+            className=p.getString(r.getString(R.string.JSON_period_class_name)); //TODO: make all of these if(p.has... for safety
             block=p.getInt(r.getString(R.string.JSON_period_block));
             type=p.getInt(r.getString(R.string.JSON_period_type));
             if(p.has(r.getString(R.string.JSON_period_color)))
@@ -93,11 +96,15 @@ public class Period{
         return null;
     }
 
-    public String getStartString() {return startTime/60 + ":" + (startTime%60 < 10 ? "0"+startTime%60 : startTime%60);}
-    public String getEndString() {return endTime/60 + ":" + (endTime%60 < 10 ? "0"+endTime%60 : endTime%60);}
+    public String getStartString() {
+        return ((startTime/60) % (time24 ? 24 : 12)) + ":" + (startTime%60 < 10 ? "0"+startTime%60 : startTime%60);
+    }
+    public String getEndString() {
+        return ((endTime/60) % (time24 ? 24 : 12)) + ":" + (endTime%60 < 10 ? "0"+endTime%60 : endTime%60);
+    }
     public String getTimeString() {return getStartString()+" - "+getEndString();}
     public String getMainText() {return className + ((room==null||room.equals("")) ? "" : " ("+room+")");}
-    public float getLength(){return endTime - startTime;}
+    public float getLength() {return endTime - startTime;}
 
     public String getClassName(){return className;}
     public String getRoom() {return room;}
@@ -106,6 +113,7 @@ public class Period{
     public int getColor(){return color;}
     public int getBlock(){return block;}
     public int getType(){return type;}
+    public String getNotes() {return notes;}
 
     public boolean hasColor(){return hasColor;}
 
@@ -118,6 +126,7 @@ public class Period{
         hasColor=true;
     }
     public void setType(int type) {this.type = type;}
+    public void setNotes(String notes) {this.notes = notes;}
 
 
 
