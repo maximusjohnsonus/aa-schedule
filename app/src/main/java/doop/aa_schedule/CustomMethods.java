@@ -10,9 +10,21 @@ import java.util.ArrayList;
 
 public class CustomMethods {
     int paleFactor = 10;
+    private static int[] colors = {Color.RED, Color.rgb(255, 128, 0), Color.YELLOW, Color.GREEN, Color.BLUE, Color.CYAN, Color.rgb(128, 0, 128), Color.rgb(0,150,0), Color.rgb(128, 64, 32), Color.rgb(32, 32, 32)};
+    //TODO: make colors[] stored as sharedPreferences (or other)
 
     public int paleColor (int color){
         return Color.rgb(255 - (255 - Color.red(color)) / paleFactor, 255 - (255 - Color.green(color)) / paleFactor, 255 - (255 - Color.blue(color)) / paleFactor);
+    }
+
+    public int getPerColor (Period p){
+        if(p.hasColor()){
+            return(p.getColor());
+        } else if(p.getType()!=2)
+            return(colors[p.getBlock()]);
+        else{
+            return(paleColor(colors[p.getBlock()]));
+        }
     }
 
     public boolean saveSchedule(ArrayList<ArrayList<Period>> schedule, Context c){

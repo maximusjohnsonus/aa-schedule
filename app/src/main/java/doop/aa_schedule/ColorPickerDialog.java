@@ -8,6 +8,7 @@ import android.graphics.LinearGradient;
 import android.graphics.Paint;
 import android.graphics.Shader;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -156,7 +157,7 @@ public class ColorPickerDialog extends Dialog {
                 if (translatedHue != x)
                 {
                     mPaint.setColor(mHueBarColors[x]);
-                    mPaint.setStrokeWidth(pxFromDp(2)); //draws (original 1px)
+                    //mPaint.setStrokeWidth(pxFromDp(2)); //draws (original 1px)
                 }
                 else // else display a slightly larger black line
                 {
@@ -164,6 +165,7 @@ public class ColorPickerDialog extends Dialog {
                     mPaint.setStrokeWidth(pxFromDp(6)); //draws (original 3px)
                 }
                 canvas.drawLine(pxFromDp(x+10), 0, pxFromDp(x+10), pxFromDp(40), mPaint); //draws the hue bar (x+10 shifts it?)
+                mPaint.setStrokeWidth(pxFromDp(2)); //draws
             }
 
             // Display the main field colors using LinearGradient
@@ -183,7 +185,7 @@ public class ColorPickerDialog extends Dialog {
             {
                 mPaint.setStyle(Paint.Style.STROKE);
                 mPaint.setColor(Color.BLACK);
-                canvas.drawCircle(mCurrentX, mCurrentY, pxFromDp(10), mPaint); //draws
+                canvas.drawCircle(pxFromDp(mCurrentX), pxFromDp(mCurrentY), pxFromDp(10), mPaint); //draws
             }
 
             // Draw a 'button' with the currently selected color
@@ -221,35 +223,39 @@ public class ColorPickerDialog extends Dialog {
         @Override
         public boolean onTouchEvent(MotionEvent event) {
             if (event.getAction() != MotionEvent.ACTION_DOWN) return true;
-            float x = event.getX();
-            float y = event.getY();
+            float x = dpFromPx(event.getX());
+            float y = dpFromPx(event.getY());
+            /*Log.d("CPD 294","("+x+","+y+")");
+            Log.d("CPD 295","("+dpFromPx(x)+","+dpFromPx(y)+")");
+            Log.d("CPD 296","("+pxFromDp(x)+","+pxFromDp(y)+")");*/
 
             // If the touch event is located in the hue bar
-            if (x > pxFromDp(10) && x < pxFromDp(266) && y > 0 && y < pxFromDp(40))
+            if (x > 10 && x < 266 && y > 0 && y < 40)
             {
+                Log.d("CPD 947", "Hue bar");
                 // Update the main field colors
-                mCurrentHue = (255-x)*360/255;
+                mCurrentHue = (255-(x-10))*360/255;
                 updateMainColors();
 
                 // Update the current selected color
-                int transX = mCurrentX-(int)pxFromDp(10);
-                int transY = mCurrentY-(int)pxFromDp(60);
-                int index = 256*(transY-1)+transX; //do we need pxfromdp on that 1?
+                int transX = mCurrentX-10;
+                int transY = mCurrentY-60;
+                int index = 256*(transY-1)+transX;
                 if (index > 0 && index < mMainColors.length)
-                    mCurrentColor = mMainColors[256*(transY-1)+transX]; //ditto here
+                    mCurrentColor = mMainColors[256*(transY-1)+transX];
 
                 // Force the redraw of the dialog
                 invalidate(); //TODO: is this recommended way to refresh?
             }
 
             // If the touch event is located in the main field
-            if (x > pxFromDp(10) && x < pxFromDp(266) && y > pxFromDp(50) && y < pxFromDp(306))
-            {
+            if (x > 10 && x < 266 && y > 50 && y < 306){
+                Log.d("CPD 948", "Color field");
                 mCurrentX = (int) x;
                 mCurrentY = (int) y;
-                int transX = mCurrentX-(int)pxFromDp(10);
-                int transY = mCurrentY-(int)pxFromDp(60);
-                int index = 256*(transY-1)+transX; //do we need pxfromdp on that 1?
+                int transX = mCurrentX-10;
+                int transY = mCurrentY-60;
+                int index = 256*(transY-1)+transX;
                 if (index > 0 && index < mMainColors.length)
                 {
                     // Update the current color
@@ -260,11 +266,11 @@ public class ColorPickerDialog extends Dialog {
             }
 
             // If the touch event is located in the left button, notify the listener with the current color
-            if (x > pxFromDp(10) && x < pxFromDp(138) && y > pxFromDp(316) && y < pxFromDp(356))
+            if (x > 10 && x < 138 && y > 316 && y < 356)
                 mListener.colorChanged("", mCurrentColor);
 
             // If the touch event is located in the right button, notify the listener with the default color
-            if (x > pxFromDp(138) && x < pxFromDp(266) && y > pxFromDp(316) && y < pxFromDp(356))
+            if (x > 138 && x < 266 && y > 316 && y < 356)
                 mListener.colorChanged("", mDefaultColor);
 
             return true;
@@ -272,6 +278,9 @@ public class ColorPickerDialog extends Dialog {
 
         private float pxFromDp(float dp){
             return dp * getContext().getResources().getDisplayMetrics().density;
+        }
+        private float dpFromPx(float px){
+            return px / getContext().getResources().getDisplayMetrics().density;
         }
     }
 

@@ -27,6 +27,7 @@ public class EditPeriodFragment extends Fragment implements ColorPickerDialog.On
     Button endButton;
     Spinner typeSpinner;
     Button colorButton;
+    CustomMethods customMethods = new CustomMethods();
 
     /*String newClass;
     String newRoom;*/
@@ -74,7 +75,7 @@ public class EditPeriodFragment extends Fragment implements ColorPickerDialog.On
                             Toast.makeText(getActivity(), getResources().getString(R.string.misordered_time), Toast.LENGTH_LONG).show();
                             newStart = oldNewStart;
                         }
-                        startButton.setText( ((newStart/60) % (time24 ? 24:12) ) + ":" + (newStart%60<10 ? "0" : "") + newStart%60);
+                        startButton.setText( (((newStart/60 - 1) % (time24 ? 24:12) ) + 1) + ":" + (newStart%60<10 ? "0" : "") + newStart%60);
                     }
                 }, hour, minute, time24);
                 startTimePicker.setTitle(getResources().getString(R.string.select_start));
@@ -105,7 +106,7 @@ public class EditPeriodFragment extends Fragment implements ColorPickerDialog.On
                             Toast.makeText(getActivity(), getResources().getString(R.string.misordered_time), Toast.LENGTH_LONG).show(); //TODO: 24hr compat
                             newEnd = oldNewEnd;
                         }
-                        endButton.setText( ((newEnd/60) % (time24 ? 24 : 12)) + ":" + (newEnd%60<10 ? "0" : "") + newEnd%60);
+                        endButton.setText( (((newEnd/60 - 1) % (time24 ? 24 : 12)) + 1) + ":" + (newEnd%60<10 ? "0" : "") + newEnd%60);
                     }
                 }, hour, minute, time24);
                 endTimePicker.setTitle(getResources().getString(R.string.select_end));
@@ -131,9 +132,10 @@ public class EditPeriodFragment extends Fragment implements ColorPickerDialog.On
         });
 
         colorButton= (Button) view.findViewById(R.id.color_edit);
+        colorButton.setBackgroundColor(customMethods.getPerColor(period));
         colorButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                new ColorPickerDialog(getActivity(), EditPeriodFragment.this, "key", 0, 0).show();
+                new ColorPickerDialog(getActivity(), EditPeriodFragment.this, "key", customMethods.getPerColor(period), customMethods.getPerColor(period)).show();
                 //TODO: update look: http://www.yougli.net/android/a-photoshop-like-color-picker-for-your-android-application/
                 //TODO: set default color
             }

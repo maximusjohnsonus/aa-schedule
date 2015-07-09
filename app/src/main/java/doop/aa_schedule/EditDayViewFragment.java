@@ -1,7 +1,6 @@
 package doop.aa_schedule;
 
 import android.content.res.Resources;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -18,10 +17,7 @@ import java.util.ArrayList;
 public class EditDayViewFragment extends Fragment {
     private static final String DAY_NUM = "DAY_NUM";
     private static ArrayList<ArrayList<Period>> schedule;
-
-    //TODO: make these stored as sharedPreferences (or other)
-    private static int[] colors = {Color.RED, Color.rgb(255, 128, 0), Color.YELLOW, Color.GREEN, Color.BLUE, Color.CYAN, Color.rgb(128, 0, 128), Color.rgb(0,150,0), Color.rgb(128, 64, 32), Color.rgb(32, 32, 32)};
-    private static int freeColor = Color.LTGRAY;
+    CustomMethods customMethods = new CustomMethods();
 
     public static EditDayViewFragment newInstance(int dayNum) {
         EditDayViewFragment f = new EditDayViewFragment();
@@ -68,14 +64,8 @@ public class EditDayViewFragment extends Fragment {
             //perStart.setText(p.getStartString());
             //perEnd.setText(p.getEndString());
             perMain.setText(p.getMainText());
-            if(p.hasColor()){
-                periodView.setBackgroundColor(p.getColor());
-            } else if(p.getType()!=2)
-                periodView.setBackgroundColor(colors[p.getBlock()]);
-            else{
-                CustomMethods customMethods = new CustomMethods();
-                periodView.setBackgroundColor(customMethods.paleColor(colors[p.getBlock()]));
-            }
+            periodView.setBackgroundColor(customMethods.getPerColor(p));
+
 
             periodView.setOnClickListener(new PeriodOnClickListener(p, dayNum, i) {
                 public void onClick(View v) {

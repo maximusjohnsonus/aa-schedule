@@ -97,10 +97,10 @@ public class Period{
     }
 
     public String getStartString() {
-        return ((startTime/60) % (time24 ? 24 : 12)) + ":" + (startTime%60 < 10 ? "0"+startTime%60 : startTime%60);
+        return (( (startTime/60 - 1) % (time24 ? 24 : 12) ) + 1) + ":" + (startTime%60 < 10 ? "0"+startTime%60 : startTime%60);
     }
     public String getEndString() {
-        return ((endTime/60) % (time24 ? 24 : 12)) + ":" + (endTime%60 < 10 ? "0"+endTime%60 : endTime%60);
+        return (( (endTime/60 - 1) % (time24 ? 24 : 12) ) + 1) + ":" + (endTime%60 < 10 ? "0"+endTime%60 : endTime%60);
     }
     public String getTimeString() {return getStartString()+" - "+getEndString();}
     public String getMainText() {return className + ((room==null||room.equals("")) ? "" : " ("+room+")");}

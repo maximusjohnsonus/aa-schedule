@@ -19,6 +19,7 @@ public class DayFragment extends Fragment {
     private static final String BORDER = "BORDER";
     private static final String DAY_SCHEDULE = "DAY_SCHEDULE";
     private static ArrayList<ArrayList<Period>> schedule;
+    CustomMethods customMethods = new CustomMethods();
 
     //TODO: make these stored as sharedPreferences (or other)
     private static int[] colors = {Color.RED, Color.rgb(255, 128, 0), Color.YELLOW, Color.GREEN, Color.BLUE, Color.CYAN, Color.rgb(128, 0, 128), Color.rgb(0,150,0), Color.rgb(128, 64, 32), Color.rgb(32, 32, 32)};
@@ -78,14 +79,15 @@ public class DayFragment extends Fragment {
                 //perStart.setText(p.getStartString());
                 //perEnd.setText(p.getEndString());
                 perMain.setText(p.getMainText());
-                if(p.hasColor()){
+                periodView.setBackgroundColor(customMethods.getPerColor(p));
+                /*if(p.hasColor()){
                     periodView.setBackgroundColor(p.getColor());
                 } else if(p.getType()!=2)
                     periodView.setBackgroundColor(colors[p.getBlock()]);
                 else {
                     CustomMethods customMethods = new CustomMethods();
                     periodView.setBackgroundColor(customMethods.paleColor(colors[p.getBlock()]));
-                }
+                }*/
 
                 //Adds notes to period. TODO: implement later. needs another storage method to save notes by day. Period should not store notes
                 /*periodView.setOnClickListener(new View.OnClickListener() {
