@@ -46,6 +46,9 @@
 
     <string name="hello_world">Hello world!</string>
 
+    <!--settings labels-->
+    <string name="settings_24_time">24 Hour Time</string>
+
     <!--bundle tags-->
     <string name="bdl_name">BDL_NAME</string>
     <string name="bdl_start">BDL_START</string>
@@ -57,6 +60,7 @@
 
     <!-- File/pref names:-->
     <string name="pref_storage">storage</string> <!--used for storing data-->
+    <string name="time_24_pref">time_24hr</string>
     <string name="schedule_JSON">schedule_JSON</string>
     <string name="JSON_period_start_time">per_start_time</string>
     <string name="JSON_period_end_time">per_end_time</string>

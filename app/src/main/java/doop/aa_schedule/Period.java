@@ -1,5 +1,6 @@
 package doop.aa_schedule;
 
+import android.content.Context;
 import android.content.res.Resources;
 import android.util.Log;
 
@@ -18,7 +19,8 @@ public class Period{
     private int color; //optional, set is hasColor is true
     private boolean hasColor=false;
     private String notes;
-    private boolean time24=false;
+    //private boolean time24=false;
+    CustomMethods customMethods = new CustomMethods();
 
     public Period(int start, int end, String name, int vBlock, int vType, String vRoom){ //constructor for normal class/study hall
         startTime = start;
@@ -29,6 +31,7 @@ public class Period{
         room = vRoom;
         if(start>end)
             Log.e("Period 923", "Start time ("+start+") is later than end time ("+end+")");
+        //time24 = customMethods.time24();
     }
     public Period(int start, int end, String name, int vBlock, int vType){ //constructor for free
         startTime = start;
@@ -96,13 +99,13 @@ public class Period{
         return null;
     }
 
-    public String getStartString() {
-        return (( (startTime/60 - 1) % (time24 ? 24 : 12) ) + 1) + ":" + (startTime%60 < 10 ? "0"+startTime%60 : startTime%60);
+    public String getStartString(Context c) {
+        return (( (startTime/60 - 1) % (customMethods.time24(c) ? 24 : 12) ) + 1) + ":" + (startTime%60 < 10 ? "0"+startTime%60 : startTime%60);
     }
-    public String getEndString() {
-        return (( (endTime/60 - 1) % (time24 ? 24 : 12) ) + 1) + ":" + (endTime%60 < 10 ? "0"+endTime%60 : endTime%60);
+    public String getEndString(Context c) {
+        return (( (endTime/60 - 1) % (customMethods.time24(c) ? 24 : 12) ) + 1) + ":" + (endTime%60 < 10 ? "0"+endTime%60 : endTime%60);
     }
-    public String getTimeString() {return getStartString()+" - "+getEndString();}
+    public String getTimeString(Context c) {return getStartString(c)+" - "+getEndString(c);}
     public String getMainText() {return className + ((room==null||room.equals("")) ? "" : " ("+room+")");}
     public float getLength() {return endTime - startTime;}
 

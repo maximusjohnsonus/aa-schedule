@@ -42,6 +42,7 @@ public class EditPeriodFragment extends Fragment implements ColorPickerDialog.On
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
+        time24 = customMethods.time24(getActivity());
         newStart = period.getStart();
         newEnd = period.getEnd();
         View view=inflater.inflate(R.layout.fragment_edit_period,container,false);
@@ -53,7 +54,7 @@ public class EditPeriodFragment extends Fragment implements ColorPickerDialog.On
         roomEdit.setText(period.getRoom());
 
         startButton = (Button) view.findViewById(R.id.start_edit);
-        startButton.setText(period.getStartString());
+        startButton.setText(period.getStartString(getActivity()));
         startButton.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -84,7 +85,7 @@ public class EditPeriodFragment extends Fragment implements ColorPickerDialog.On
         });
 
         endButton = (Button) view.findViewById(R.id.end_edit);
-        endButton.setText(period.getEndString());
+        endButton.setText(period.getEndString(getActivity()));
         endButton.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -136,8 +137,8 @@ public class EditPeriodFragment extends Fragment implements ColorPickerDialog.On
         colorButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 new ColorPickerDialog(getActivity(), EditPeriodFragment.this, "key", customMethods.getPerColor(period), customMethods.getPerColor(period)).show();
-                //TODO: update look: http://www.yougli.net/android/a-photoshop-like-color-picker-for-your-android-application/
-                //TODO: set default color
+                //colorButton.setBackgroundColor();
+                //TODO: update color of button
             }
         });
 
@@ -182,6 +183,7 @@ public class EditPeriodFragment extends Fragment implements ColorPickerDialog.On
     public void colorChanged(String key, int color) {
         newColor = color;
         setColor = true;
+        colorButton.setBackgroundColor(color);
         //Log.d("EditPeriodFragment 228",key+": "+color);
     }
 }

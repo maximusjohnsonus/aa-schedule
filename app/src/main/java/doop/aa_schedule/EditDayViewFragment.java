@@ -60,7 +60,7 @@ public class EditDayViewFragment extends Fragment {
             //perStart = (TextView) periodView.findViewById(R.id.per_start_text);
             //perEnd = (TextView) periodView.findViewById(R.id.per_end_text);
             perMain = (TextView) periodView.findViewById(R.id.per_main_text);
-            perTime.setText(p.getTimeString());
+            perTime.setText(p.getTimeString(getActivity()));
             //perStart.setText(p.getStartString());
             //perEnd.setText(p.getEndString());
             perMain.setText(p.getMainText());

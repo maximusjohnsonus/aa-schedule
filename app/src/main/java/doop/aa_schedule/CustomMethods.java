@@ -3,6 +3,7 @@ package doop.aa_schedule;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.preference.PreferenceManager;
 
 import org.json.JSONArray;
 
@@ -60,5 +61,12 @@ public class CustomMethods {
             newSchedule.add(tempDay);
         }
         return newSchedule;
+    }
+
+    public boolean time24(Context c){
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(c);
+        String key=c.getResources().getString(R.string.time_24_pref);
+        return sp.getBoolean(key, false);
+
     }
 }

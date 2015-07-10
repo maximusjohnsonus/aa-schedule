@@ -3,6 +3,7 @@ package doop.aa_schedule;
 import android.app.Activity;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -94,6 +95,7 @@ public class MainActivity extends AppCompatActivity
                 ft.replace(R.id.container,es).commit();
                 break;
             case 2:
+                ft.replace(R.id.container,new SettingsFragment()).commit();
                 break;
             case 3:
                 ft.replace(R.id.container,new Help()).commit();
@@ -203,6 +205,7 @@ public class MainActivity extends AppCompatActivity
         SharedPreferences sp = getSharedPreferences(prefName, 0);
         String key=getResources().getString(R.string.schedule_JSON);
         String scheduleJSONString=sp.getString(key, "");
+
 
         //Log.d("MainActivity 357","JSON string recovered:"+scheduleJSONString);
         boolean rewrite=false; //set to true to rewrite the data
