@@ -3,7 +3,6 @@ package doop.aa_schedule;
 import android.app.Activity;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -242,6 +241,13 @@ public class MainActivity extends AppCompatActivity
             return null;
 
         } else{
+            /*TODO: Make dialog:
+                load schedule
+                make:
+                    10-12
+                    8-9
+                template
+            */
             Period AFreeShort = new Period(480, 527, "Free", 0, 2);
             Period AFreeShortCopy = new Period(480, 527, "Free", 0, 2);
             Period AFreeLong = new Period(480, 554, "Free", 0, 2);

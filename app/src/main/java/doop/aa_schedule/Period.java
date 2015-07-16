@@ -13,7 +13,7 @@ public class Period{
     private int startTime; //minutes
     private int endTime;  //minutes
     private String className;
-    private int block; //stores which block the period occurs in. A=0,B=1,...,G=6,Lunch=7,other stuff continues. Used for coloring and probably editing
+    private int block; //stores which block the period occurs in. A=0,B=1,...,G=6,Lunch=7, misc=8. Used for coloring and editing as a group
     private String room; //optional
     private int type; //0=class, 1=lunch, 2=free, 3=other
     private int color; //optional, set is hasColor is true
@@ -55,14 +55,27 @@ public class Period{
     }
     public Period(JSONObject p, Resources r){ //constructor for JSON interpreting
         try{
-            startTime=p.getInt(r.getString(R.string.JSON_period_start_time));
-            endTime=p.getInt(r.getString(R.string.JSON_period_end_time));
-            className=p.getString(r.getString(R.string.JSON_period_class_name)); //TODO: make all of these if(p.has... for safety
-            block=p.getInt(r.getString(R.string.JSON_period_block));
-            type=p.getInt(r.getString(R.string.JSON_period_type));
+            if(p.has(r.getString(R.string.JSON_period_start_time)))
+                startTime=p.getInt(r.getString(R.string.JSON_period_start_time));
+            else Log.e("Period 498","start time not loaded :(");
+            if(p.has(r.getString(R.string.JSON_period_end_time)))
+                endTime=p.getInt(r.getString(R.string.JSON_period_end_time));
+            else Log.e("Period 499","end time not loaded :(");
+            if(p.has(r.getString(R.string.JSON_period_class_name)))
+                className=p.getString(r.getString(R.string.JSON_period_class_name));
+            else Log.e("Period 500","class name not loaded :(");
+            if(p.has(r.getString(R.string.JSON_period_block)))
+                block=p.getInt(r.getString(R.string.JSON_period_block));
+            else Log.e("Period 501","block not loaded :(");
+            if(p.has(r.getString(R.string.JSON_period_type)))
+                type=p.getInt(r.getString(R.string.JSON_period_type));
+            else Log.e("Period 502","type not loaded :(");
             if(p.has(r.getString(R.string.JSON_period_color)))
                 color=p.getInt(r.getString(R.string.JSON_period_color));
-            hasColor=p.getBoolean(r.getString(R.string.JSON_period_has_color));
+            else Log.e("Period 503","color not loaded :(");
+            if(p.has(r.getString(R.string.JSON_period_has_color)))
+                hasColor=p.getBoolean(r.getString(R.string.JSON_period_has_color));
+            else Log.e("Period 504","hasColor not loaded :(");
             if(p.has(r.getString(R.string.JSON_period_room)))
                 room=p.getString(r.getString(R.string.JSON_period_room));
 
@@ -127,6 +140,10 @@ public class Period{
     public void setColor(int _color) {
         color=_color;
         hasColor=true;
+    }
+    public void removeColor(){
+        color=0;
+        hasColor=false;
     }
     public void setType(int type) {this.type = type;}
     public void setNotes(String notes) {this.notes = notes;}

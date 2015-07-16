@@ -10,8 +10,19 @@ import org.json.JSONArray;
 import java.util.ArrayList;
 
 public class CustomMethods {
-    int paleFactor = 10;
-    private static int[] colors = {Color.RED, Color.rgb(255, 128, 0), Color.YELLOW, Color.GREEN, Color.BLUE, Color.CYAN, Color.rgb(128, 0, 128), Color.rgb(0,150,0), Color.rgb(128, 64, 32), Color.rgb(32, 32, 32)};
+    int paleFactor = 7;
+    private static int[] colors = {
+            Color.rgb(255, 174, 201), //A (pink)
+            Color.rgb(255, 127, 39),  //B (red)
+            Color.rgb(255, 201, 14),  //C (orange
+            Color.rgb(255, 255, 74),  //D (yellow)
+            Color.rgb(34, 189, 255),  //E (blue)
+            Color.rgb(102, 111, 215), //F (indigo)
+            Color.rgb(163, 73, 164),  //G (purple)
+            Color.rgb(181, 230, 29),  //Lunch (green)
+            Color.rgb(150, 150, 150)};//Misc (grey)
+
+
     //TODO: make colors[] stored as sharedPreferences (or other)
 
     public int paleColor (int color){
@@ -26,6 +37,12 @@ public class CustomMethods {
         else{
             return(paleColor(colors[p.getBlock()]));
         }
+    }
+    public int getDefaultPerColor (Period p){
+        if(p.getType()!=2)
+            return(colors[p.getBlock()]);
+        else
+            return(paleColor(colors[p.getBlock()]));
     }
 
     public boolean saveSchedule(ArrayList<ArrayList<Period>> schedule, Context c){
@@ -69,4 +86,6 @@ public class CustomMethods {
         return sp.getBoolean(key, false);
 
     }
+
+    //public int[] getColors(){ return colors; } //TODO: change default colors for periods by changing colors[] in CustomMethods
 }

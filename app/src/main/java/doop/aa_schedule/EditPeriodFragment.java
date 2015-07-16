@@ -28,6 +28,7 @@ public class EditPeriodFragment extends Fragment implements ColorPickerDialog.On
     Spinner typeSpinner;
     Button colorButton;
     CustomMethods customMethods = new CustomMethods();
+    PauseViewPager mViewPager;
 
     /*String newClass;
     String newRoom;*/
@@ -91,7 +92,7 @@ public class EditPeriodFragment extends Fragment implements ColorPickerDialog.On
             @Override
             public void onClick(View v) {
                 //newEnd = period.getEnd();
-                int hour = newEnd / 60; //TODO: 12 hr
+                int hour = newEnd / 60;
                 int minute = newEnd % 60;
                 TimePickerDialog endTimePicker;
                 endTimePicker = new TimePickerDialog(getActivity(), new TimePickerDialog.OnTimeSetListener() {
@@ -104,7 +105,7 @@ public class EditPeriodFragment extends Fragment implements ColorPickerDialog.On
                             newEnd = oldNewEnd;
                         }
                         if(newStart>newEnd){
-                            Toast.makeText(getActivity(), getResources().getString(R.string.misordered_time), Toast.LENGTH_LONG).show(); //TODO: 24hr compat
+                            Toast.makeText(getActivity(), getResources().getString(R.string.misordered_time), Toast.LENGTH_LONG).show();
                             newEnd = oldNewEnd;
                         }
                         endButton.setText( (((newEnd/60 - 1) % (time24 ? 24 : 12)) + 1) + ":" + (newEnd%60<10 ? "0" : "") + newEnd%60);
@@ -137,13 +138,11 @@ public class EditPeriodFragment extends Fragment implements ColorPickerDialog.On
         colorButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 new ColorPickerDialog(getActivity(), EditPeriodFragment.this, "key", customMethods.getPerColor(period), customMethods.getPerColor(period)).show();
-                //colorButton.setBackgroundColor();
-                //TODO: update color of button
             }
         });
 
         Button save = (Button) view.findViewById(R.id.save);
-        save.setOnClickListener(new View.OnClickListener() { //TODO: check time is in day AND start is before end
+        save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Bundle b = new Bundle();
@@ -153,12 +152,13 @@ public class EditPeriodFragment extends Fragment implements ColorPickerDialog.On
                 b.putInt(r.getString(R.string.bdl_start), newStart);
                 b.putInt(r.getString(R.string.bdl_end), newEnd);
                 b.putInt(r.getString(R.string.bdl_type), newType);
-                b.putBoolean(r.getString(R.string.bdl_set_color),setColor);
-                b.putInt(r.getString(R.string.bdl_color),newColor);
+                b.putBoolean(r.getString(R.string.bdl_set_color), setColor);
+                b.putInt(r.getString(R.string.bdl_color), newColor);
 
-                Log.d("EPF 132","end "+newEnd+" bundle "+b.toString());
+                Log.d("EPF 132", "end " + newEnd + " bundle " + b.toString());
                 EditDayViewFragment.updatePeriod(dayIndex, perIndex, b, r);
 
+                mViewPager.setPagingAllowed(true);
                 getActivity().getSupportFragmentManager().popBackStack();
             }
         });
@@ -167,16 +167,18 @@ public class EditPeriodFragment extends Fragment implements ColorPickerDialog.On
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                mViewPager.setPagingAllowed(true);
                 getActivity().getSupportFragmentManager().popBackStack();
             }
         });
         return view;
     }
 
-    public void sendArgs(Period p, int dayIndex, int perIndex){
-        period = p;
+    public void sendArgs(Period p, int dayIndex, int perIndex, PauseViewPager vp){
+        this.period = p;
         this.dayIndex = dayIndex;
         this.perIndex = perIndex;
+        this.mViewPager = vp;
     }
 
     @Override

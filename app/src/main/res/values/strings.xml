@@ -43,11 +43,15 @@
     <string name="insane_time24">Invalid time. Please enter a time between 8:00 and 15:32.</string>
     <string name="misordered_time">The start time actually goes <i>before</i> the end time.</string>
     <string name="notes_hint">Tap to add notes</string>
+    <string name="edit_block_label">Edit Block</string>
+    <string name="edit_per_label">Edit Period</string>
 
     <string name="hello_world">Hello world!</string>
 
     <!--settings labels-->
     <string name="settings_24_time">24 Hour Time</string>
+    <string name="settings_highlight">Highlight Current Day</string>
+    <string name="settings_weekend">Show Weekends</string>
 
     <!--bundle tags-->
     <string name="bdl_name">BDL_NAME</string>
@@ -61,6 +65,8 @@
     <!-- File/pref names:-->
     <string name="pref_storage">storage</string> <!--used for storing data-->
     <string name="time_24_pref">time_24hr</string>
+    <string name="highlight_pref">highlight_pref</string>
+    <string name="weekend_pref">weekend_pref</string>
     <string name="schedule_JSON">schedule_JSON</string>
     <string name="JSON_period_start_time">per_start_time</string>
     <string name="JSON_period_end_time">per_end_time</string>

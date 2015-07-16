@@ -17,7 +17,8 @@ import java.util.ArrayList;
 public class EditDayViewFragment extends Fragment {
     private static final String DAY_NUM = "DAY_NUM";
     private static ArrayList<ArrayList<Period>> schedule;
-    CustomMethods customMethods = new CustomMethods();
+    private static CustomMethods customMethods = new CustomMethods();
+    private static PauseViewPager mViewPager;
 
     public static EditDayViewFragment newInstance(int dayNum) {
         EditDayViewFragment f = new EditDayViewFragment();
@@ -34,6 +35,9 @@ public class EditDayViewFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         //ArrayList<Period> day = getArguments().getParcelableArrayList(DAY_SCHEDULE);
         int dayNum = getArguments().getInt(DAY_NUM); //0=day 1, 1=day 2, ... , 9=day 0
+
+        Log.d("EditBlocksPage 954", mViewPager.getChildCount() + "");
+
 
         View v = inflater.inflate(R.layout.view_day, container, false);
 
@@ -69,10 +73,12 @@ public class EditDayViewFragment extends Fragment {
 
             periodView.setOnClickListener(new PeriodOnClickListener(p, dayNum, i) {
                 public void onClick(View v) {
+                    mViewPager.setPagingAllowed(false);
+
                     FragmentManager fm = getActivity().getSupportFragmentManager();
                     FragmentTransaction ft = fm.beginTransaction();
                     EditPeriodFragment epf = new EditPeriodFragment();
-                    epf.sendArgs(period, dayIndex, perIndex);
+                    epf.sendArgs(period, dayIndex, perIndex, mViewPager);
 
                     ft.add(R.id.container, epf, "");
                     ft.remove(EditDayViewFragment.this);
@@ -96,12 +102,13 @@ public class EditDayViewFragment extends Fragment {
         return day;
     }
 
-    public void setSchedule(ArrayList<ArrayList<Period>> _schedule){
-        schedule = _schedule;
+    public void sendArgs(ArrayList<ArrayList<Period>> _schedule, PauseViewPager vp){
+        this.schedule = _schedule;
+        this.mViewPager = vp;
     }
 
     public static void updatePeriod(int dayIndex, int perIndex, Bundle b, Resources r){
-        Log.d("EditDayViewFragment 164", "updating period "+dayIndex+" "+perIndex+" bundle: "+b.toString());
+        //Log.d("EditDayViewFragment 164", "updating period "+dayIndex+" "+perIndex+" bundle: "+b.toString());
         ArrayList <Period> day = schedule.get(dayIndex);
         Period p = day.get(perIndex);
 
@@ -163,8 +170,5 @@ public class EditDayViewFragment extends Fragment {
                 i--;
             }
         }
-
-        //TODO: Save? or make that in editschedule
     }
-
 }

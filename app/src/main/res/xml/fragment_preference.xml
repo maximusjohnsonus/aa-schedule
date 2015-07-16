@@ -9,7 +9,30 @@
     <SwitchPreference
         android:key="@string/time_24_pref"
         android:title="@string/settings_24_time"/>
+    <SwitchPreference
+        android:key="@string/highlight_pref"
+        android:title="@string/settings_highlight"/>
+    <SwitchPreference
+        android:key="@string/weekend_pref"
+        android:title="@string/settings_weekend"/>
+    <PreferenceScreen
+        android:key="intent"
+        android:title="intent!!!">
 
+
+
+    </PreferenceScreen>
+<!-- TODO: implement these:
+24 time
+highlight current day
+show weekends
+min period length
+set colors for background, highlight,
+    (figure out how to launch a dialog)
+
+TODO: (not here) Make a schedule-making view in case
+
+-->
 
     <!--<PreferenceCategory
         android:title="PreferenceCategory B">
