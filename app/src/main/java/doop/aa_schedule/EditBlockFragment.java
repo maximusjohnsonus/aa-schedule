@@ -77,15 +77,6 @@ public class EditBlockFragment extends Fragment implements ColorPickerDialog.OnC
         this.mViewPager = vp;
     }
 
-    /*@Override
-    public void onPause(){
-        EditBlocksPage ebp = (EditBlocksPage) getParentFragment();
-        ebp.updatePage();
-        Log.d("EBF 380","yoyoyo");
-        super.onPause();
-
-    }*/
-
     @Override
     public void colorChanged(String key, int color) {
         newColor = color;

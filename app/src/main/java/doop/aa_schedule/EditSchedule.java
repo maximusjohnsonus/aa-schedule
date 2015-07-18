@@ -2,14 +2,10 @@ package doop.aa_schedule;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,7 +13,7 @@ import java.util.List;
 public class EditSchedule extends Fragment { // http://architects.dzone.com/articles/android-tutorial-using
     MyPageAdapter pageAdapter;
     ArrayList<ArrayList<Period>> scheduleArray;
-    ArrayList<ArrayList<Period>> newSchedule;
+    //ArrayList<ArrayList<Period>> newSchedule;
     PauseViewPager pager;
     CustomMethods customMethods = new CustomMethods();
 
@@ -28,9 +24,8 @@ public class EditSchedule extends Fragment { // http://architects.dzone.com/arti
         List<Fragment> fragments = getFragments();
         pageAdapter = new MyPageAdapter(getActivity().getSupportFragmentManager(), fragments);
         pager.setAdapter(pageAdapter);
-        pager.setOffscreenPageLimit(0);
 
-        Button save = (Button) view.findViewById(R.id.save_edit);
+        /*Button save = (Button) view.findViewById(R.id.save_edit);
         save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -58,7 +53,7 @@ public class EditSchedule extends Fragment { // http://architects.dzone.com/arti
                 es.sendArgs(scheduleArray);
                 ft.replace(R.id.container, es).commit(); //TODO: refresh view instead of totally recreating it (or make it default to old page)
             }
-        });
+        });*/
 
         return view;
     }
@@ -67,12 +62,12 @@ public class EditSchedule extends Fragment { // http://architects.dzone.com/arti
         List<Fragment> fList = new ArrayList<>();
 
         EditBlocksPage ebp = new EditBlocksPage();
-        ebp.sendArgs(newSchedule, pager);
+        ebp.sendArgs(scheduleArray, pager); //change scheduleArray to newSchedule to go back to save/cancel button
         fList.add(ebp);
 
         EditDayViewFragment edf = new EditDayViewFragment();
-        edf.sendArgs(newSchedule, pager);
-        for(int i=0;i<newSchedule.size();i++){ //add a page for each cycle day
+        edf.sendArgs(scheduleArray, pager); //change scheduleArray to newSchedule to go back to save/cancel button
+        for(int i=0;i<scheduleArray.size();i++){ //add a page for each cycle day    //change scheduleArray to newSchedule to go back to save/cancel button
             fList.add(edf.newInstance(i)); //i: 0=day 1, 1=day 2, ... , 9=day 0
             //Log.d("ViewSchedule 193", fList.toString());
         }
@@ -81,12 +76,7 @@ public class EditSchedule extends Fragment { // http://architects.dzone.com/arti
 
     public void sendArgs(ArrayList<ArrayList<Period>> schArr) {
         scheduleArray = schArr;
-        newSchedule = customMethods.copySchedule(schArr);
+        //newSchedule = customMethods.copySchedule(schArr);
         if(schArr==null) Log.e("EditSchedule 283","scheduleArray is null");
-    }
-
-    public void updatePage(){
-        Log.d("ES 380","yo");
-
     }
 }

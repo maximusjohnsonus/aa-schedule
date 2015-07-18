@@ -6,22 +6,38 @@
         android:key="checkbox_preference"
         android:title="@string/settings_24_time"
         android:summary="summary_checkbox_preference" />-->
-    <SwitchPreference
-        android:key="@string/time_24_pref"
-        android:title="@string/settings_24_time"/>
-    <SwitchPreference
-        android:key="@string/highlight_pref"
-        android:title="@string/settings_highlight"/>
-    <SwitchPreference
-        android:key="@string/weekend_pref"
-        android:title="@string/settings_weekend"/>
-    <PreferenceScreen
+    <PreferenceCategory
+        android:title="@string/settings_general">
+        <SwitchPreference
+            android:key="@string/time_24_pref"
+            android:title="@string/settings_24_time"
+            android:defaultValue="false"/>
+        <SwitchPreference
+            android:key="@string/highlight_pref"
+            android:title="@string/settings_highlight"
+            android:defaultValue="true"/>
+        <SwitchPreference
+            android:key="@string/weekend_pref"
+            android:title="@string/settings_weekend"
+            android:defaultValue="false"/>
+    </PreferenceCategory>
+    <PreferenceCategory
+        android:title="@string/settings_advanced">
+
+        <EditTextPreference
+            android:key="@string/min_per_pref"
+            android:title="@string/settings_min_per"
+            android:defaultValue="@integer/default_min_per"
+            android:inputType="number"/>
+
+    </PreferenceCategory>
+
+
+    <!--<PreferenceScreen
         android:key="intent"
         android:title="intent!!!">
+    </PreferenceScreen>-->
 
-
-
-    </PreferenceScreen>
 <!-- TODO: implement these:
 24 time
 highlight current day
@@ -30,7 +46,7 @@ min period length
 set colors for background, highlight,
     (figure out how to launch a dialog)
 
-TODO: (not here) Make a schedule-making view in case
+TODO: (not here) Make a schedule-making view in case we can't get the schedules online
 
 -->
 

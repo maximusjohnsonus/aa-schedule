@@ -1,5 +1,6 @@
 package doop.aa_schedule;
 
+import android.content.Context;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -11,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -36,15 +38,14 @@ public class EditDayViewFragment extends Fragment {
         //ArrayList<Period> day = getArguments().getParcelableArrayList(DAY_SCHEDULE);
         int dayNum = getArguments().getInt(DAY_NUM); //0=day 1, 1=day 2, ... , 9=day 0
 
-        Log.d("EditBlocksPage 954", mViewPager.getChildCount() + "");
-
+        //Log.d("EditBlocksPage 954", mViewPager.getChildCount() + "");
 
         View v = inflater.inflate(R.layout.view_day, container, false);
 
         ArrayList<Period> day = schedule.get(dayNum); //0=day 1, ... , 8=day 9, 9=day 0
         LinearLayout ll = (LinearLayout) v.findViewById(R.id.day_layout);
-        int padding = getResources().getDimensionPixelSize(R.dimen.view_padding);
-        ll.setPadding(padding/2, padding, padding/2, 0);
+        //int padding = getResources().getDimensionPixelSize(R.dimen.view_padding);
+        //ll.setPadding(padding/2, padding, padding/2, 0);
 
         TextView label = (TextView) v.findViewById(R.id.dayText);
         label.setText("Day "+(dayNum+1)%10);
@@ -107,7 +108,8 @@ public class EditDayViewFragment extends Fragment {
         this.mViewPager = vp;
     }
 
-    public static void updatePeriod(int dayIndex, int perIndex, Bundle b, Resources r){
+    public static void updatePeriod(int dayIndex, int perIndex, Bundle b, Context c){
+        Resources r = c.getResources();
         //Log.d("EditDayViewFragment 164", "updating period "+dayIndex+" "+perIndex+" bundle: "+b.toString());
         ArrayList <Period> day = schedule.get(dayIndex);
         Period p = day.get(perIndex);
@@ -165,10 +167,21 @@ public class EditDayViewFragment extends Fragment {
 
         //Delete all periods smaller than minimum
         for(int i=0; i<day.size(); i++){
-            if(day.get(i).getLength()<r.getInteger(R.integer.minimum_period)){
+            if(day.get(i).getLength()<customMethods.getMinPerLength(c)){
                 day.remove(i);
                 i--;
             }
+        }
+    }
+
+    @Override
+    public void onPause(){
+        super.onPause();
+        MainActivity daddy = (MainActivity) getActivity();
+        daddy.updateSchedule(schedule);
+        if (!customMethods.saveSchedule(schedule, getActivity())) {
+            Log.e("EditDayViewFragment 183", "Error in saving sharedpreference");
+            Toast.makeText(getActivity(), "Unable to save changes. Please try again and report this bug. Sorry :(", Toast.LENGTH_LONG).show();
         }
     }
 }

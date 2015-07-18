@@ -3,6 +3,7 @@ package doop.aa_schedule;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
@@ -11,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -19,15 +21,16 @@ public class EditBlocksPage extends Fragment {
     private static Period otherPeriod = new Period(0,0,"Other",8,3);
     CustomMethods customMethods = new CustomMethods();
     private static PauseViewPager mViewPager;
+    private static FragmentActivity mActivity;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
+        mActivity = getActivity();
         View v = inflater.inflate(R.layout.view_day, container, false);
 
         LinearLayout ll = (LinearLayout) v.findViewById(R.id.day_layout);
-        int padding = getResources().getDimensionPixelSize(R.dimen.view_padding);
-        ll.setPadding(padding / 2, padding, padding / 2, 0);
+        //int padding = getResources().getDimensionPixelSize(R.dimen.view_padding);
+        //ll.setPadding(padding / 2, padding, padding / 2, 0);
 
         TextView label = (TextView) v.findViewById(R.id.dayText);
         label.setText("Edit Blocks");
@@ -40,7 +43,10 @@ public class EditBlocksPage extends Fragment {
         for (int block=0; block<9; block++) {
             p=findPeriod(block,schedule.get(9));
             if(p==null) {
+                Log.d("EditBlocksPage 046", otherPeriod.getColor()+"");
                 otherPeriod.setColor(getOtherColor(block));
+                Log.d("EditBlocksPage 048", otherPeriod.getColor() + "");
+
                 p=otherPeriod;
             }
             blockView = inflater.inflate(R.layout.view_period, container, false);
@@ -78,14 +84,15 @@ public class EditBlocksPage extends Fragment {
         for(Period p:day){
             if(p.getBlock()==i) return p;
         }
-        Log.e("EditBlocksPage 497", "no period of block "+i+" found");
+        //Log.e("EditBlocksPage 497", "no period of block "+i+" found");
         return null;
     }
     public int getOtherColor(int block){
         for(ArrayList<Period> day:schedule){
             for(Period p:day){
+                //Log.d("EditBlocksPage 093", p.getColor()+" "+p.getBlock()+" "+p.getClassName());
                 if(p.getBlock()==block)
-                    return p.getColor();
+                    return customMethods.getPerColor(p);
             }
         }
         return customMethods.getPerColor(otherPeriod);
@@ -121,6 +128,23 @@ public class EditBlocksPage extends Fragment {
                     }
                 }
             }
+        }
+
+        FragmentManager fm = mActivity.getSupportFragmentManager(); //reload edit fragment to update day 1
+        FragmentTransaction ft = fm.beginTransaction();
+        EditSchedule es = new EditSchedule();
+        es.sendArgs(schedule);
+        ft.replace(R.id.container, es).commit();
+    }
+
+    @Override
+    public void onPause(){
+        super.onPause();
+        MainActivity daddy = (MainActivity) getActivity();
+        daddy.updateSchedule(schedule);
+        if (!customMethods.saveSchedule(schedule, getActivity())) {
+            Log.e("EditBlocksPage 142", "Error in saving sharedpreference");
+            Toast.makeText(getActivity(), "Unable to save changes. Please try again and report this bug. Sorry :(", Toast.LENGTH_LONG).show();
         }
     }
 }

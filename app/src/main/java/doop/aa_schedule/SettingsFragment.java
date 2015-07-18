@@ -1,14 +1,16 @@
 package doop.aa_schedule;
 
-import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.EditTextPreference;
 import android.preference.Preference;
+import android.preference.PreferenceManager;
 
 import com.github.machinarius.preferencefragment.PreferenceFragment;
 
 //import android.preference.PreferenceFragment;
 
-public class SettingsFragment extends PreferenceFragment //implements SharedPreferences.OnSharedPreferenceChangeListener
+public class SettingsFragment extends PreferenceFragment implements SharedPreferences.OnSharedPreferenceChangeListener
 {
 
     @Override
@@ -17,15 +19,24 @@ public class SettingsFragment extends PreferenceFragment //implements SharedPref
 
         // Load the preferences from an XML resource
         addPreferencesFromResource(R.xml.fragment_preference);
-        Preference ps = findPreference("intent");
-        ps.setIntent(new Intent(getActivity(), Period.class));
+        EditTextPreference minPerEdit = (EditTextPreference) findPreference(getResources().getString(R.string.min_per_pref));
+
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        minPerEdit.setSummary(minPerEdit.getText());
+
+        sp.registerOnSharedPreferenceChangeListener(this);
     }
 
-    /*@Override
+    @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+        Preference pref = findPreference(key);
 
-        Log.d("SettingsFragment 208", key + ":" + sharedPreferences.getBoolean(key, false));
-    }*/
+        if (pref instanceof EditTextPreference) {
+            EditTextPreference textPref = (EditTextPreference) pref;
+            pref.setSummary(textPref.getText());
+        }
+        //Log.d("SettingsFragment 208", key);
+    }
 
 
 }

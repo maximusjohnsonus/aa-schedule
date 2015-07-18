@@ -34,7 +34,7 @@
     <string name="end_tag">End Time:</string>
     <string name="color_tag">Select Color</string>
     <string name="type_tag">Type:</string>
-    <string name="save_button">Save</string>
+    <string name="save_button">OK</string>
     <string name="cancel_button">Cancel</string>
     <string name="select_start">Select Start Time</string>
     <string name="select_end">Select End Time</string>
@@ -49,9 +49,12 @@
     <string name="hello_world">Hello world!</string>
 
     <!--settings labels-->
+    <string name="settings_general">General</string>
     <string name="settings_24_time">24 Hour Time</string>
     <string name="settings_highlight">Highlight Current Day</string>
     <string name="settings_weekend">Show Weekends</string>
+    <string name="settings_advanced">Advanced</string>
+    <string name="settings_min_per">Minimum Period Length</string>
 
     <!--bundle tags-->
     <string name="bdl_name">BDL_NAME</string>
@@ -67,6 +70,7 @@
     <string name="time_24_pref">time_24hr</string>
     <string name="highlight_pref">highlight_pref</string>
     <string name="weekend_pref">weekend_pref</string>
+    <string name="min_per_pref">min_per_pref</string>
     <string name="schedule_JSON">schedule_JSON</string>
     <string name="JSON_period_start_time">per_start_time</string>
     <string name="JSON_period_end_time">per_end_time</string>

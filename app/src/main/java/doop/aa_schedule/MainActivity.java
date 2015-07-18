@@ -40,8 +40,6 @@ public class MainActivity extends AppCompatActivity
     private ArrayList<Integer> dayList; //0=day 0, 1=day 1, ... , -1=no school
     private int currentDay=-1;
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

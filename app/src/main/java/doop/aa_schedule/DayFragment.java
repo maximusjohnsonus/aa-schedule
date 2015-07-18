@@ -1,7 +1,6 @@
 package doop.aa_schedule;
 
 import android.content.res.Resources;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -21,9 +20,6 @@ public class DayFragment extends Fragment {
     private static ArrayList<ArrayList<Period>> schedule;
     CustomMethods customMethods = new CustomMethods();
 
-    //TODO: make these stored as sharedPreferences (or other)
-    private static int[] colors = {Color.RED, Color.rgb(255, 128, 0), Color.YELLOW, Color.GREEN, Color.BLUE, Color.CYAN, Color.rgb(128, 0, 128), Color.rgb(0,150,0), Color.rgb(128, 64, 32), Color.rgb(32, 32, 32)};
-    private static int freeColor = Color.LTGRAY;
     private static String[] daysOfWeek = {"Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"};
 
     public static DayFragment newInstance(int dayNum, Calendar cal, boolean border) {
@@ -50,7 +46,7 @@ public class DayFragment extends Fragment {
         boolean border = getArguments().getBoolean(BORDER);
 
         View v = inflater.inflate(R.layout.view_day, container, false);
-        if(border)
+        if(border && customMethods.showHighlight(getActivity()))
             v.setBackgroundResource(R.drawable.border);
         if(dayNum==-1){ //no school
             TextView label = (TextView) v.findViewById(R.id.dayText);

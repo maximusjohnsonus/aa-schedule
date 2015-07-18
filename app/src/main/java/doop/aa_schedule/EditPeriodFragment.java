@@ -156,7 +156,7 @@ public class EditPeriodFragment extends Fragment implements ColorPickerDialog.On
                 b.putInt(r.getString(R.string.bdl_color), newColor);
 
                 Log.d("EPF 132", "end " + newEnd + " bundle " + b.toString());
-                EditDayViewFragment.updatePeriod(dayIndex, perIndex, b, r);
+                EditDayViewFragment.updatePeriod(dayIndex, perIndex, b, getActivity());
 
                 mViewPager.setPagingAllowed(true);
                 getActivity().getSupportFragmentManager().popBackStack();

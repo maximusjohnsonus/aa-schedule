@@ -84,8 +84,23 @@ public class CustomMethods {
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(c);
         String key=c.getResources().getString(R.string.time_24_pref);
         return sp.getBoolean(key, false);
-
     }
+    public int getMinPerLength(Context c){
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(c);
+        String key=c.getResources().getString(R.string.min_per_pref);
+        return Integer.valueOf(sp.getString(key, Integer.toString(c.getResources().getInteger(R.integer.default_min_per))));
+    }
+    public boolean showHighlight(Context c){
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(c);
+        String key=c.getResources().getString(R.string.highlight_pref);
+        return sp.getBoolean(key, true);
+    }
+    public boolean showWeekend(Context c){
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(c);
+        String key=c.getResources().getString(R.string.weekend_pref);
+        return sp.getBoolean(key, false);
+    }
+
 
     //public int[] getColors(){ return colors; } //TODO: change default colors for periods by changing colors[] in CustomMethods
 }
