@@ -8,6 +8,7 @@ import android.graphics.LinearGradient;
 import android.graphics.Paint;
 import android.graphics.Shader;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -28,7 +29,7 @@ public class ColorPickerDialog extends Dialog {
         private final int[] mHueBarColors = new int[258];
         private int[] mMainColors = new int[65536];
         private OnColorChangedListener mListener;
-
+        private int textColorThreshold = 384;
         ColorPickerView(Context c, OnColorChangedListener l, int color, int defaultColor) {
             super(c);
             mListener = l;
@@ -78,12 +79,11 @@ public class ColorPickerDialog extends Dialog {
             // Initializes the Paint that will draw the View
             mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
             mPaint.setTextAlign(Paint.Align.CENTER);
-            mPaint.setTextSize(12);
+            mPaint.setTextSize(pxFromDp(12)); //draw (TODO: sp not dp?)
         }
 
         // Get the current selected color from the hue bar
-        private int getCurrentMainColor()
-        {
+        private int getCurrentMainColor() {
             int translatedHue = 255-(int)(mCurrentHue*255/360);
             int index = 0;
             for (float i=0; i<256; i += 256/42)
@@ -126,8 +126,7 @@ public class ColorPickerDialog extends Dialog {
         }
 
         // Update the main field colors depending on the current selected hue
-        private void updateMainColors()
-        {
+        private void updateMainColors() {
             int mainColor = getCurrentMainColor();
             int index = 0;
             int[] topColors = new int[256];
@@ -149,6 +148,7 @@ public class ColorPickerDialog extends Dialog {
 
         @Override
         protected void onDraw(Canvas canvas) {
+            Context c = getContext();
             int translatedHue = 255-(int)(mCurrentHue*255/360);
             // Display all the colors of the hue bar with lines
             for (int x=0; x<256; x++)
@@ -157,14 +157,15 @@ public class ColorPickerDialog extends Dialog {
                 if (translatedHue != x)
                 {
                     mPaint.setColor(mHueBarColors[x]);
-                    mPaint.setStrokeWidth(1);
+                    //mPaint.setStrokeWidth(pxFromDp(2)); //draws (original 1px)
                 }
                 else // else display a slightly larger black line
                 {
                     mPaint.setColor(Color.BLACK);
-                    mPaint.setStrokeWidth(3);
+                    mPaint.setStrokeWidth(pxFromDp(6)); //draws (original 3px)
                 }
-                canvas.drawLine(x+10, 0, x+10, 40, mPaint);
+                canvas.drawLine(pxFromDp(x+10), 0, pxFromDp(x+10), pxFromDp(40), mPaint); //draws the hue bar (x+10 shifts it?)
+                mPaint.setStrokeWidth(pxFromDp(2)); //draws
             }
 
             // Display the main field colors using LinearGradient
@@ -173,9 +174,9 @@ public class ColorPickerDialog extends Dialog {
                 int[] colors = new int[2];
                 colors[0] = mMainColors[x];
                 colors[1] = Color.BLACK;
-                Shader shader = new LinearGradient(0, 50, 0, 306, colors, null, Shader.TileMode.REPEAT);
+                Shader shader = new LinearGradient(0, pxFromDp(50), 0, pxFromDp(306), colors, null, Shader.TileMode.REPEAT); //draws (makes image for each slice of gradient I think
                 mPaint.setShader(shader);
-                canvas.drawLine(x+10, 50, x+10, 306, mPaint);
+                canvas.drawLine(pxFromDp(x+10), pxFromDp(50), pxFromDp(x+10), pxFromDp(306), mPaint); //draws
             }
             mPaint.setShader(null);
 
@@ -184,50 +185,56 @@ public class ColorPickerDialog extends Dialog {
             {
                 mPaint.setStyle(Paint.Style.STROKE);
                 mPaint.setColor(Color.BLACK);
-                canvas.drawCircle(mCurrentX, mCurrentY, 10, mPaint);
+                canvas.drawCircle(pxFromDp(mCurrentX), pxFromDp(mCurrentY), pxFromDp(10), mPaint); //draws
             }
 
             // Draw a 'button' with the currently selected color
             mPaint.setStyle(Paint.Style.FILL);
             mPaint.setColor(mCurrentColor);
-            canvas.drawRect(10, 316, 138, 356, mPaint);
+            canvas.drawRect(pxFromDp(10), pxFromDp(316), pxFromDp(138), pxFromDp(356), mPaint); //draws
 
             // Set the text color according to the brightness of the color
-            if (Color.red(mCurrentColor)+Color.green(mCurrentColor)+Color.blue(mCurrentColor) < 384)
+            if (Color.red(mCurrentColor)+Color.green(mCurrentColor)+Color.blue(mCurrentColor) < textColorThreshold)
                 mPaint.setColor(Color.WHITE);
             else
                 mPaint.setColor(Color.BLACK);
-            canvas.drawText("confirm?", 74, 340, mPaint); //getResources().getString(R.string.settings_bg_color_confirm)
+            canvas.drawText("new 509", pxFromDp(74), pxFromDp(340), mPaint); //getResources().getString(R.string.settings_bg_color_confirm)
+                    //draws^
 
             // Draw a 'button' with the default color
             mPaint.setStyle(Paint.Style.FILL);
             mPaint.setColor(mDefaultColor);
-            canvas.drawRect(138, 316, 266, 356, mPaint);
+            canvas.drawRect(pxFromDp(138), pxFromDp(316), pxFromDp(266), pxFromDp(356), mPaint); //draws
 
             // Set the text color according to the brightness of the color
-            if (Color.red(mDefaultColor)+Color.green(mDefaultColor)+Color.blue(mDefaultColor) < 384)
+            if (Color.red(mDefaultColor)+Color.green(mDefaultColor)+Color.blue(mDefaultColor) < textColorThreshold)
                 mPaint.setColor(Color.WHITE);
             else
                 mPaint.setColor(Color.BLACK);
-            canvas.drawText("things!", 202, 340, mPaint); //getResources().getString(R.string.settings_default_color_confirm)
+            canvas.drawText("old 139", pxFromDp(202), pxFromDp(340), mPaint); //getResources().getString(R.string.settings_default_color_confirm)
+                    //draws^
         }
 
         @Override
         protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-            setMeasuredDimension(276, 366);
+            setMeasuredDimension((int) pxFromDp(276), (int) pxFromDp(366)); //draws
         }
 
         @Override
         public boolean onTouchEvent(MotionEvent event) {
             if (event.getAction() != MotionEvent.ACTION_DOWN) return true;
-            float x = event.getX();
-            float y = event.getY();
+            float x = dpFromPx(event.getX());
+            float y = dpFromPx(event.getY());
+            /*Log.d("CPD 294","("+x+","+y+")");
+            Log.d("CPD 295","("+dpFromPx(x)+","+dpFromPx(y)+")");
+            Log.d("CPD 296","("+pxFromDp(x)+","+pxFromDp(y)+")");*/
 
             // If the touch event is located in the hue bar
             if (x > 10 && x < 266 && y > 0 && y < 40)
             {
+                Log.d("CPD 947", "Hue bar");
                 // Update the main field colors
-                mCurrentHue = (255-x)*360/255;
+                mCurrentHue = (255-(x-10))*360/255;
                 updateMainColors();
 
                 // Update the current selected color
@@ -238,12 +245,12 @@ public class ColorPickerDialog extends Dialog {
                     mCurrentColor = mMainColors[256*(transY-1)+transX];
 
                 // Force the redraw of the dialog
-                invalidate();
+                invalidate(); //TODO: is this recommended way to refresh?
             }
 
             // If the touch event is located in the main field
-            if (x > 10 && x < 266 && y > 50 && y < 306)
-            {
+            if (x > 10 && x < 266 && y > 50 && y < 306){
+                Log.d("CPD 948", "Color field");
                 mCurrentX = (int) x;
                 mCurrentY = (int) y;
                 int transX = mCurrentX-10;
@@ -254,7 +261,7 @@ public class ColorPickerDialog extends Dialog {
                     // Update the current color
                     mCurrentColor = mMainColors[index];
                     // Force the redraw of the dialog
-                    invalidate();
+                    invalidate();  //TODO: is this recommended way to refresh?
                 }
             }
 
@@ -267,6 +274,13 @@ public class ColorPickerDialog extends Dialog {
                 mListener.colorChanged("", mDefaultColor);
 
             return true;
+        }
+
+        private float pxFromDp(float dp){
+            return dp * getContext().getResources().getDisplayMetrics().density;
+        }
+        private float dpFromPx(float px){
+            return px / getContext().getResources().getDisplayMetrics().density;
         }
     }
 
@@ -290,6 +304,7 @@ public class ColorPickerDialog extends Dialog {
         };
 
         setContentView(new ColorPickerView(getContext(), l, mInitialColor, mDefaultColor));
-        setTitle("title!"); //R.string.settings_bg_color_dialog
+        setTitle("title4"); //R.string.settings_bg_color_dialog
     }
+
 }

@@ -5,13 +5,12 @@
     android:orientation="vertical">
     <!--xmlns:tools="http://schemas.android.com/tools"-->
 
-
-    <android.support.v4.view.ViewPager
+    <doop.aa_schedule.PauseViewPager
         android:id="@+id/edit_pager"
         android:layout_width="fill_parent"
         android:layout_height="0dp"
         android:layout_weight="1"/>
-    <RelativeLayout
+    <!--<RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
         <Button android:id="@+id/save_edit"
@@ -24,6 +23,6 @@
             android:layout_height="wrap_content"
             android:layout_toLeftOf="@+id/save_edit"
             android:text="@string/cancel_button"/>
-    </RelativeLayout>
+    </RelativeLayout>-->
 
 </LinearLayout>

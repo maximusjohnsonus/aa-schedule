@@ -40,8 +40,6 @@ public class MainActivity extends AppCompatActivity
     private ArrayList<Integer> dayList; //0=day 0, 1=day 1, ... , -1=no school
     private int currentDay=-1;
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -82,18 +80,23 @@ public class MainActivity extends AppCompatActivity
             case 0:
                 ViewSchedule vs = new ViewSchedule();
                 if(scheduleArray==null) scheduleArray = getSchedule();
-                if(dayList==null) dayList = getDayList();
-                if(currentDay==-1)currentDay = getCurDay();
-                vs.sendArgs(scheduleArray, dayList, currentDay);
-                ft.replace(R.id.container,vs).commit();
+                if(scheduleArray!=null) {
+                    if (dayList == null) dayList = getDayList();
+                    if (currentDay == -1) currentDay = getCurDay();
+                    vs.sendArgs(scheduleArray, dayList, currentDay);
+                    ft.replace(R.id.container, vs).commit();
+                }
                 break;
             case 1:
                 EditSchedule es = new EditSchedule();
                 if(scheduleArray==null) scheduleArray = getSchedule();
-                es.sendArgs(scheduleArray);
-                ft.replace(R.id.container,es).commit();
+                if(scheduleArray!=null) {
+                    es.sendArgs(scheduleArray);
+                    ft.replace(R.id.container, es).commit();
+                }
                 break;
             case 2:
+                ft.replace(R.id.container,new SettingsFragment()).commit();
                 break;
             case 3:
                 ft.replace(R.id.container,new Help()).commit();
@@ -155,9 +158,9 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        /*if (id == R.id.action_settings) {
             return true;
-        }
+        }*/
 
         return super.onOptionsItemSelected(item);
     }
@@ -198,11 +201,13 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
+
     public ArrayList<ArrayList<Period>> getSchedule() {
         String prefName = getResources().getString(R.string.pref_storage);
         SharedPreferences sp = getSharedPreferences(prefName, 0);
         String key=getResources().getString(R.string.schedule_JSON);
         String scheduleJSONString=sp.getString(key, "");
+
 
         //Log.d("MainActivity 357","JSON string recovered:"+scheduleJSONString);
         boolean rewrite=false; //set to true to rewrite the data
@@ -239,7 +244,13 @@ public class MainActivity extends AppCompatActivity
             return null;
 
         } else{
-            Period AFreeShort = new Period(480, 527, "Free", 0, 2);
+
+            FragmentManager fm = getSupportFragmentManager();
+            FragmentTransaction ft = fm.beginTransaction();
+            ft.replace(R.id.container,new GetScheduleFragment()).commit();
+
+
+            /*Period AFreeShort = new Period(480, 527, "Free", 0, 2);
             Period AFreeShortCopy = new Period(480, 527, "Free", 0, 2);
             Period AFreeLong = new Period(480, 554, "Free", 0, 2);
 
@@ -342,14 +353,15 @@ public class MainActivity extends AppCompatActivity
 
             CustomMethods customMethods = new CustomMethods();
             if (!customMethods.saveSchedule(tempScheduleArray, this))
-                Log.e("MainActivity 248","Error in saving sharedpreference");
+                Log.e("MainActivity 248","Error in saving sharedpreference"); */
 
             //Log.d("MainActivity 295","should have stored schedule as sharedpreference");
-            return tempScheduleArray;
+            return null;
         }
 
         //Log.d("MainActivity 986",tempScheduleArray.toString());
     }
+
     public ArrayList<Integer> getDayList(){
         //0=day 0, 1=day 1, ... , -1=no school
         int[] tempDayArray = {0, 1, 2, 3, 4, -1, -1, 5, 6, 7, 8, 9, -1, -1, 1, 2, 3, 4, 5, -1, -1, 6, 7, 8, 9, 1, -1, -1, 2, 3, 4, 0, 5, -1, -1, 6, 7, 8, 9, 1, -1, -1, 2, 3, 4, 5, 6, -1, -1, 7, 8, 9, 1, 2, -1, -1, 3, 4, 5, 6, -1, -1, -1, 7, 8, 9, 0, 1, -1, -1, -1, -1, 2, 3, 4, -1, -1, 5, 6, 7, 8, 9, -1, -1, 1, 2, 3, 4, 5, -1, -1, 6, 7, 8, 9, 1, -1, -1, 2, 3, 4, 5, 6, -1, -1, 7, 8, 9, 1, 2, -1, -1, 3, 4, 5, 6, 7, -1, -1, 8, 9, 1, 2, 3, -1, -1, 4, 5, 6, 7, 8, -1, -1, 9, 1, 2, 3, 4, -1, -1, 5, 6, 7, 8, 9, -1, -1, 0, 1, 0, 2, 3, -1, -1, 4, 5, 6, 7, 8, -1, -1, 9, 1, 0, 2, 3, -1, -1, 4, -1, 5, 6, 7, -1, -1, 8, 9, 1, 2, 3, -1, -1, 4, 5, 0, 6, 7, -1, -1, 8, 9, 1, 2, -1, -1, -1, 3, 4, 5, 6, 7, -1, -1, 8, 9, 1, 2, 3, -1, -1, 4, 5, -1, 0, 6, -1, -1, 7, 8, 9, 1, 2, -1, -1, 3, 4, 5, 6, 7, -1, -1, 8, 9, 1, 2, 3, -1, -1, 4, 5, 6, 7, 8, -1, -1, 9, 1, 0, 2, 3, -1, -1, 4, 5, 6, 7, 8, -1, -1, 9, 1, 2, 3, 4, -1, -1, 5, 6, 7, 8, 9, -1, -1, 1, 2, 3, 4, 5, -1, -1, 6, 7, 8, 9, 0, -1, -1, 1, 2, 3, 4, 5, -1, -1};

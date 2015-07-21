@@ -1,9 +1,10 @@
 package doop.aa_schedule;
 
+import android.content.Context;
 import android.content.res.Resources;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
@@ -12,16 +13,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
 public class EditDayViewFragment extends Fragment {
     private static final String DAY_NUM = "DAY_NUM";
     private static ArrayList<ArrayList<Period>> schedule;
-
-    //TODO: make these stored as sharedPreferences (or other)
-    private static int[] colors = {Color.RED, Color.rgb(255, 128, 0), Color.YELLOW, Color.GREEN, Color.BLUE, Color.CYAN, Color.rgb(128, 0, 128), Color.rgb(0,150,0), Color.rgb(128, 64, 32), Color.rgb(32, 32, 32)};
-    private static int freeColor = Color.LTGRAY;
+    private static CustomMethods customMethods = new CustomMethods();
+    private static PauseViewPager mViewPager;
+    private static FragmentActivity mActivity;
 
     public static EditDayViewFragment newInstance(int dayNum) {
         EditDayViewFragment f = new EditDayViewFragment();
@@ -36,15 +37,18 @@ public class EditDayViewFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        mActivity = getActivity();
         //ArrayList<Period> day = getArguments().getParcelableArrayList(DAY_SCHEDULE);
         int dayNum = getArguments().getInt(DAY_NUM); //0=day 1, 1=day 2, ... , 9=day 0
+
+        //Log.d("EditBlocksPage 954", mViewPager.getChildCount() + "");
 
         View v = inflater.inflate(R.layout.view_day, container, false);
 
         ArrayList<Period> day = schedule.get(dayNum); //0=day 1, ... , 8=day 9, 9=day 0
         LinearLayout ll = (LinearLayout) v.findViewById(R.id.day_layout);
-        int padding = getResources().getDimensionPixelSize(R.dimen.view_padding);
-        ll.setPadding(padding/2, padding, padding/2, 0);
+        //int padding = getResources().getDimensionPixelSize(R.dimen.view_padding);
+        //ll.setPadding(padding/2, padding, padding/2, 0);
 
         TextView label = (TextView) v.findViewById(R.id.dayText);
         label.setText("Day "+(dayNum+1)%10);
@@ -64,26 +68,21 @@ public class EditDayViewFragment extends Fragment {
             //perStart = (TextView) periodView.findViewById(R.id.per_start_text);
             //perEnd = (TextView) periodView.findViewById(R.id.per_end_text);
             perMain = (TextView) periodView.findViewById(R.id.per_main_text);
-            perTime.setText(p.getTimeString());
+            perTime.setText(p.getTimeString(getActivity()));
             //perStart.setText(p.getStartString());
             //perEnd.setText(p.getEndString());
             perMain.setText(p.getMainText());
-            if(p.hasColor()){
-                periodView.setBackgroundColor(p.getColor());
-            } else if(p.getType()!=2)
-                periodView.setBackgroundColor(colors[p.getBlock()]);
-            else{
-                CustomMethods customMethods = new CustomMethods();
-                periodView.setBackgroundColor(customMethods.paleColor(colors[p.getBlock()]));
-            }
+            periodView.setBackgroundColor(customMethods.getPerColor(p));
+
 
             periodView.setOnClickListener(new PeriodOnClickListener(p, dayNum, i) {
                 public void onClick(View v) {
-                    //Log.i("myApp", "newsMenu clicked!");
+                    mViewPager.setPagingAllowed(false);
+
                     FragmentManager fm = getActivity().getSupportFragmentManager();
                     FragmentTransaction ft = fm.beginTransaction();
                     EditPeriodFragment epf = new EditPeriodFragment();
-                    epf.sendArgs(period, dayIndex, perIndex);
+                    epf.sendArgs(period, dayIndex, perIndex, mViewPager);
 
                     ft.add(R.id.container, epf, "");
                     ft.remove(EditDayViewFragment.this);
@@ -107,12 +106,14 @@ public class EditDayViewFragment extends Fragment {
         return day;
     }
 
-    public void setSchedule(ArrayList<ArrayList<Period>> _schedule){
-        schedule = _schedule;
+    public void sendArgs(ArrayList<ArrayList<Period>> _schedule, PauseViewPager vp){
+        this.schedule = _schedule;
+        this.mViewPager = vp;
     }
 
-    public static void updatePeriod(int dayIndex, int perIndex, Bundle b, Resources r){
-        Log.d("EditDayViewFragment 164", "updating period "+dayIndex+" "+perIndex+" bundle: "+b.toString());
+    public static void updatePeriod(int dayIndex, int perIndex, Bundle b, Context c){
+        Resources r = c.getResources();
+        //Log.d("EditDayViewFragment 164", "updating period "+dayIndex+" "+perIndex+" bundle: "+b.toString());
         ArrayList <Period> day = schedule.get(dayIndex);
         Period p = day.get(perIndex);
 
@@ -169,13 +170,17 @@ public class EditDayViewFragment extends Fragment {
 
         //Delete all periods smaller than minimum
         for(int i=0; i<day.size(); i++){
-            if(day.get(i).getLength()<r.getInteger(R.integer.minimum_period)){
+            if(day.get(i).getLength()<customMethods.getMinPerLength(c)){
                 day.remove(i);
                 i--;
             }
         }
 
-        //TODO: Save? or make that in editschedule
+        MainActivity daddy = (MainActivity) mActivity;
+        daddy.updateSchedule(schedule);
+        if (!customMethods.saveSchedule(schedule, mActivity,"EDVF 398")) {
+            Log.e("EditDayViewFragment 183", "Error in saving sharedpreference");
+            Toast.makeText(mActivity, "Unable to save changes. Please try again and report this bug. Sorry :(", Toast.LENGTH_LONG).show();
+        }
     }
-
 }

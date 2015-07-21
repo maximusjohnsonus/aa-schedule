@@ -8,4 +8,7 @@
     <dimen name="navigation_drawer_width">240dp</dimen>
     <dimen name="view_padding">24dp</dimen>
     <dimen name="view_side_padding">12dp</dimen>
+    <dimen name="get_sch_margin">25dp</dimen>
+    <dimen name="cpd_stroke_width">3dp</dimen>
+    <dimen name="cpd_offset_1">10dp</dimen>
 </resources>

@@ -27,6 +27,8 @@ public class EditPeriodFragment extends Fragment implements ColorPickerDialog.On
     Button endButton;
     Spinner typeSpinner;
     Button colorButton;
+    CustomMethods customMethods = new CustomMethods();
+    PauseViewPager mViewPager;
 
     /*String newClass;
     String newRoom;*/
@@ -36,9 +38,12 @@ public class EditPeriodFragment extends Fragment implements ColorPickerDialog.On
     int newColor;
     boolean setColor = false;
 
+    boolean time24=false;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
+        time24 = customMethods.time24(getActivity());
         newStart = period.getStart();
         newEnd = period.getEnd();
         View view=inflater.inflate(R.layout.fragment_edit_period,container,false);
@@ -50,11 +55,11 @@ public class EditPeriodFragment extends Fragment implements ColorPickerDialog.On
         roomEdit.setText(period.getRoom());
 
         startButton = (Button) view.findViewById(R.id.start_edit);
-        startButton.setText(period.getStartString());
+        startButton.setText(period.getStartString(getActivity()));
         startButton.setOnClickListener(new View.OnClickListener() {
 
             @Override
-            public void onClick(View v) { //TODO: check time is in day
+            public void onClick(View v) {
                 //newStart = period.getStart();
                 int hour = newStart / 60;
                 int minute = newStart % 60;
@@ -65,29 +70,29 @@ public class EditPeriodFragment extends Fragment implements ColorPickerDialog.On
                         int oldNewStart = newStart;
                         newStart = selectedHour * 60 + selectedMinute;
                         if(newStart<8*60 || newStart>15*60+32){
-                            Toast.makeText(getActivity(), getResources().getString(R.string.insane_time), Toast.LENGTH_LONG).show(); //TODO: 24hr compat
+                            Toast.makeText(getActivity(), getResources().getString(time24 ? R.string.insane_time24 : R.string.insane_time12), Toast.LENGTH_LONG).show();
                             newStart = oldNewStart;
                         }
                         if(newStart>newEnd){
-                            Toast.makeText(getActivity(), getResources().getString(R.string.misordered_time), Toast.LENGTH_LONG).show(); //TODO: 24hr compat
+                            Toast.makeText(getActivity(), getResources().getString(R.string.misordered_time), Toast.LENGTH_LONG).show();
                             newStart = oldNewStart;
                         }
-                        startButton.setText(newStart/60 + ":" + (newStart%60<10 ? "0" : "") + newStart%60);
+                        startButton.setText( (((newStart/60 - 1) % (time24 ? 24:12) ) + 1) + ":" + (newStart%60<10 ? "0" : "") + newStart%60);
                     }
-                }, hour, minute, false);//TODO: 12 vs 24 time (that boolean)
+                }, hour, minute, time24);
                 startTimePicker.setTitle(getResources().getString(R.string.select_start));
                 startTimePicker.show();
             }
         });
 
-        endButton = (Button) view.findViewById(R.id.end_edit); //TODO: check time is in day
-        endButton.setText(period.getEndString());
+        endButton = (Button) view.findViewById(R.id.end_edit);
+        endButton.setText(period.getEndString(getActivity()));
         endButton.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
                 //newEnd = period.getEnd();
-                int hour = newEnd / 60; //TODO: 12 hr
+                int hour = newEnd / 60;
                 int minute = newEnd % 60;
                 TimePickerDialog endTimePicker;
                 endTimePicker = new TimePickerDialog(getActivity(), new TimePickerDialog.OnTimeSetListener() {
@@ -96,16 +101,16 @@ public class EditPeriodFragment extends Fragment implements ColorPickerDialog.On
                         int oldNewEnd = newEnd;
                         newEnd = selectedHour * 60 + selectedMinute;
                         if(newEnd<8*60 || newEnd>15*60+32){
-                            Toast.makeText(getActivity(), getResources().getString(R.string.insane_time), Toast.LENGTH_LONG).show(); //TODO: 24hr compat
+                            Toast.makeText(getActivity(), getResources().getString(time24 ? R.string.insane_time24 : R.string.insane_time12), Toast.LENGTH_LONG).show();
                             newEnd = oldNewEnd;
                         }
                         if(newStart>newEnd){
-                            Toast.makeText(getActivity(), getResources().getString(R.string.misordered_time), Toast.LENGTH_LONG).show(); //TODO: 24hr compat
+                            Toast.makeText(getActivity(), getResources().getString(R.string.misordered_time), Toast.LENGTH_LONG).show();
                             newEnd = oldNewEnd;
                         }
-                        endButton.setText(newEnd/60 + ":" + (newEnd%60<10 ? "0" : "") + newEnd%60);
+                        endButton.setText( (((newEnd/60 - 1) % (time24 ? 24 : 12)) + 1) + ":" + (newEnd%60<10 ? "0" : "") + newEnd%60);
                     }
-                }, hour, minute, false);//TODO: 12 vs 24 time (that boolean)
+                }, hour, minute, time24);
                 endTimePicker.setTitle(getResources().getString(R.string.select_end));
                 endTimePicker.show();
             }
@@ -129,16 +134,15 @@ public class EditPeriodFragment extends Fragment implements ColorPickerDialog.On
         });
 
         colorButton= (Button) view.findViewById(R.id.color_edit);
+        colorButton.setBackgroundColor(customMethods.getPerColor(period));
         colorButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                new ColorPickerDialog(getActivity(), EditPeriodFragment.this, "key", 0, 0).show();
-                //TODO: update look: http://www.yougli.net/android/a-photoshop-like-color-picker-for-your-android-application/
-                //TODO: set default color
+                new ColorPickerDialog(getActivity(), EditPeriodFragment.this, "key", customMethods.getPerColor(period), customMethods.getPerColor(period)).show();
             }
         });
 
         Button save = (Button) view.findViewById(R.id.save);
-        save.setOnClickListener(new View.OnClickListener() { //TODO: check time is in day AND start is before end
+        save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Bundle b = new Bundle();
@@ -148,12 +152,13 @@ public class EditPeriodFragment extends Fragment implements ColorPickerDialog.On
                 b.putInt(r.getString(R.string.bdl_start), newStart);
                 b.putInt(r.getString(R.string.bdl_end), newEnd);
                 b.putInt(r.getString(R.string.bdl_type), newType);
-                b.putBoolean(r.getString(R.string.bdl_set_color),setColor);
-                b.putInt(r.getString(R.string.bdl_color),newColor);
+                b.putBoolean(r.getString(R.string.bdl_set_color), setColor);
+                b.putInt(r.getString(R.string.bdl_color), newColor);
 
-                Log.d("EPF 132","end "+newEnd+" bundle "+b.toString());
-                EditDayViewFragment.updatePeriod(dayIndex, perIndex, b, r);
+                Log.d("EPF 132", "end " + newEnd + " bundle " + b.toString());
+                EditDayViewFragment.updatePeriod(dayIndex, perIndex, b, getActivity());
 
+                mViewPager.setPagingAllowed(true);
                 getActivity().getSupportFragmentManager().popBackStack();
             }
         });
@@ -162,22 +167,25 @@ public class EditPeriodFragment extends Fragment implements ColorPickerDialog.On
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                mViewPager.setPagingAllowed(true);
                 getActivity().getSupportFragmentManager().popBackStack();
             }
         });
         return view;
     }
 
-    public void sendArgs(Period p, int dayIndex, int perIndex){
-        period = p;
+    public void sendArgs(Period p, int dayIndex, int perIndex, PauseViewPager vp){
+        this.period = p;
         this.dayIndex = dayIndex;
         this.perIndex = perIndex;
+        this.mViewPager = vp;
     }
 
     @Override
     public void colorChanged(String key, int color) {
         newColor = color;
         setColor = true;
+        colorButton.setBackgroundColor(color);
         //Log.d("EditPeriodFragment 228",key+": "+color);
     }
 }

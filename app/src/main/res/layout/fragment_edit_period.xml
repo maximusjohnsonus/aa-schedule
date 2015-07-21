@@ -4,11 +4,20 @@
     android:layout_height="match_parent"
     tools:context="doop.aa_schedule.EditPeriodFragment">
 
+    <TextView android:id="@+id/edit_per"
+        android:text="@string/edit_per_label"
+        android:textSize="18sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"/>
+
     <TextView android:id="@+id/class_text"
         android:textSize="@dimen/abc_text_size_medium_material"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/class_tag" />
+        android:text="@string/class_tag"
+        android:layout_below="@+id/edit_per"/>
     <EditText android:id="@+id/class_edit"
         android:layout_margin="5dp"
         android:layout_width="fill_parent"
@@ -33,7 +42,6 @@
         android:layout_alignTop="@+id/room_text"
         android:inputType="textCapCharacters"/>
 
-    <!--TODO:try a picker instead of text entry-->
     <TextView android:id="@+id/start_text"
         android:textSize="@dimen/abc_text_size_medium_material"
         android:layout_width="wrap_content"

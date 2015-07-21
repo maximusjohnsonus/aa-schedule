@@ -1,0 +1,45 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingTop="@dimen/view_padding"
+    android:paddingBottom="@dimen/view_padding"
+    android:paddingLeft="@dimen/view_side_padding"
+    android:paddingRight="@dimen/view_side_padding">
+
+    <TextView
+        android:textSize="@dimen/abc_text_size_medium_material"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/get_sch_title"
+        android:layout_marginLeft="10dp"
+        android:paddingBottom="12dp"/>
+    <Button android:id="@+id/get_sch_download"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/get_sch_margin"
+        android:text="@string/get_sch_download"/>
+    <Button android:id="@+id/get_sch_10_12"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/get_sch_margin"
+        android:text="@string/get_sch_10_12"/>
+    <Button android:id="@+id/get_sch_8_9"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/get_sch_margin"
+        android:text="@string/get_sch_8_9"/>
+    <Button android:id="@+id/get_sch_6_7"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/get_sch_margin"
+        android:text="@string/get_sch_6_7"/>
+    <Button android:id="@+id/get_sch_sample"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/get_sch_margin"
+        android:text="@string/get_sch_sample"/>
+
+
+</LinearLayout>

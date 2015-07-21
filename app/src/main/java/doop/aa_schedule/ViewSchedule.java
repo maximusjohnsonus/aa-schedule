@@ -18,6 +18,7 @@ public class ViewSchedule extends Fragment { // http://architects.dzone.com/arti
     ArrayList<ArrayList<Period>> scheduleArray;
     ArrayList<Integer> dayList; //0=day 0, 1=day 1, ... , -1=no school
     int currentDay;
+    CustomMethods customMethods = new CustomMethods();
 
 
     @Override
@@ -41,8 +42,17 @@ public class ViewSchedule extends Fragment { // http://architects.dzone.com/arti
         df.setSchedule(scheduleArray);
         Calendar cal = Calendar.getInstance();
         cal.set(getResources().getInteger(R.integer.start_year), getResources().getInteger(R.integer.start_month),getResources().getInteger(R.integer.start_day));
+        int weekday;
+        boolean showWeekends = customMethods.showWeekend(getActivity());
+        int realDay=0;
         for(int i=0;i<dayList.size();i++){
-            fList.add(df.newInstance(dayList.get(i),cal,i==currentDay)); //dayList.get(i): 0=day 0, 1=day 1, ... , -1=no school
+            weekday = cal.get(Calendar.DAY_OF_WEEK);
+            if(i==currentDay)
+                currentDay=realDay;
+            if(!(weekday==1 || weekday==7) || showWeekends) { //only add if it's not a weekend or if weekends are to be shown
+                fList.add(df.newInstance(dayList.get(i), cal, realDay == currentDay)); //dayList.get(i): 0=day 0, 1=day 1, ... , -1=no school
+                realDay++;
+            }
             cal.add(Calendar.DAY_OF_YEAR,1);
             //Log.d("ViewSchedule 193", fList.toString());
         }

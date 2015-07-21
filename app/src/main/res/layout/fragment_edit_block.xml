@@ -1,0 +1,63 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView android:id="@+id/edit_block"
+        android:text="@string/edit_block_label"
+        android:textSize="18sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"/>
+
+    <TextView android:id="@+id/class_text"
+        android:textSize="@dimen/abc_text_size_medium_material"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/class_tag"
+        android:layout_below="@+id/edit_block"/>
+    <EditText android:id="@+id/class_edit"
+        android:layout_margin="5dp"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/rectangle"
+        android:layout_toRightOf="@+id/class_text"
+        android:layout_alignTop="@+id/class_text"
+        android:inputType="textCapWords"/>
+
+    <TextView android:id="@+id/room_text"
+        android:textSize="@dimen/abc_text_size_medium_material"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/room_tag"
+        android:layout_below="@+id/class_edit"/>
+    <EditText android:id="@+id/room_edit"
+        android:layout_margin="5dp"
+        android:layout_width="75dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/rectangle"
+        android:layout_toRightOf="@+id/room_text"
+        android:layout_alignTop="@+id/room_text"
+        android:inputType="textCapCharacters"/>
+
+    <Button android:id="@+id/color_edit"
+        android:textSize="@dimen/abc_text_size_medium_material"
+        android:text="@string/color_tag"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/room_edit"/>
+
+    <Button android:id="@+id/save"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/save_button"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"/>
+    <Button android:id="@+id/cancel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/cancel_button"
+        android:layout_alignParentBottom="true"
+        android:layout_toLeftOf="@+id/save"/>
+
+</RelativeLayout>
