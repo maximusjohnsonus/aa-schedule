@@ -71,6 +71,9 @@ public class EditSchedule extends Fragment { // http://architects.dzone.com/arti
             fList.add(edf.newInstance(i)); //i: 0=day 1, 1=day 2, ... , 9=day 0
             //Log.d("ViewSchedule 193", fList.toString());
         }
+
+        fList.add(new GetScheduleFragment());
+
         return fList;
     }
 

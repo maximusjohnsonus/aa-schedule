@@ -43,9 +43,9 @@ public class EditBlocksPage extends Fragment {
         for (int block=0; block<9; block++) {
             p=findPeriod(block,schedule.get(9));
             if(p==null) {
-                Log.d("EditBlocksPage 046", otherPeriod.getColor()+"");
+                //Log.d("EditBlocksPage 046", otherPeriod.getColor()+"");
                 otherPeriod.setColor(getOtherColor(block));
-                Log.d("EditBlocksPage 048", otherPeriod.getColor() + "");
+                //Log.d("EditBlocksPage 048", otherPeriod.getColor() + "");
 
                 p=otherPeriod;
             }
@@ -130,21 +130,17 @@ public class EditBlocksPage extends Fragment {
             }
         }
 
+        MainActivity daddy = (MainActivity) mActivity;
+        daddy.updateSchedule(schedule);
+        if (!customMethods.saveSchedule(schedule, mActivity, "EBP 146")) {
+            Log.e("EditBlocksPage 142", "Error in saving sharedpreference");
+            Toast.makeText(mActivity, "Unable to save changes. Please try again and report this bug. Sorry :(", Toast.LENGTH_LONG).show();
+        }
+
         FragmentManager fm = mActivity.getSupportFragmentManager(); //reload edit fragment to update day 1
         FragmentTransaction ft = fm.beginTransaction();
         EditSchedule es = new EditSchedule();
         es.sendArgs(schedule);
         ft.replace(R.id.container, es).commit();
-    }
-
-    @Override
-    public void onPause(){
-        super.onPause();
-        MainActivity daddy = (MainActivity) getActivity();
-        daddy.updateSchedule(schedule);
-        if (!customMethods.saveSchedule(schedule, getActivity())) {
-            Log.e("EditBlocksPage 142", "Error in saving sharedpreference");
-            Toast.makeText(getActivity(), "Unable to save changes. Please try again and report this bug. Sorry :(", Toast.LENGTH_LONG).show();
-        }
     }
 }

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
@@ -21,6 +22,7 @@ public class EditDayViewFragment extends Fragment {
     private static ArrayList<ArrayList<Period>> schedule;
     private static CustomMethods customMethods = new CustomMethods();
     private static PauseViewPager mViewPager;
+    private static FragmentActivity mActivity;
 
     public static EditDayViewFragment newInstance(int dayNum) {
         EditDayViewFragment f = new EditDayViewFragment();
@@ -35,6 +37,7 @@ public class EditDayViewFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        mActivity = getActivity();
         //ArrayList<Period> day = getArguments().getParcelableArrayList(DAY_SCHEDULE);
         int dayNum = getArguments().getInt(DAY_NUM); //0=day 1, 1=day 2, ... , 9=day 0
 
@@ -172,16 +175,12 @@ public class EditDayViewFragment extends Fragment {
                 i--;
             }
         }
-    }
 
-    @Override
-    public void onPause(){
-        super.onPause();
-        MainActivity daddy = (MainActivity) getActivity();
+        MainActivity daddy = (MainActivity) mActivity;
         daddy.updateSchedule(schedule);
-        if (!customMethods.saveSchedule(schedule, getActivity())) {
+        if (!customMethods.saveSchedule(schedule, mActivity,"EDVF 398")) {
             Log.e("EditDayViewFragment 183", "Error in saving sharedpreference");
-            Toast.makeText(getActivity(), "Unable to save changes. Please try again and report this bug. Sorry :(", Toast.LENGTH_LONG).show();
+            Toast.makeText(mActivity, "Unable to save changes. Please try again and report this bug. Sorry :(", Toast.LENGTH_LONG).show();
         }
     }
 }

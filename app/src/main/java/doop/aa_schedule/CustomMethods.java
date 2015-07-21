@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.preference.PreferenceManager;
+import android.util.Log;
 
 import org.json.JSONArray;
 
@@ -45,7 +46,9 @@ public class CustomMethods {
             return(paleColor(colors[p.getBlock()]));
     }
 
-    public boolean saveSchedule(ArrayList<ArrayList<Period>> schedule, Context c){
+    public boolean saveSchedule(ArrayList<ArrayList<Period>> schedule, Context c, String tag){
+        Log.d("CM 487", tag+schedule.toString());
+
         String prefName = c.getResources().getString(R.string.pref_storage);
         SharedPreferences sp = c.getSharedPreferences(prefName, 0);
         String key = c.getResources().getString(R.string.schedule_JSON);
@@ -61,7 +64,7 @@ public class CustomMethods {
 
         }
         String scheduleJSONString=days.toString();
-        //Log.d("CustomMethods 457", scheduleJSONString);
+        Log.d("CustomMethods 457", scheduleJSONString);
         SharedPreferences.Editor editor=sp.edit();
         editor.putString(key, scheduleJSONString);
         return editor.commit();
