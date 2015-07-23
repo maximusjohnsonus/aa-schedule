@@ -51,7 +51,7 @@ public class EditDayViewFragment extends Fragment {
         //ll.setPadding(padding/2, padding, padding/2, 0);
 
         TextView label = (TextView) v.findViewById(R.id.dayText);
-        label.setText("Day "+(dayNum+1)%10);
+        label.setText(getResources().getString(R.string.edit_day_label)+" "+(dayNum+1)%10); //Edit Day n
 
         LinearLayout.LayoutParams params;
         View periodView;

@@ -327,10 +327,10 @@ public class GetScheduleFragment extends Fragment {
                 Period Lunch0 = new Period(696, 770, "Lunch", 7, 1);
 
 
-                Period Club = new Period(642, 669, "Club", 8, 3); //8 is miscellaneous here
+                Period Club = new Period(642, 669, "Club", 8, 3); //block 8 and type 3 are both "other"
                 Period DivAss = new Period(642, 669, "Division Assembly", 8, 3);
                 Period Common = new Period(885, 932, "Common Time", 8, 3);
-                Period DinkyFree = new Period(682, 696, "Free", 8, 2);
+                Period DinkyFree = new Period(635, 655, "Free", 8, 2);
 
                 ArrayList<Period> day1 = new ArrayList<>();
                 ArrayList<Period> day2 = new ArrayList<>();

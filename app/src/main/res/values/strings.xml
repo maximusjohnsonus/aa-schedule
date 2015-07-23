@@ -60,6 +60,9 @@
     <string name="get_sch_6_7">Use 6-7 Template</string>
     <string name="get_sch_sample">Use Sample Schedule</string>
     <string name="PSA_re_editing">Default loaded. Go to the first page of Edit Schedule to fill in the names of each block.</string>
+    <string name="CPD_title">Select Color</string>
+    <string name="CPD_old">Old</string>
+    <string name="CPD_new">New</string>
 
     <string name="hello_world">Hello world!</string>
 
@@ -70,6 +73,7 @@
     <string name="settings_weekend">Show Weekends</string>
     <string name="settings_advanced">Advanced</string>
     <string name="settings_min_per">Minimum Period Length</string>
+    <string name="edit_day_label">Edit Day</string>
 
     <!--bundle tags-->
     <string name="bdl_name">BDL_NAME</string>

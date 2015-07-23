@@ -42,7 +42,7 @@ public class EditBlocksPage extends Fragment {
         Period p;
         for (int block=0; block<9; block++) {
             p=findPeriod(block,schedule.get(9));
-            if(p==null) {
+            if(p==null || block==8) {
                 //Log.d("EditBlocksPage 046", otherPeriod.getColor()+"");
                 otherPeriod.setColor(getOtherColor(block));
                 //Log.d("EditBlocksPage 048", otherPeriod.getColor() + "");
@@ -92,7 +92,7 @@ public class EditBlocksPage extends Fragment {
             for(Period p:day){
                 //Log.d("EditBlocksPage 093", p.getColor()+" "+p.getBlock()+" "+p.getClassName());
                 if(p.getBlock()==block)
-                    return customMethods.getPerColor(p);
+                    return customMethods.getDefaultPerColor(p);
             }
         }
         return customMethods.getPerColor(otherPeriod);

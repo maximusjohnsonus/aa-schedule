@@ -40,10 +40,7 @@ public class CustomMethods {
         }
     }
     public int getDefaultPerColor (Period p){
-        if(p.getType()!=2)
             return(colors[p.getBlock()]);
-        else
-            return(paleColor(colors[p.getBlock()]));
     }
 
     public boolean saveSchedule(ArrayList<ArrayList<Period>> schedule, Context c, String tag){
