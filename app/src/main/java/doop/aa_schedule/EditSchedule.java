@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import java.util.ArrayList;
 import java.util.List;
 
+//TODO: make big processes (like saving) show a loading icon (or run in background?)
 public class EditSchedule extends Fragment { // http://architects.dzone.com/articles/android-tutorial-using
     MyPageAdapter pageAdapter;
     ArrayList<ArrayList<Period>> scheduleArray;

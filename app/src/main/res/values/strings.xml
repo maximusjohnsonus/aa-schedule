@@ -22,11 +22,11 @@
     <string name="about">
         This app is made by dOOP (dat Object Oriented Programming) club! \n\n
         \t\tProgramming: Max Johnson, Dylan Hendrickson \n
-        \t\tDesign and testing: Tanek Ballachanda, Channing Cimarusti, Emma Wellman, Andrew Jones \n\n
-        \t\tInterested in learning how to make apps and potentially taking over maintenance of <i>this</i> app? Send an email to Max at johm160@aa.edu.</string>
+        \t\tDesign and testing: Tanek Ballachanda, Channing Cimarusti, Andrew Jones, and others \n\n
+        \t\tInterested in learning how to make apps and potentially taking over maintenance of <i>this</i> app? Join dOOP club or send an email to Max at johm160@aa.edu.</string>
     <string name="help">
         \t\tView Schedule displays your schedule. It will default to the current day. \n\n
-        \t\tEdit Schedule allows you to change your schedule. The first page lets you edit classes by block - you can set the name, room, and color of an entire block. The next pages let you edit individual periods. The final page lets you load a new schedule. \n\n
+        \t\tEdit Schedule allows you to change your schedule. The first page lets you edit classes by block - you can set the name, room, and color of an entire block. The next pages let you edit each day individually. To add a period, simply shorten the period that occupies the same time as your new period. A new period is created to fill the gap. The final page lets you load a new schedule. \n\n
         \t\tFeedback sends an email to the development team. Send us your compliments, criticisms, suggestions for features, bugs, deep thoughts, unwanted children, and snacks.
     </string>
     <string name="feedback_info">Questions? Comments? Concerns?</string>

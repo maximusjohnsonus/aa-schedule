@@ -26,7 +26,7 @@ public class GetScheduleFragment extends Fragment {
             @Override
             public void onClick(View v) {
 
-                Toast.makeText(getActivity(), "Lol you wish. Actually, this will probably happen soon, if TIS is willing to help", Toast.LENGTH_LONG).show();
+                Toast.makeText(getActivity(), "This button does nothing. Don't tell anyone.", Toast.LENGTH_SHORT).show();
                 /*CustomMethods customMethods = new CustomMethods();
                 ArrayList<ArrayList<Period>> schedule = new ArrayList<>(0);
 

@@ -128,7 +128,8 @@ public class EditDayViewFragment extends Fragment {
 
         //Set class name, room, type, color
         p.setClassName(newClass);
-        if(!newRoom.equals("")) p.setRoom(newRoom);
+        if(newRoom!=null)
+            p.setRoom(newRoom);
         p.setType(newType);
         if(setColor)
             p.setColor(newColor);
