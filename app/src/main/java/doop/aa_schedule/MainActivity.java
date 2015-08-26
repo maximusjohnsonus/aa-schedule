@@ -32,13 +32,16 @@ public class MainActivity extends AppCompatActivity
     private NavigationDrawerFragment mNavigationDrawerFragment;
 
     //Used to store the last screen title. For use in {@link #restoreActionBar()}.
-    private CharSequence mTitle;
+    //private CharSequence mTitle;
 
     private DrawerLayout mDrawerLayout;
     private ListView mDrawerList;
     private ArrayList<ArrayList<Period>> scheduleArray;
     private ArrayList<Integer> dayList; //0=day 0, 1=day 1, ... , -1=no school
     private int currentDay=-1;
+
+    private boolean rewrite=false; //set to true to rewrite the data
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +50,7 @@ public class MainActivity extends AppCompatActivity
 
         mNavigationDrawerFragment = (NavigationDrawerFragment) getSupportFragmentManager().
                 findFragmentById(R.id.navigation_drawer);
-        mTitle = getTitle();
+        //mTitle = getTitle();
 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         //mDrawerList = (ListView) findViewById(R.id.left_drawer);
@@ -96,15 +99,19 @@ public class MainActivity extends AppCompatActivity
                 }
                 break;
             case 2:
+                getSupportActionBar().setTitle("Settings");
                 ft.replace(R.id.container,new SettingsFragment()).commit();
                 break;
             case 3:
+                getSupportActionBar().setTitle("Help");
                 ft.replace(R.id.container,new Help()).commit();
                 break;
             case 4:
+                getSupportActionBar().setTitle("About");
                 ft.replace(R.id.container,new About()).commit();
                 break;
             case 5:
+                getSupportActionBar().setTitle("Feedback");
                 ft.replace(R.id.container,new Feedback()).commit();
                 break;
         }
@@ -115,9 +122,9 @@ public class MainActivity extends AppCompatActivity
 
     }
 
-    public void onSectionAttached(int number) {
+    /*public void onSectionAttached(int number) {
         mTitle = getResources().getStringArray(R.array.sidebar_options)[number];
-        /*switch (number) { //TODO: make this a thing
+        /*switch (number) {
             case 1:
                 mTitle = getString(R.string.title_section1);
                 break;
@@ -127,14 +134,14 @@ public class MainActivity extends AppCompatActivity
             case 3:
                 mTitle = getString(R.string.title_section3);
                 break;
-        }*/
-    }
+        }* /
+    }*/
 
     public void restoreActionBar() {
         ActionBar actionBar = getSupportActionBar();
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
         actionBar.setDisplayShowTitleEnabled(true);
-        actionBar.setTitle(mTitle);
+        //actionBar.setTitle(mTitle);
     }
 
     @Override
@@ -196,8 +203,7 @@ public class MainActivity extends AppCompatActivity
         @Override
         public void onAttach(Activity activity) {
             super.onAttach(activity);
-            ((MainActivity) activity).onSectionAttached(
-                    getArguments().getInt(ARG_SECTION_NUMBER));
+            //((MainActivity) activity).onSectionAttached(getArguments().getInt(ARG_SECTION_NUMBER));
         }
     }
 
@@ -207,13 +213,19 @@ public class MainActivity extends AppCompatActivity
         SharedPreferences sp = getSharedPreferences(prefName, 0);
         String key=getResources().getString(R.string.schedule_JSON);
         String scheduleJSONString=sp.getString(key, "");
-
+        Log.d("MainActivity","213");
 
         //Log.d("MainActivity 357","JSON string recovered:"+scheduleJSONString);
-        boolean rewrite=false; //set to true to rewrite the data
-        if(rewrite)
+        if(rewrite){
+            CustomMethods customMethods = new CustomMethods();
+            customMethods.saveSchedule(new ArrayList<ArrayList<Period>>(0), this, "Rewrite");
             Log.e("MainActivity 052", "Rewrite is true, revert when finished testing");
-        if(scheduleJSONString.length()>0 && !rewrite) {
+            rewrite = false;
+            scheduleJSONString="";
+        }
+
+        if(scheduleJSONString.length()>0) {
+            Log.d("MainActivity","224");
             try {
                 JSONArray scheduleJSONArray = new JSONArray(scheduleJSONString);
 
@@ -249,113 +261,6 @@ public class MainActivity extends AppCompatActivity
             FragmentTransaction ft = fm.beginTransaction();
             ft.replace(R.id.container,new GetScheduleFragment()).commit();
 
-
-            /*Period AFreeShort = new Period(480, 527, "Free", 0, 2);
-            Period AFreeShortCopy = new Period(480, 527, "Free", 0, 2);
-            Period AFreeLong = new Period(480, 554, "Free", 0, 2);
-
-            Period BShort1 = new Period(507, 554, "AP Calc AB", 1, 0, "S101");
-            Period BShort2 = new Period(534, 581, "AP Calc AB", 1, 0, "S101");
-            Period BLong = new Period(561, 635, "AP Calc AB", 1, 0, "S101");
-            Period BFree = new Period(480, 507, "Free", 1, 2);
-
-            Period CShort = new Period(588, 635, "Symph Band", 2, 0, "M154");
-            Period CFree = new Period(561, 588, "Free", 2, 2);
-
-            Period DFreeShort1 = new Period(642, 689, "Free", 3, 2);
-            Period DFreeShort2 = new Period(676, 723, "Free", 3, 2);
-            Period DFreeLong = new Period(643, 716, "Free", 3, 2);
-
-            Period EShort1 = new Period(750, 797, "Hums", 4, 0, "M16");
-            Period EShort2 = new Period(777, 824, "Hums", 4, 0, "M16");
-            Period ELong1 = new Period(750, 824, "Hums", 4, 0, "M16");
-            Period ELong2 = new Period(777, 851, "Hums", 4, 0, "M16");
-            Period EGroup = new Period(655, 702, "Large Group Hums", 4, 0);
-            Period EFree1 = new Period(750, 797, "Free", 4, 2);
-            Period EFree2 = new Period(777, 824, "Free", 4, 2);
-
-            Period FShort1 = new Period(804, 851, "AP Physics I", 5, 0, "S212");
-            Period FShort2 = new Period(831, 878, "AP Physics I", 5, 0, "S212");
-            Period FLong = new Period(804, 878, "AP Physics I", 5, 0, "S212");
-            Period FFree = new Period(831, 878, "Free", 5, 2);
-
-            Period GShort = new Period(885, 932, "English IV", 6, 0, "B404");
-            Period GLong = new Period(858, 932, "English IV", 6, 0, "B404");
-            Period GFree = new Period(885, 932, "Free", 6, 0);
-
-            Period Lunch1 = new Period(696, 743, "Lunch", 7, 1);
-            Period Lunch2 = new Period(709, 743, "Lunch", 7, 1);
-            Period Lunch3Short = new Period(723, 770, "Lunch", 7, 1);
-            Period Lunch3Long = new Period(723, 797, "Lunch", 7, 1);
-            Period Lunch4 = new Period(730, 770, "Lunch", 7, 1);
-            Period Lunch0 = new Period(696, 770, "Lunch", 7, 1);
-
-
-            Period Club = new Period(642, 669, "Club", 8, 3); //8 is miscellaneous here
-            Period DivAss = new Period(642, 669, "Division Assembly", 8, 3);
-            Period Common = new Period(885, 932, "Common Time", 8, 3);
-            Period DinkyFree = new Period(635, 655, "Free", 8, 2);
-
-
-            ArrayList <ArrayList<Period>> tempScheduleArray=new ArrayList<>();
-            ArrayList<Period> day1=new ArrayList<>();
-            ArrayList<Period> day2=new ArrayList<>();
-            ArrayList<Period> day3=new ArrayList<>();
-            ArrayList<Period> day4=new ArrayList<>();
-            ArrayList<Period> day5=new ArrayList<>();
-            ArrayList<Period> day6=new ArrayList<>();
-            ArrayList<Period> day7=new ArrayList<>();
-            ArrayList<Period> day8=new ArrayList<>();
-            ArrayList<Period> day9=new ArrayList<>();
-            ArrayList<Period> day0=new ArrayList<>();
-
-            day1.add(AFreeLong); day1.add(BLong); day1.add(DivAss); day1.add(DFreeShort2);
-            day1.add(Lunch4); day1.add(EShort2); day1.add(FShort2); day1.add(GShort);
-
-            day2.add(AFreeShortCopy); day2.add(BShort2); day2.add(CShort); day2.add(DFreeLong);
-            day2.add(Lunch3Long); day2.add(FLong); day2.add(GShort);
-
-            day3.add(AFreeShort); day3.add(BShort2); day3.add(CShort); day3.add(Club); day3.add(DFreeShort2);
-            day3.add(Lunch4); day3.add(EShort2); day3.add(FShort2); day3.add(GFree);
-
-            day4.add(AFreeLong); day4.add(CFree); day4.add(CShort); day4.add(DFreeShort1);
-            day4.add(Lunch1); day4.add(ELong1); day4.add(FFree); day4.add(GShort);
-
-            day5.add(AFreeShort); day5.add(BShort2); day5.add(CShort); day5.add(DinkyFree); day5.add(EGroup);
-            day5.add(Lunch2); day5.add(EShort1); day5.add(FShort1); day5.add(GLong);
-
-            day6.add(AFreeShort); day6.add(BShort2); day6.add(CShort); day6.add(DFreeLong);
-            day6.add(Lunch3Short); day6.add(EFree2); day6.add(FShort2); day6.add(GShort);
-
-            day7.add(BFree); day7.add(BShort1); day7.add(CFree); day7.add(CShort); day7.add(DivAss); day7.add(DFreeShort2);
-            day7.add(Lunch4); day7.add(EShort2); day7.add(FShort2); day7.add(GShort);
-
-            day8.add(AFreeShort); day8.add(BShort2); day8.add(CShort); day8.add(DFreeShort1);
-            day8.add(Lunch1); day8.add(EFree1); day8.add(FLong); day8.add(Common);
-
-            day9.add(AFreeShort); day9.add(BShort2); day9.add(CShort); day9.add(Club); day9.add(DFreeShort2);
-            day9.add(Lunch4); day9.add(ELong2); day9.add(GLong);
-
-            day0.add(AFreeShort); day0.add(BShort2); day0.add(CShort); day0.add(DFreeShort1);
-            day0.add(Lunch0); day0.add(EShort2); day0.add(FShort2); day0.add(GShort);
-
-            tempScheduleArray.add(day1);
-            tempScheduleArray.add(day2);
-            tempScheduleArray.add(day3);
-            tempScheduleArray.add(day4);
-            tempScheduleArray.add(day5);
-            tempScheduleArray.add(day6);
-            tempScheduleArray.add(day7);
-            tempScheduleArray.add(day8);
-            tempScheduleArray.add(day9);
-            tempScheduleArray.add(day0);
-
-
-            CustomMethods customMethods = new CustomMethods();
-            if (!customMethods.saveSchedule(tempScheduleArray, this))
-                Log.e("MainActivity 248","Error in saving sharedpreference"); */
-
-            //Log.d("MainActivity 295","should have stored schedule as sharedpreference");
             return null;
         }
 

@@ -15,30 +15,30 @@ public class Period{
     private String className;
     private int block; //stores which block the period occurs in. A=0,B=1,...,G=6,Lunch=7, misc=8. Used for coloring and editing as a group
     private String room; //optional
-    private int type; //0=class, 1=lunch, 2=free, 3=other
+    private boolean isFree;
     private int color; //optional, set is hasColor is true
     private boolean hasColor=false;
     private String notes;
     //private boolean time24=false;
     CustomMethods customMethods = new CustomMethods();
 
-    public Period(int start, int end, String name, int vBlock, int vType, String vRoom){ //constructor for normal class/study hall
+    public Period(int start, int end, String name, int vBlock, boolean isFree, String vRoom){ //constructor for normal class/study hall
         startTime = start;
         endTime = end;
         className = name;
         block = vBlock;
-        type = vType;
+        this.isFree = isFree;
         room = vRoom;
         if(start>end)
             Log.e("Period 923", "Start time ("+start+") is later than end time ("+end+")");
         //time24 = customMethods.time24();
     }
-    public Period(int start, int end, String name, int vBlock, int vType){ //constructor for free
+    public Period(int start, int end, String name, int vBlock, boolean isFree){ //constructor for free
         startTime = start;
         endTime = end;
         className = name;
         block = vBlock;
-        type = vType;
+        this.isFree = isFree;
         if(start>end)
             Log.e("Period 924", "Start time ("+start+") is later than end time ("+end+")");
     }
@@ -47,7 +47,7 @@ public class Period{
         endTime = p.getEnd();
         className = p.getClassName();
         block = p.getBlock();
-        type = p.getType();
+        isFree = p.isFree();
         room = p.getRoom();
         color = p.getColor();
         hasColor = p.hasColor();
@@ -67,15 +67,14 @@ public class Period{
             if(p.has(r.getString(R.string.JSON_period_block)))
                 block=p.getInt(r.getString(R.string.JSON_period_block));
             else Log.e("Period 501","block not loaded :(");
-            if(p.has(r.getString(R.string.JSON_period_type)))
-                type=p.getInt(r.getString(R.string.JSON_period_type));
+            if(p.has(r.getString(R.string.JSON_period_is_free)))
+                isFree=p.getBoolean(r.getString(R.string.JSON_period_is_free));
             else Log.e("Period 502","type not loaded :(");
             if(p.has(r.getString(R.string.JSON_period_color)))
                 color=p.getInt(r.getString(R.string.JSON_period_color));
-            else Log.e("Period 503","color not loaded :(");
             if(p.has(r.getString(R.string.JSON_period_has_color)))
                 hasColor=p.getBoolean(r.getString(R.string.JSON_period_has_color));
-            else Log.e("Period 504","hasColor not loaded :(");
+            else hasColor=false;
             if(p.has(r.getString(R.string.JSON_period_room)))
                 room=p.getString(r.getString(R.string.JSON_period_room));
 
@@ -90,7 +89,7 @@ public class Period{
     public String toString(){
         String startMin = startTime%60<10? "0" + startTime%60 : startTime%60+"";
         String endMin = endTime%60<10? "0" + endTime%60 : endTime%60+"";
-        return "["+startTime/60+":"+startMin+" - "+endTime/60+":"+endMin+", "+className+", "+block+", "+type+", "+room+"]";
+        return "["+startTime/60+":"+startMin+" - "+endTime/60+":"+endMin+", "+className+", "+block+", "+isFree+", "+room+"]";
     }
     public JSONObject toJSON(Resources r){
         try{
@@ -99,7 +98,7 @@ public class Period{
             json.put(r.getString(R.string.JSON_period_end_time),endTime);
             json.put(r.getString(R.string.JSON_period_class_name),className);
             json.put(r.getString(R.string.JSON_period_block),block);
-            json.put(r.getString(R.string.JSON_period_type),type);
+            json.put(r.getString(R.string.JSON_period_is_free), isFree);
             json.put(r.getString(R.string.JSON_period_color), color);
             json.put(r.getString(R.string.JSON_period_has_color), hasColor);
             if(room!=null)
@@ -128,7 +127,7 @@ public class Period{
     public int getEnd() {return endTime;}
     public int getColor(){return color;}
     public int getBlock(){return block;}
-    public int getType(){return type;}
+    public boolean isFree(){return isFree;}
     public String getNotes() {return notes;}
 
     public boolean hasColor(){return hasColor;}
@@ -145,7 +144,7 @@ public class Period{
         color=0;
         hasColor=false;
     }
-    public void setType(int type) {this.type = type;}
+    public void setIsFree(boolean isFree) {this.isFree = isFree;}
     public void setNotes(String notes) {this.notes = notes;}
 
 

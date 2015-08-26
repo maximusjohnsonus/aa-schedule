@@ -4,23 +4,18 @@
     android:layout_height="match_parent"
     tools:context="doop.aa_schedule.EditPeriodFragment">
 
-    <TextView android:id="@+id/edit_per"
-        android:text="@string/edit_per_label"
-        android:textSize="18sp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"/>
-
     <TextView android:id="@+id/class_text"
         android:textSize="@dimen/abc_text_size_medium_material"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/class_tag"
-        android:layout_below="@+id/edit_per"/>
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="18dp"
+        android:layout_marginLeft="12dp"
+        android:paddingTop="4dp"/>
     <EditText android:id="@+id/class_edit"
-        android:layout_margin="5dp"
-        android:layout_width="fill_parent"
+        android:layout_marginLeft="7dp"
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:background="@drawable/rectangle"
         android:layout_toRightOf="@+id/class_text"
@@ -32,9 +27,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/room_tag"
-        android:layout_below="@+id/class_edit"/>
+        android:layout_below="@+id/class_edit"
+        android:layout_marginTop="12dp"
+        android:layout_alignLeft="@+id/class_text"
+        android:paddingTop="4dp"/>
     <EditText android:id="@+id/room_edit"
-        android:layout_margin="5dp"
+        android:layout_marginLeft="7dp"
         android:layout_width="75dp"
         android:layout_height="wrap_content"
         android:background="@drawable/rectangle"
@@ -47,20 +45,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/start_tag"
-        android:layout_below="@+id/room_edit"/>
-    <!--<EditText android:id="@+id/start_edit"
-        android:layout_margin="5dp"
-        android:layout_width="60dp"
-        android:layout_height="wrap_content"
-        android:background="@drawable/rectangle"
-        android:layout_toRightOf="@+id/start_text"
-        android:layout_alignTop="@+id/start_text"
-        android:inputType="time"/> -->
-
+        android:layout_below="@+id/room_edit"
+        android:layout_marginTop="12dp"
+        android:layout_alignLeft="@+id/class_text"
+        android:paddingTop="4dp"/>
     <Button android:id="@+id/start_edit"
-        android:layout_margin="5dp"
+        android:layout_marginLeft="7dp"
         android:layout_width="60dp"
-        android:layout_height="wrap_content"
+        android:layout_height="32dp"
         android:background="@drawable/rectangle"
         android:layout_toRightOf="@+id/start_text"
         android:layout_alignTop="@+id/start_text" />
@@ -70,34 +62,41 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/end_tag"
-        android:layout_below="@+id/start_edit"/>
+        android:layout_below="@+id/start_edit"
+        android:layout_marginTop="12dp"
+        android:layout_alignLeft="@+id/class_text"
+        android:paddingTop="4dp"/>
     <Button android:id="@+id/end_edit"
-        android:layout_margin="5dp"
+        android:layout_marginLeft="7dp"
         android:layout_width="60dp"
-        android:layout_height="wrap_content"
+        android:layout_height="32dp"
         android:background="@drawable/rectangle"
         android:layout_toRightOf="@+id/end_text"
         android:layout_alignTop="@+id/end_text"/>
 
-    <TextView android:id="@+id/type_text"
+    <TextView android:id="@+id/free_text"
         android:textSize="@dimen/abc_text_size_medium_material"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/type_tag"
-        android:layout_below="@+id/end_edit"/>
-    <Spinner android:id="@+id/type_edit"
+        android:text="@string/free_tag"
+        android:layout_below="@+id/end_edit"
+        android:layout_marginTop="12dp"
+        android:layout_alignLeft="@+id/class_text"
+        android:paddingTop="3dp"/>
+    <CheckBox android:id="@+id/free_edit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@drawable/rectangle"
-        android:layout_toRightOf="@+id/type_text"
-        android:layout_alignTop="@+id/type_text"/>
+        android:layout_toRightOf="@+id/free_text"
+        android:layout_alignTop="@+id/free_text"/>
 
     <Button android:id="@+id/color_edit"
         android:textSize="@dimen/abc_text_size_medium_material"
         android:text="@string/color_tag"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/type_edit"/>
+        android:layout_below="@+id/free_edit"
+        android:layout_alignLeft="@+id/class_text"
+        android:layout_marginTop="8dp"/>
 
     <Button android:id="@+id/save"
         android:layout_width="wrap_content"
@@ -111,13 +110,5 @@
         android:text="@string/cancel_button"
         android:layout_alignParentBottom="true"
         android:layout_toLeftOf="@+id/save"/>
-
-        <!--android:gravity="top"-->
-    <!--android:inputType="textMultiLine|textCapSentences"-->
-
-
-    <!--type, color-->
-
-
 
 </RelativeLayout>

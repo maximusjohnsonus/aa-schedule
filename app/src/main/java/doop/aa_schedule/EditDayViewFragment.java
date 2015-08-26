@@ -50,8 +50,8 @@ public class EditDayViewFragment extends Fragment {
         //int padding = getResources().getDimensionPixelSize(R.dimen.view_padding);
         //ll.setPadding(padding/2, padding, padding/2, 0);
 
-        TextView label = (TextView) v.findViewById(R.id.dayText);
-        label.setText(getResources().getString(R.string.edit_day_label)+" "+(dayNum+1)%10); //Edit Day n
+        //TextView label = (TextView) v.findViewById(R.id.dayText);
+        getActivity().setTitle(getResources().getString(R.string.edit_day_label)+" "+(dayNum+1)%10); //Edit Day n
 
         LinearLayout.LayoutParams params;
         View periodView;
@@ -98,14 +98,6 @@ public class EditDayViewFragment extends Fragment {
         return v;
     }
 
-    public static ArrayList<Period> copyDay (ArrayList<Period> _day, Resources r){
-        ArrayList<Period> day = new ArrayList<>();
-        for(Period p:_day){
-            day.add(new Period(p.toJSON(r), r));
-        }
-        return day;
-    }
-
     public void sendArgs(ArrayList<ArrayList<Period>> _schedule, PauseViewPager vp){
         this.schedule = _schedule;
         this.mViewPager = vp;
@@ -117,12 +109,11 @@ public class EditDayViewFragment extends Fragment {
         ArrayList <Period> day = schedule.get(dayIndex);
         Period p = day.get(perIndex);
 
-        //Resources r = getResources();
         String newClass = b.getString(r.getString(R.string.bdl_name));
         String newRoom = b.getString(r.getString(R.string.bdl_room));
         int newStart = b.getInt(r.getString(R.string.bdl_start));
         int newEnd = b.getInt(r.getString(R.string.bdl_end));
-        int newType = b.getInt(r.getString(R.string.bdl_type));
+        boolean newFree = b.getBoolean(r.getString(R.string.bdl_free));
         boolean setColor = b.getBoolean(r.getString(R.string.bdl_set_color));
         int newColor = b.getInt(r.getString(R.string.bdl_color));
 
@@ -130,7 +121,7 @@ public class EditDayViewFragment extends Fragment {
         p.setClassName(newClass);
         if(newRoom!=null)
             p.setRoom(newRoom);
-        p.setType(newType);
+        p.setIsFree(newFree);
         if(setColor)
             p.setColor(newColor);
 
@@ -146,7 +137,7 @@ public class EditDayViewFragment extends Fragment {
             }
             p.setStart(newStart);
         } else if (newStart > p.getStart()) {  //If start time is later than it was, fill gap with free
-            Period fillerFree = new Period(p.getStart(),newStart, r.getString(R.string.free_name), p.getBlock(), 2);
+            Period fillerFree = new Period(p.getStart(),newStart, r.getString(R.string.free_name), p.getBlock(), true);
             day.add(perIndex, fillerFree);
             perIndex++;
             p.setStart(newStart);
@@ -164,7 +155,7 @@ public class EditDayViewFragment extends Fragment {
             }
             p.setEnd(newEnd);
         } else if (newEnd < p.getEnd()) {  //If end time is earlier than it was, fill gap with free
-            Period fillerFree = new Period(newEnd, p.getEnd(), r.getString(R.string.free_name), p.getBlock(), 2);
+            Period fillerFree = new Period(newEnd, p.getEnd(), r.getString(R.string.free_name), p.getBlock(), true);
             day.add(perIndex+1, fillerFree);
             p.setEnd(newEnd);
         }

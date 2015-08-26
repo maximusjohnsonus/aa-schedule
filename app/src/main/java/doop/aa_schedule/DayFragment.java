@@ -1,6 +1,5 @@
 package doop.aa_schedule;
 
-import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -20,7 +19,7 @@ public class DayFragment extends Fragment {
     private static ArrayList<ArrayList<Period>> schedule;
     CustomMethods customMethods = new CustomMethods();
 
-    private static String[] daysOfWeek = {"Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"};
+    //private static String[] daysOfWeek = {"Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"};
 
     public static DayFragment newInstance(int dayNum, Calendar cal, boolean border) {
         DayFragment f = new DayFragment();
@@ -49,15 +48,14 @@ public class DayFragment extends Fragment {
         if(border && customMethods.showHighlight(getActivity()))
             v.setBackgroundResource(R.drawable.border);
         if(dayNum==-1){ //no school
-            TextView label = (TextView) v.findViewById(R.id.dayText);
-            label.setText(daysOfWeek[date[2]-1]+", "+(date[0]+1)+"/"+date[1]);
+            //TextView label = (TextView) v.findViewById(R.id.dayText);
+            //getActivity().setTitle(daysOfWeek[date[2] - 1] + ", " + (date[0] + 1) + "/" + date[1]);
             return v;
         } else {
             ArrayList<Period> day = schedule.get((dayNum+9)%10); //converted to index: 0=day 1, ... , 8=day 9, 9=day 0
             LinearLayout ll = (LinearLayout) v.findViewById(R.id.day_layout);
-            TextView label = (TextView) v.findViewById(R.id.dayText);
-            label.setText(daysOfWeek[date[2]-1]+", "+(date[0]+1)+"/"+date[1]+", Day "+dayNum);
-
+            //TextView label = (TextView) v.findViewById(R.id.dayText);
+            //label.setText(daysOfWeek[date[2]-1]+", "+(date[0]+1)+"/"+date[1]+", Day "+dayNum);
             LinearLayout.LayoutParams params;
             View periodView;
             TextView perTime;
@@ -104,14 +102,6 @@ public class DayFragment extends Fragment {
             }
             return v;
         }
-    }
-
-    public static ArrayList<Period> copyDay (ArrayList<Period> _day, Resources r){
-        ArrayList<Period> day = new ArrayList<>();
-        for(Period p:_day){
-            day.add(new Period(p.toJSON(r), r));
-        }
-        return day;
     }
 
     public void setSchedule(ArrayList<ArrayList<Period>> _schedule){
