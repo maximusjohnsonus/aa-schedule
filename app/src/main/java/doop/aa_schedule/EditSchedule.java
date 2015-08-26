@@ -2,6 +2,7 @@ package doop.aa_schedule;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,11 +11,13 @@ import android.view.ViewGroup;
 import java.util.ArrayList;
 import java.util.List;
 
+//TODO: make big processes (like saving) show a loading icon (or run in background?)
 public class EditSchedule extends Fragment { // http://architects.dzone.com/articles/android-tutorial-using
     MyPageAdapter pageAdapter;
     ArrayList<ArrayList<Period>> scheduleArray;
     //ArrayList<ArrayList<Period>> newSchedule;
     PauseViewPager pager;
+    int oldPage;
     CustomMethods customMethods = new CustomMethods();
 
     @Override
@@ -24,6 +27,36 @@ public class EditSchedule extends Fragment { // http://architects.dzone.com/arti
         List<Fragment> fragments = getFragments();
         pageAdapter = new MyPageAdapter(getActivity().getSupportFragmentManager(), fragments);
         pager.setAdapter(pageAdapter);
+
+        oldPage=-1;
+        pager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+                int curPage = (position + (positionOffset > .5 ? 1 : 0));
+                if (curPage != oldPage) {
+                    changeTitle(curPage);
+                    oldPage = curPage;
+                }
+            }
+
+            public void changeTitle(int curPage) {
+                if(curPage==0)
+                    ((MainActivity) getActivity()).getSupportActionBar().setTitle("Edit Blocks");
+                else if(curPage==11)
+                    ((MainActivity) getActivity()).getSupportActionBar().setTitle(R.string.get_sch_title);
+                else
+                    ((MainActivity) getActivity()).getSupportActionBar().setTitle("Edit Day "+curPage%10);
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+            }
+        });
 
         /*Button save = (Button) view.findViewById(R.id.save_edit);
         save.setOnClickListener(new View.OnClickListener() {

@@ -19,7 +19,10 @@ public class ViewSchedule extends Fragment { // http://architects.dzone.com/arti
     ArrayList<Integer> dayList; //0=day 0, 1=day 1, ... , -1=no school
     int currentDay;
     CustomMethods customMethods = new CustomMethods();
-
+    ViewPager pager;
+    int oldPage;
+    Calendar cal = Calendar.getInstance();
+    private static String[] daysOfWeek = {"Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"};
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
@@ -27,10 +30,39 @@ public class ViewSchedule extends Fragment { // http://architects.dzone.com/arti
         List<Fragment> fragments = getFragments();
         pageAdapter = new MyPageAdapter(getActivity().getSupportFragmentManager(), fragments);
         //pageAdapter = new MyPageAdapter(getActivity().getSupportFragmentManager());
-        ViewPager pager = (ViewPager) view.findViewById(R.id.viewpager);
+        pager = (ViewPager) view.findViewById(R.id.viewpager);
 
         pager.setAdapter(pageAdapter);
         pager.setCurrentItem(currentDay);
+        oldPage=-1;
+        pager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+                int curPage = (position+(positionOffset>.5 ? 1:0));
+                if(curPage!=oldPage){
+                    changeTitle(curPage);
+                    oldPage=curPage;
+                }
+            }
+            public void changeTitle(int curPage){
+                if(!customMethods.showWeekend(getActivity()) && curPage>1){
+                    curPage = ((curPage-2)/5)*7+(curPage-2)%5+4;
+                }
+                cal.set(getResources().getInteger(R.integer.start_year), getResources().getInteger(R.integer.start_month), getResources().getInteger(R.integer.start_day));
+                cal.add(Calendar.DAY_OF_YEAR,curPage);
+                int[] date={cal.get(Calendar.MONTH),cal.get(Calendar.DAY_OF_MONTH),cal.get(Calendar.DAY_OF_WEEK)};
+                int dayNum = dayList.get(curPage);
+                ((MainActivity) getActivity()).getSupportActionBar().setTitle(daysOfWeek[date[2]-1]+", "+(date[0]+1)+"/"+date[1]+(dayNum!=-1 ? ", Day "+dayNum : ""));
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+            }
+        });
 
         return view;
     }
@@ -41,7 +73,7 @@ public class ViewSchedule extends Fragment { // http://architects.dzone.com/arti
         DayFragment df = new DayFragment();
         df.setSchedule(scheduleArray);
         Calendar cal = Calendar.getInstance();
-        cal.set(getResources().getInteger(R.integer.start_year), getResources().getInteger(R.integer.start_month),getResources().getInteger(R.integer.start_day));
+        cal.set(getResources().getInteger(R.integer.start_year), getResources().getInteger(R.integer.start_month), getResources().getInteger(R.integer.start_day));
         int weekday;
         boolean showWeekends = customMethods.showWeekend(getActivity());
         int realDay=0;

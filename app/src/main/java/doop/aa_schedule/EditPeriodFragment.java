@@ -8,11 +8,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
-import android.widget.Spinner;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
@@ -25,7 +24,7 @@ public class EditPeriodFragment extends Fragment implements ColorPickerDialog.On
     EditText roomEdit;
     Button startButton;
     Button endButton;
-    Spinner typeSpinner;
+    CheckBox freeEdit;
     Button colorButton;
     CustomMethods customMethods = new CustomMethods();
     PauseViewPager mViewPager;
@@ -34,10 +33,8 @@ public class EditPeriodFragment extends Fragment implements ColorPickerDialog.On
     String newRoom;*/
     int newStart;
     int newEnd;
-    int newType;
     int newColor;
     boolean setColor = false;
-
     boolean time24=false;
 
 
@@ -47,6 +44,8 @@ public class EditPeriodFragment extends Fragment implements ColorPickerDialog.On
         newStart = period.getStart();
         newEnd = period.getEnd();
         View view=inflater.inflate(R.layout.fragment_edit_period,container,false);
+
+        ((MainActivity) getActivity()).getSupportActionBar().setTitle("Edit Period");
 
         classEdit = (EditText) view.findViewById(R.id.class_edit);
         classEdit.setText(period.getClassName());
@@ -116,20 +115,26 @@ public class EditPeriodFragment extends Fragment implements ColorPickerDialog.On
             }
         });
 
-        typeSpinner = (Spinner) view.findViewById(R.id.type_edit);
-        ArrayAdapter<CharSequence> typeAdapter = ArrayAdapter.createFromResource(getActivity(), R.array.types, android.R.layout.simple_spinner_item);
-        typeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        typeSpinner.setAdapter(typeAdapter);
-        typeSpinner.setSelection(period.getType());
-        typeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        freeEdit = (CheckBox) view.findViewById(R.id.free_edit);
+        freeEdit.setChecked(period.isFree());
+        freeEdit.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                newType = position;
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked){
+                    if(classEdit.getText().toString().equals(period.getClassName()))
+                        classEdit.setText("Free");
+                    if(roomEdit.getText().toString().equals(period.getRoom()))
+                        roomEdit.setText("");
+                    if(!setColor && !period.hasColor())
+                        colorButton.setBackgroundColor(customMethods.getPerColor(new Period(0,0,"",period.getBlock(),true)));
+                } else {
+                    if(classEdit.getText().toString().equals("Free"))
+                        classEdit.setText(period.getClassName());
+                    if(roomEdit.getText().toString().equals(""))
+                        roomEdit.setText(period.getRoom());
+                    if(!setColor && !period.hasColor())
+                        colorButton.setBackgroundColor(customMethods.getPerColor(new Period(0,0,"",period.getBlock(),false)));
+                }
             }
         });
 
@@ -151,13 +156,14 @@ public class EditPeriodFragment extends Fragment implements ColorPickerDialog.On
                 b.putString(r.getString(R.string.bdl_room),roomEdit.getText().toString());
                 b.putInt(r.getString(R.string.bdl_start), newStart);
                 b.putInt(r.getString(R.string.bdl_end), newEnd);
-                b.putInt(r.getString(R.string.bdl_type), newType);
+                b.putBoolean(r.getString(R.string.bdl_free), freeEdit.isChecked());
                 b.putBoolean(r.getString(R.string.bdl_set_color), setColor);
                 b.putInt(r.getString(R.string.bdl_color), newColor);
 
                 Log.d("EPF 132", "end " + newEnd + " bundle " + b.toString());
                 EditDayViewFragment.updatePeriod(dayIndex, perIndex, b, getActivity());
 
+                ((MainActivity) getActivity()).getSupportActionBar().setTitle("Edit Day "+(dayIndex+1)%10);
                 mViewPager.setPagingAllowed(true);
                 getActivity().getSupportFragmentManager().popBackStack();
             }
@@ -167,6 +173,7 @@ public class EditPeriodFragment extends Fragment implements ColorPickerDialog.On
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                ((MainActivity) getActivity()).getSupportActionBar().setTitle("Edit Day "+(dayIndex+1)%10);
                 mViewPager.setPagingAllowed(true);
                 getActivity().getSupportFragmentManager().popBackStack();
             }

@@ -8,7 +8,6 @@ import android.graphics.LinearGradient;
 import android.graphics.Paint;
 import android.graphics.Shader;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -198,7 +197,7 @@ public class ColorPickerDialog extends Dialog {
                 mPaint.setColor(Color.WHITE);
             else
                 mPaint.setColor(Color.BLACK);
-            canvas.drawText("new 509", pxFromDp(74), pxFromDp(340), mPaint); //getResources().getString(R.string.settings_bg_color_confirm)
+            canvas.drawText(getContext().getString(R.string.CPD_new), pxFromDp(74), pxFromDp(340), mPaint); //getResources().getString(R.string.settings_bg_color_confirm)
                     //draws^
 
             // Draw a 'button' with the default color
@@ -211,7 +210,7 @@ public class ColorPickerDialog extends Dialog {
                 mPaint.setColor(Color.WHITE);
             else
                 mPaint.setColor(Color.BLACK);
-            canvas.drawText("old 139", pxFromDp(202), pxFromDp(340), mPaint); //getResources().getString(R.string.settings_default_color_confirm)
+            canvas.drawText(getContext().getString(R.string.CPD_old), pxFromDp(202), pxFromDp(340), mPaint); //getResources().getString(R.string.settings_default_color_confirm)
                     //draws^
         }
 
@@ -232,7 +231,7 @@ public class ColorPickerDialog extends Dialog {
             // If the touch event is located in the hue bar
             if (x > 10 && x < 266 && y > 0 && y < 40)
             {
-                Log.d("CPD 947", "Hue bar");
+                //Log.d("CPD 947", "Hue bar");
                 // Update the main field colors
                 mCurrentHue = (255-(x-10))*360/255;
                 updateMainColors();
@@ -250,7 +249,7 @@ public class ColorPickerDialog extends Dialog {
 
             // If the touch event is located in the main field
             if (x > 10 && x < 266 && y > 50 && y < 306){
-                Log.d("CPD 948", "Color field");
+                //Log.d("CPD 948", "Color field");
                 mCurrentX = (int) x;
                 mCurrentY = (int) y;
                 int transX = mCurrentX-10;
@@ -304,7 +303,7 @@ public class ColorPickerDialog extends Dialog {
         };
 
         setContentView(new ColorPickerView(getContext(), l, mInitialColor, mDefaultColor));
-        setTitle("title4"); //R.string.settings_bg_color_dialog
+        setTitle(getContext().getString(R.string.CPD_title)); //R.string.settings_bg_color_dialog
     }
 
 }

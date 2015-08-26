@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.preference.PreferenceManager;
-import android.util.Log;
 
 import org.json.JSONArray;
 
@@ -33,25 +32,25 @@ public class CustomMethods {
     public int getPerColor (Period p){
         if(p.hasColor()){
             return(p.getColor());
-        } else if(p.getType()!=2)
+        } else if(!p.isFree())
             return(colors[p.getBlock()]);
         else{
             return(paleColor(colors[p.getBlock()]));
         }
     }
     public int getDefaultPerColor (Period p){
-        if(p.getType()!=2)
             return(colors[p.getBlock()]);
-        else
-            return(paleColor(colors[p.getBlock()]));
     }
 
     public boolean saveSchedule(ArrayList<ArrayList<Period>> schedule, Context c, String tag){
-        Log.d("CM 487", tag+schedule.toString());
-
         String prefName = c.getResources().getString(R.string.pref_storage);
         SharedPreferences sp = c.getSharedPreferences(prefName, 0);
         String key = c.getResources().getString(R.string.schedule_JSON);
+        if(schedule.size()==0){
+            SharedPreferences.Editor editor=sp.edit();
+            editor.putString(key, "");
+            return editor.commit();
+        }
 
         JSONArray days=new JSONArray();
         JSONArray day;
@@ -61,26 +60,25 @@ public class CustomMethods {
                 day.put(p.toJSON(c.getResources()));
             }
             days.put(day);
-
+//            Log.d("CM 67",day.toString());
         }
         String scheduleJSONString=days.toString();
-        Log.d("CustomMethods 457", scheduleJSONString);
+//        Log.d("CustomMethods 457", scheduleJSONString);
         SharedPreferences.Editor editor=sp.edit();
         editor.putString(key, scheduleJSONString);
         return editor.commit();
     }
 
-    public ArrayList<ArrayList<Period>> copySchedule(ArrayList<ArrayList<Period>> schedule){
-        ArrayList<ArrayList<Period>> newSchedule = new ArrayList<>();
-        ArrayList<Period> tempDay;
-        for(ArrayList<Period> iDay:schedule){
-            tempDay = new ArrayList<>();
-            for(Period iPer:iDay){
-                tempDay.add(new Period(iPer));
-            }
-            newSchedule.add(tempDay);
-        }
-        return newSchedule;
+    public boolean saveJSONSchedule(String JSONSchedule, Context c){
+
+        String prefName = c.getResources().getString(R.string.pref_storage);
+        SharedPreferences sp = c.getSharedPreferences(prefName, 0);
+        String key = c.getResources().getString(R.string.schedule_JSON);
+
+        //Log.d("CustomMethods 482", JSONSchedule);
+        SharedPreferences.Editor editor=sp.edit();
+        editor.putString(key, JSONSchedule);
+        return editor.commit();
     }
 
     public boolean time24(Context c){

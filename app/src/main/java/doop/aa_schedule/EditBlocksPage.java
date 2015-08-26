@@ -18,7 +18,7 @@ import java.util.ArrayList;
 
 public class EditBlocksPage extends Fragment {
     private static ArrayList<ArrayList<Period>> schedule;
-    private static Period otherPeriod = new Period(0,0,"Other",8,3);
+    private static Period otherPeriod = new Period(0,0,"Other",8,false);
     CustomMethods customMethods = new CustomMethods();
     private static PauseViewPager mViewPager;
     private static FragmentActivity mActivity;
@@ -32,8 +32,8 @@ public class EditBlocksPage extends Fragment {
         //int padding = getResources().getDimensionPixelSize(R.dimen.view_padding);
         //ll.setPadding(padding / 2, padding, padding / 2, 0);
 
-        TextView label = (TextView) v.findViewById(R.id.dayText);
-        label.setText("Edit Blocks");
+        //TextView label = (TextView) v.findViewById(R.id.dayText);
+        //((MainActivity) getActivity()).getSupportActionBar().setTitle("Edit Blocks");
 
         LinearLayout.LayoutParams params;
 
@@ -42,7 +42,7 @@ public class EditBlocksPage extends Fragment {
         Period p;
         for (int block=0; block<9; block++) {
             p=findPeriod(block,schedule.get(9));
-            if(p==null) {
+            if(p==null || block==8) {
                 //Log.d("EditBlocksPage 046", otherPeriod.getColor()+"");
                 otherPeriod.setColor(getOtherColor(block));
                 //Log.d("EditBlocksPage 048", otherPeriod.getColor() + "");
@@ -92,7 +92,7 @@ public class EditBlocksPage extends Fragment {
             for(Period p:day){
                 //Log.d("EditBlocksPage 093", p.getColor()+" "+p.getBlock()+" "+p.getClassName());
                 if(p.getBlock()==block)
-                    return customMethods.getPerColor(p);
+                    return customMethods.getDefaultPerColor(p);
             }
         }
         return customMethods.getPerColor(otherPeriod);
@@ -107,6 +107,8 @@ public class EditBlocksPage extends Fragment {
         CustomMethods customMethods = new CustomMethods();
         String newClass = b.getString(r.getString(R.string.bdl_name),null);
         String newRoom = b.getString(r.getString(R.string.bdl_room),null);
+        boolean newFree = b.getBoolean(r.getString(R.string.bdl_free));
+        boolean freeChanged = b.getBoolean(r.getString(R.string.bdl_free_changed));
         boolean setColor = b.getBoolean(r.getString(R.string.bdl_set_color));
         int newColor = b.getInt(r.getString(R.string.bdl_color));
 
@@ -116,16 +118,19 @@ public class EditBlocksPage extends Fragment {
         for(ArrayList<Period> day:schedule){
             for (Period p:day){
                 if(p.getBlock()==blockIndex){
-                    if(newClass!=null && p.getType()!=2)
-                        p.setClassName(newClass);
-                    if(newRoom!=null)
-                        p.setRoom(newRoom);
-                    if(setColor){
-                        if(p.getType()!=2)
+                    if(!(!freeChanged && !newFree && p.isFree())){ //The only case where R/CN shouldn't be changed is when the free state stayed on class and the updating period is free
+                        if(newClass!=null)
+                            p.setClassName(newClass);
+                        if(newRoom!=null)
+                            p.setRoom(newRoom);
+                        if(setColor)
                             p.setColor(newColor);
-                        else
+                    } else {
+                        if(setColor)
                             p.setColor(customMethods.paleColor(newColor));
                     }
+                    if(freeChanged)
+                        p.setIsFree(newFree);
                 }
             }
         }

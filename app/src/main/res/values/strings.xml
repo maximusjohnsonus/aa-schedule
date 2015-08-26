@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">AA Schedule</string>
+    <string name="app_name">Daily Charger</string>
     <string-array name="sidebar_options">
         <item>View Schedule</item>
         <item>Edit Schedule</item>
@@ -8,25 +8,18 @@
         <item>About</item>
         <item>Feedback</item>
     </string-array>
-    <string-array name="types">
-        <item>Class</item>
-        <item>Lunch</item>
-        <item>Free</item>
-        <item>Other</item>
-    </string-array>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="action_example">Example action</string>
     <string name="action_settings">Settings</string>
     <string name="title_activity_about">About</string>
-    <string name="about">
-        This app is made by dOOP (dat Object Oriented Programming) club! \n\n
+    <string name="about">This app is made by dOOP (dat Object Oriented Programming) club! \n\n
         \t\tProgramming: Max Johnson, Dylan Hendrickson \n
-        \t\tDesign and testing: Tanek Ballachanda, Channing Cimarusti, Emma Wellman, Andrew Jones \n\n
-        \t\tInterested in learning how to make apps and potentially taking over maintenance of <i>this</i> app? Send an email to Max at johm160@aa.edu.</string>
+        \t\tDesign and testing: Tanek Ballachanda, Channing Cimarusti, Andrew Jones, and others \n\n
+        \t\tInterested in learning how to make apps and potentially taking over maintenance of <i>this</i> app? Join dOOP club or send an email to Max at johm160@aa.edu.</string>
     <string name="help">
-        \t\tView Schedule displays your schedule. It will default to the current day. \n\n
-        \t\tEdit Schedule allows you to change your schedule. The first page lets you edit classes by block - you can set the name, room, and color of an entire block. The next pages let you edit individual periods. The final page lets you load a new schedule. \n\n
+        \t\tView Schedule displays your schedule. It will default to the current day.\n\n
+        \t\tEdit Schedule allows you to change your schedule. The first page lets you edit classes by block - you can set the name, room, and color of an entire block. The next pages let you edit each day individually. To add a period, simply shorten the periods that occupy the same time as your new period. A new period is created to fill the gap. To delete a period, resize the surrounding periods to cover up the unwanted period. The final page lets you load a new schedule from a template.\n\n
         \t\tFeedback sends an email to the development team. Send us your compliments, criticisms, suggestions for features, bugs, deep thoughts, unwanted children, and snacks.
     </string>
     <string name="feedback_info">Questions? Comments? Concerns?</string>
@@ -41,7 +34,7 @@
     <string name="start_tag">Start Time:</string>
     <string name="end_tag">End Time:</string>
     <string name="color_tag">Select Color</string>
-    <string name="type_tag">Type:</string>
+    <string name="free_tag">Free:</string>
     <string name="save_button">OK</string>
     <string name="cancel_button">Cancel</string>
     <string name="select_start">Select Start Time</string>
@@ -56,10 +49,18 @@
     <string name="get_sch_title">Make a new schedule</string>
     <string name="get_sch_download">Download Your Schedule</string>
     <string name="get_sch_10_12">Use 10-12 Template</string>
+    <string name="get_sch_10_12_offset">Use 10-12 Offset Lunch*</string>
     <string name="get_sch_8_9">Use 8-9 Template</string>
     <string name="get_sch_6_7">Use 6-7 Template</string>
     <string name="get_sch_sample">Use Sample Schedule</string>
+    <string name="get_sch_explain">*The offset lunch template has a break between 3rd and 4th period on some days, and lunch before the 4th class period on the others.</string>
+
+
+
     <string name="PSA_re_editing">Default loaded. Go to the first page of Edit Schedule to fill in the names of each block.</string>
+    <string name="CPD_title">Select Color</string>
+    <string name="CPD_old">Old</string>
+    <string name="CPD_new">New</string>
 
     <string name="hello_world">Hello world!</string>
 
@@ -70,6 +71,7 @@
     <string name="settings_weekend">Show Weekends</string>
     <string name="settings_advanced">Advanced</string>
     <string name="settings_min_per">Minimum Period Length</string>
+    <string name="edit_day_label">Edit Day</string>
 
     <!--bundle tags-->
     <string name="bdl_name">BDL_NAME</string>
@@ -78,7 +80,8 @@
     <string name="bdl_room">BDL_ROOM</string>
     <string name="bdl_color">BDL_COLOR</string>
     <string name="bdl_set_color">BDL_SET_COLOR</string>
-    <string name="bdl_type">BDL_TYPE</string>
+    <string name="bdl_free">BDL_FREE</string>
+    <string name="bdl_free_changed">BDL_FREE_CHANGED</string>
 
     <!-- File/pref names:-->
     <string name="pref_storage">storage</string> <!--used for storing data-->
@@ -92,7 +95,7 @@
     <string name="JSON_period_class_name">per_class_name</string>
     <string name="JSON_period_room">per_room</string>
     <string name="JSON_period_block">per_block</string>
-    <string name="JSON_period_type">per_type</string>
+    <string name="JSON_period_is_free">per_is_free</string>
     <string name="JSON_period_color">per_color</string>
     <string name="JSON_period_has_color">per_has_color</string>
     <string name="JSON_period_notes">per_notes</string>

@@ -3,21 +3,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/dayText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:paddingLeft="28dp"
-        android:paddingTop="4dp"/>
     <LinearLayout
         android:id="@+id/day_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:paddingTop="@dimen/view_padding"
-        android:paddingBottom="@dimen/view_padding"
-        android:paddingLeft="@dimen/view_side_padding"
-        android:paddingRight="@dimen/view_side_padding">
+        android:padding="@dimen/view_padding">
 
 
     </LinearLayout>
