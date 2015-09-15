@@ -2,16 +2,21 @@ package doop.aa_schedule;
 
 import android.content.Context;
 import android.content.res.Resources;
+import android.graphics.Paint;
+import android.graphics.Point;
+import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -51,7 +56,7 @@ public class EditDayViewFragment extends Fragment {
         //ll.setPadding(padding/2, padding, padding/2, 0);
 
         //TextView label = (TextView) v.findViewById(R.id.dayText);
-        getActivity().setTitle(getResources().getString(R.string.edit_day_label)+" "+(dayNum+1)%10); //Edit Day n
+        //getActivity().setTitle(getResources().getString(R.string.edit_day_label)+" "+(dayNum+1)%10); //Edit Day n
 
         LinearLayout.LayoutParams params;
         View periodView;
@@ -59,6 +64,10 @@ public class EditDayViewFragment extends Fragment {
         //TextView perStart;
         //TextView perEnd;
         TextView perMain;
+
+        Display display = getActivity().getWindowManager().getDefaultDisplay();
+        Point size = new Point();
+        display.getSize(size);
 
         Period p;
         for (int i=0; i<day.size(); i++) {
@@ -71,7 +80,22 @@ public class EditDayViewFragment extends Fragment {
             perTime.setText(p.getTimeString(getActivity()));
             //perStart.setText(p.getStartString());
             //perEnd.setText(p.getEndString());
-            perMain.setText(p.getMainText());
+            String perMainText = p.getMainText(false);
+            perMain.setText(perMainText);
+
+            Rect bounds = new Rect();
+            Paint textPaint = perMain.getPaint();
+            textPaint.getTextBounds(perMainText, 0, perMainText.length(), bounds);
+            if(bounds.width()/2 > size.x/2 - 80f * getResources().getDisplayMetrics().densityDpi/160f || customMethods.alignLeft(getActivity())) {
+                //if text box reaches time box, change left edge to be flush with time's right, set left align
+                perMain.setGravity(0);
+                RelativeLayout.LayoutParams perParams = new RelativeLayout.LayoutParams(
+                        RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+                perParams.addRule(RelativeLayout.RIGHT_OF, R.id.per_time_text);
+                perParams.addRule(RelativeLayout.CENTER_VERTICAL, 1);
+                perMain.setLayoutParams(perParams);
+            }
+
             periodView.setBackgroundColor(customMethods.getPerColor(p));
 
 

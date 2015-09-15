@@ -118,7 +118,7 @@ public class Period{
         return (( (endTime/60 - 1) % (customMethods.time24(c) ? 24 : 12) ) + 1) + ":" + (endTime%60 < 10 ? "0"+endTime%60 : endTime%60);
     }
     public String getTimeString(Context c) {return getStartString(c)+" - "+getEndString(c);}
-    public String getMainText() {return className + ((room==null||room.equals("")) ? "" : " ("+room+")");}
+    public String getMainText(boolean showNotes) {return className + ((room==null||room.length()==0) ? "" : " ("+room+")") + ((notes==null||notes.length()==0||!showNotes)?"":" - "+notes);}
     public float getLength() {return endTime - startTime;}
 
     public String getClassName(){return className;}

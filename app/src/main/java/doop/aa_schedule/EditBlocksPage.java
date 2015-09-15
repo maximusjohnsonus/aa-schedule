@@ -52,7 +52,13 @@ public class EditBlocksPage extends Fragment {
             blockView = inflater.inflate(R.layout.view_period, container, false);
             blockMain = (TextView) blockView.findViewById(R.id.per_main_text);
 
-            blockMain.setText(p.getMainText());
+            blockMain.setText(p.getMainText(false));
+
+            if(customMethods.alignLeft(getActivity())) {
+                blockMain.setGravity(0);
+                blockMain.setPadding(8*getResources().getDisplayMetrics().densityDpi/160,0,8*getResources().getDisplayMetrics().densityDpi/160,0);
+            }
+
             blockView.setBackgroundColor(customMethods.getPerColor(p));
 
             blockView.setOnClickListener(new PeriodOnClickListener(p, 0, block) {

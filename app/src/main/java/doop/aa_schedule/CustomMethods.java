@@ -4,10 +4,19 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.preference.PreferenceManager;
+import android.util.Log;
 
 import org.json.JSONArray;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class CustomMethods {
     int paleFactor = 7;
@@ -21,6 +30,7 @@ public class CustomMethods {
             Color.rgb(163, 73, 164),  //G (purple)
             Color.rgb(181, 230, 29),  //Lunch (green)
             Color.rgb(150, 150, 150)};//Misc (grey)
+    private static String DAY_NOTES = "/DAY_NOTES_";
 
 
     //TODO: make colors[] stored as sharedPreferences (or other)
@@ -86,6 +96,11 @@ public class CustomMethods {
         String key=c.getResources().getString(R.string.time_24_pref);
         return sp.getBoolean(key, false);
     }
+    public boolean alignLeft(Context c){
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(c);
+        String key=c.getResources().getString(R.string.align_pref);
+        return sp.getBoolean(key, false);
+    }
     public int getMinPerLength(Context c){
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(c);
         String key=c.getResources().getString(R.string.min_per_pref);
@@ -100,6 +115,103 @@ public class CustomMethods {
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(c);
         String key=c.getResources().getString(R.string.weekend_pref);
         return sp.getBoolean(key, false);
+    }
+    public static boolean showNotes(Context c){
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(c);
+        String key=c.getResources().getString(R.string.show_notes_pref);
+        return sp.getBoolean(key, true);
+    }
+
+    public static HashMap getDayNotes(int index, Context c){
+        HashMap notes = null;
+        try {
+            String filePath = c.getFilesDir().getPath();
+            //FileInputStream fis = c.openFileInput(filePath + DAY_NOTES + String.valueOf(index));
+            FileInputStream fis = new FileInputStream(new File(filePath, DAY_NOTES + String.valueOf(index)));
+            ObjectInputStream ois = new ObjectInputStream(fis);
+            notes = (HashMap)ois.readObject();
+            ois.close();
+            fis.close();
+        } catch (FileNotFoundException e) {
+            Log.d("CM 122", "FileNotFound");
+            //e.printStackTrace();
+        } catch (IOException e) {
+            Log.d("CM 125","IOException");
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            Log.d("CM 128","ClassNotFound");
+            e.printStackTrace();
+        }
+        return notes;
+    }
+    public static void setDayNotes(int index, Context c, HashMap dayNotes){
+        try {
+            String filePath = c.getFilesDir().getPath();
+            //FileOutputStream fos = c.openFileOutput(filePath + DAY_NOTES + String.valueOf(index), Context.MODE_PRIVATE);
+            FileOutputStream fos = new FileOutputStream(new File(filePath, DAY_NOTES + String.valueOf(index)));
+            ObjectOutputStream oos = new ObjectOutputStream(fos);
+            oos.writeObject(dayNotes);
+            oos.flush();
+            oos.close();
+            fos.close();
+        } catch (FileNotFoundException e) {
+            Log.d("CM 142","FileNotFound");
+            e.printStackTrace();
+        } catch (IOException e) {
+            Log.d("CM 157","IOException");
+            e.printStackTrace();
+        }
+    }
+    public static void updateDayNotes(int index, Context c, String key, String newNotes){
+        HashMap dayNotes = getDayNotes(index, c);
+        String filePath = c.getFilesDir().getPath();
+        File notesFile = new File(filePath+DAY_NOTES+String.valueOf(index));
+
+        if(dayNotes==null) {
+            if(newNotes==null || newNotes.length()==0) {
+                Log.d("CM168","not making file");
+                return;
+            }
+            dayNotes = new HashMap();
+        }
+
+        if(newNotes==null || newNotes.length()==0){
+            if(dayNotes.containsKey(key)) {
+                dayNotes.remove(key);
+                if(dayNotes.isEmpty()) {
+                    Log.d("CM176", "deleting file " + notesFile.toString());
+                    notesFile.delete();
+                    return;
+                }
+            } else {
+                Log.d("CM181","not making Hash entry");
+                return;
+            }
+        }
+        dayNotes.put(key, newNotes);
+
+        try {
+            //FileOutputStream fos = c.openFileOutput(filePath + DAY_NOTES+String.valueOf(index), Context.MODE_PRIVATE);
+            FileOutputStream fos = new FileOutputStream(notesFile);
+            ObjectOutputStream oos = new ObjectOutputStream(fos);
+            oos.writeObject(dayNotes);
+            oos.flush();
+            oos.close();
+            fos.close();
+        } catch (FileNotFoundException e) {
+            Log.d("CM 185","FileNotFound");
+            e.printStackTrace();
+        } catch (IOException e) {
+            Log.d("CM 188","IOException");
+            e.printStackTrace();
+        }
+    }
+    public static void clearDayNotes(Context c){
+        File myFiles = c.getFilesDir();
+        for(File f:myFiles.listFiles()){
+            if(f.toString().contains(DAY_NOTES))
+                f.delete();
+        }
     }
 
 

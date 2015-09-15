@@ -1,6 +1,8 @@
 package doop.aa_schedule;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
@@ -64,6 +66,19 @@ public class ViewSchedule extends Fragment { // http://architects.dzone.com/arti
             }
         });
 
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        String key="newToNotes";
+
+
+        if(sp.getBoolean(key, true)){
+            TextPopup newToNotes = new TextPopup();
+            newToNotes.setMessage("We've added notes! Tap on a period in your day to add a note to it. If you don't want to use notes, you can turn them off in settings. Let us know how you like them using the feedback page!");
+            newToNotes.show(getFragmentManager(), "NewToNotesPopup");
+            SharedPreferences.Editor editor=sp.edit();
+            editor.putBoolean(key, false);
+            editor.apply();
+        }
+
         return view;
     }
 
@@ -82,7 +97,7 @@ public class ViewSchedule extends Fragment { // http://architects.dzone.com/arti
             if(i==currentDay)
                 currentDay=realDay;
             if(!(weekday==1 || weekday==7) || showWeekends) { //only add if it's not a weekend or if weekends are to be shown
-                fList.add(df.newInstance(dayList.get(i), cal, realDay == currentDay)); //dayList.get(i): 0=day 0, 1=day 1, ... , -1=no school
+                fList.add(df.newInstance(dayList.get(i),/*cal,*/ realDay == currentDay, realDay)); //dayList.get(i): 0=day 0, 1=day 1, ... , -1=no school
                 realDay++;
             }
             cal.add(Calendar.DAY_OF_YEAR,1);

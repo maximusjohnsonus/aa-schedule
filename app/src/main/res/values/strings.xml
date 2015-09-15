@@ -49,11 +49,11 @@
     <string name="get_sch_title">Make a new schedule</string>
     <string name="get_sch_download">Download Your Schedule</string>
     <string name="get_sch_10_12">Use 10-12 Template</string>
-    <string name="get_sch_10_12_offset">Use 10-12 Offset Lunch*</string>
+    <string name="get_sch_10_12_offset">Use 10&#8211;12 Offset Lunch*</string>
     <string name="get_sch_8_9">Use 8-9 Template</string>
-    <string name="get_sch_6_7">Use 6-7 Template</string>
+    <string name="get_sch_6_7">Use 6&#8211;7 Template</string>
     <string name="get_sch_sample">Use Sample Schedule</string>
-    <string name="get_sch_explain">*The offset lunch template has a break between 3rd and 4th period on some days, and lunch before the 4th class period on the others.</string>
+    <string name="get_sch_explain">*If your D period is D10L, choose this one\n\nNOTE: Selecting a new template will remove your old schedule completely</string>
 
 
 
@@ -69,8 +69,10 @@
     <string name="settings_24_time">24 Hour Time</string>
     <string name="settings_highlight">Highlight Current Day</string>
     <string name="settings_weekend">Show Weekends</string>
+    <string name="settings_align">Left Justify Class Names</string>
     <string name="settings_advanced">Advanced</string>
     <string name="settings_min_per">Minimum Period Length</string>
+    <string name="settings_show_notes">Enable Notes</string>
     <string name="edit_day_label">Edit Day</string>
 
     <!--bundle tags-->
@@ -88,7 +90,9 @@
     <string name="time_24_pref">time_24hr</string>
     <string name="highlight_pref">highlight_pref</string>
     <string name="weekend_pref">weekend_pref</string>
+    <string name="align_pref">align_pref</string>
     <string name="min_per_pref">min_per_pref</string>
+    <string name="show_notes_pref">show_notes_pref</string>
     <string name="schedule_JSON">schedule_JSON</string>
     <string name="JSON_period_start_time">per_start_time</string>
     <string name="JSON_period_end_time">per_end_time</string>

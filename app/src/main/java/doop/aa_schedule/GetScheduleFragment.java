@@ -44,7 +44,7 @@ public class GetScheduleFragment extends Fragment {
         });*/
         template10_12.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) { //TODO: deal with the 2 lunches thing
+            public void onClick(View v) {
                 CustomMethods customMethods = new CustomMethods();
                 /*ArrayList<ArrayList<Period>> schedule = new ArrayList<>(0);
 
@@ -142,6 +142,7 @@ public class GetScheduleFragment extends Fragment {
                 } else
                     Toast.makeText(getActivity(), getResources().getString(R.string.PSA_re_editing), Toast.LENGTH_LONG).show();
 
+                CustomMethods.clearDayNotes(getActivity());
                 Intent intent = new Intent(getActivity(), MainActivity.class);
                 startActivity(intent);
             }
@@ -243,6 +244,7 @@ public class GetScheduleFragment extends Fragment {
                 } else
                     Toast.makeText(getActivity(), getResources().getString(R.string.PSA_re_editing), Toast.LENGTH_LONG).show();
 
+                CustomMethods.clearDayNotes(getActivity());
                 Intent intent = new Intent(getActivity(), MainActivity.class);
                 startActivity(intent);
             }
@@ -340,6 +342,7 @@ public class GetScheduleFragment extends Fragment {
                 } else
                     Toast.makeText(getActivity(), getResources().getString(R.string.PSA_re_editing), Toast.LENGTH_LONG).show();
 
+                CustomMethods.clearDayNotes(getActivity());
                 Intent intent = new Intent(getActivity(), MainActivity.class);
                 startActivity(intent);
             }
@@ -360,16 +363,16 @@ public class GetScheduleFragment extends Fragment {
                 ArrayList<Period> day9 = new ArrayList<>();
                 ArrayList<Period> day0 = new ArrayList<>();
 
-                day1.add(new Period(480,932,"Free",0,true));
-                day2.add(new Period(480,932,"Free",1,true));
-                day3.add(new Period(480,932,"Free",2,true));
-                day4.add(new Period(480,932,"Free",3,true));
-                day5.add(new Period(480,932,"Free",4,true));
-                day6.add(new Period(480,932,"Free",5,true));
-                day7.add(new Period(480,932,"Free",6,true));
-                day8.add(new Period(480,932,"Free",7,true));
-                day9.add(new Period(480,932,"Free",8,true));
-                day0.add(new Period(480,932,"Free",8,true));
+                day1.add(new Period(480, 932, "Free", 0, true));
+                day2.add(new Period(480, 932, "Free", 1, true));
+                day3.add(new Period(480, 932, "Free", 2, true));
+                day4.add(new Period(480, 932, "Free", 3, true));
+                day5.add(new Period(480, 932, "Free", 4, true));
+                day6.add(new Period(480, 932, "Free", 5, true));
+                day7.add(new Period(480, 932, "Free", 6, true));
+                day8.add(new Period(480, 932, "Free", 7, true));
+                day9.add(new Period(480, 932, "Free", 8, true));
+                day0.add(new Period(480, 932, "Free", 8, true));
 
                 schedule.add(day1);
                 schedule.add(day2);
@@ -390,6 +393,8 @@ public class GetScheduleFragment extends Fragment {
                     Log.e("GetScheduleFragment 947", "Error in saving sharedpreference");
                     Toast.makeText(getActivity(), "Unable to save changes. Please try again and report this bug. Sorry :(", Toast.LENGTH_LONG).show();
                 }
+
+                CustomMethods.clearDayNotes(getActivity());
                 Intent intent = new Intent(getActivity(), MainActivity.class);
                 startActivity(intent);
             }
@@ -569,6 +574,7 @@ public class GetScheduleFragment extends Fragment {
                 startActivity(intent);
             }
         });*/
+
         return view;
     }
 

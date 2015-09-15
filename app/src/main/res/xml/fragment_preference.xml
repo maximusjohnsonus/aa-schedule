@@ -20,6 +20,14 @@
             android:key="@string/weekend_pref"
             android:title="@string/settings_weekend"
             android:defaultValue="false"/>
+        <SwitchPreference
+            android:key="@string/align_pref"
+            android:title="@string/settings_align"
+            android:defaultValue="false"/>
+        <SwitchPreference
+            android:key="@string/show_notes_pref"
+            android:title="@string/settings_show_notes"
+            android:defaultValue="true"/>
     </PreferenceCategory>
     <PreferenceCategory
         android:title="@string/settings_advanced">
@@ -43,6 +51,9 @@
 highlight current day
 show weekends
 min period length
+- - - - -
+center vs left align vs right align
+notes on/off
 set colors for background, highlight,
     (figure out how to launch a dialog)
 turn off weighted periods... or make frees larger :)
