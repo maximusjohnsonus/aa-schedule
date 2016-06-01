@@ -16,7 +16,7 @@
     <string name="about">This app is made by dOOP (dat Object Oriented Programming) club! \n\n
         \t\tProgramming: Max Johnson, Dylan Hendrickson \n
         \t\tDesign and testing: Tanek Ballachanda, Channing Cimarusti, Andrew Jones, and others \n\n
-        \t\tInterested in learning how to make apps and potentially taking over maintenance of <i>this</i> app? Join dOOP club or send an email to Max at johm160@aa.edu.</string>
+        \t\tInterested in maintaining or improving this app? Email AAScheduleApp@gmail.com or check out our code on Github at github.com/maximusjohnsonus/aa-schedule.</string>
     <string name="help">
         \t\tView Schedule displays your schedule. It will default to the current day.\n\n
         \t\tEdit Schedule allows you to change your schedule. The first page lets you edit classes by block - you can set the name, room, and color of an entire block. The next pages let you edit each day individually. To add a period, simply shorten the periods that occupy the same time as your new period. A new period is created to fill the gap. To delete a period, resize the surrounding periods to cover up the unwanted period. The final page lets you load a new schedule from a template.\n\n
@@ -73,6 +73,7 @@
     <string name="settings_advanced">Advanced</string>
     <string name="settings_min_per">Minimum Period Length</string>
     <string name="settings_show_notes">Enable Notes</string>
+    <string name="settings_long_notes">Use Long Touch For Notes</string>
     <string name="edit_day_label">Edit Day</string>
 
     <!--bundle tags-->
@@ -92,6 +93,7 @@
     <string name="weekend_pref">weekend_pref</string>
     <string name="align_pref">align_pref</string>
     <string name="min_per_pref">min_per_pref</string>
+    <string name="long_touch_pref">long_touch_pref</string>
     <string name="show_notes_pref">show_notes_pref</string>
     <string name="schedule_JSON">schedule_JSON</string>
     <string name="JSON_period_start_time">per_start_time</string>

@@ -1,13 +1,16 @@
 package doop.aa_schedule;
 
+import android.content.Context;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
@@ -22,6 +25,8 @@ public class EditBlocksPage extends Fragment {
     CustomMethods customMethods = new CustomMethods();
     private static PauseViewPager mViewPager;
     private static FragmentActivity mActivity;
+    private static double touchX;
+    private static double touchY;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -61,24 +66,37 @@ public class EditBlocksPage extends Fragment {
 
             blockView.setBackgroundColor(customMethods.getPerColor(p));
 
-            blockView.setOnClickListener(new PeriodOnClickListener(p, 0, block) {
+            blockView.setOnTouchListener(new PeriodOnTouchListener(p, 0, block) {
                 @Override
-                public void onClick(View v) {
-                    mViewPager.setPagingAllowed(false); //pause ViewPager
+                public boolean onTouch(View v, MotionEvent event) {
+                    if (event.getAction() == android.view.MotionEvent.ACTION_DOWN) {
+                        touchX = event.getX();
+                        touchY = event.getY();
+                    } else if (event.getAction() == android.view.MotionEvent.ACTION_UP) {
+                        if (Math.pow(event.getX() - touchX, 2) + Math.pow(event.getY() - touchY, 2) < Math.pow(convertDpToPixel(getResources().getInteger(R.integer.touchBubble), getActivity()), 2)) {
 
-                    FragmentManager fm = getActivity().getSupportFragmentManager();
-                    FragmentTransaction ft = fm.beginTransaction();
-                    EditBlockFragment ebf = new EditBlockFragment();
-                    ebf.sendArgs(period, perIndex, mViewPager);
+                            mViewPager.setPagingAllowed(false); //pause ViewPager
 
-                    ft.add(R.id.container, ebf, "");
-                    ft.remove(EditBlocksPage.this);
-                    ft.addToBackStack(null);
-                    ft.commit();
-                    //ft.replace(R.id.container,epf).commit();
+                            FragmentManager fm = getActivity().getSupportFragmentManager();
+                            FragmentTransaction ft = fm.beginTransaction();
+                            EditBlockFragment ebf = new EditBlockFragment();
+                            ebf.sendArgs(period, perIndex, mViewPager);
+
+                            ft.add(R.id.container, ebf, "");
+                            ft.remove(EditBlocksPage.this);
+                            ft.addToBackStack(null);
+                            ft.commit();
+                            //ft.replace(R.id.container,epf).commit();
+                        }
+                    }
+                    return true;
+                }
+                public float convertDpToPixel(float dp, Context context) {
+                    Resources resources = context.getResources();
+                    DisplayMetrics metrics = resources.getDisplayMetrics();
+                    return dp * (metrics.densityDpi / 160f);
                 }
             });
-
             params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 0, 1);
             ll.addView(blockView, params);
 

@@ -116,6 +116,11 @@ public class CustomMethods {
         String key=c.getResources().getString(R.string.weekend_pref);
         return sp.getBoolean(key, false);
     }
+    public static boolean longTouchNotes(Context c){
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(c);
+        String key=c.getResources().getString(R.string.long_touch_pref);
+        return sp.getBoolean(key, true);
+    }
     public static boolean showNotes(Context c){
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(c);
         String key=c.getResources().getString(R.string.show_notes_pref);
@@ -133,13 +138,13 @@ public class CustomMethods {
             ois.close();
             fis.close();
         } catch (FileNotFoundException e) {
-            Log.d("CM 122", "FileNotFound");
+            //Log.e("CM 122", "FileNotFound");
             //e.printStackTrace();
         } catch (IOException e) {
-            Log.d("CM 125","IOException");
+            Log.e("CM 125","IOException");
             e.printStackTrace();
         } catch (ClassNotFoundException e) {
-            Log.d("CM 128","ClassNotFound");
+            Log.e("CM 128","ClassNotFound");
             e.printStackTrace();
         }
         return notes;
@@ -155,10 +160,10 @@ public class CustomMethods {
             oos.close();
             fos.close();
         } catch (FileNotFoundException e) {
-            Log.d("CM 142","FileNotFound");
-            e.printStackTrace();
+            //Log.e("CM 142","FileNotFound");
+            //e.printStackTrace();
         } catch (IOException e) {
-            Log.d("CM 157","IOException");
+            Log.e("CM 157","IOException");
             e.printStackTrace();
         }
     }
@@ -169,7 +174,7 @@ public class CustomMethods {
 
         if(dayNotes==null) {
             if(newNotes==null || newNotes.length()==0) {
-                Log.d("CM168","not making file");
+                //Log.d("CM168","not making file");
                 return;
             }
             dayNotes = new HashMap();
@@ -179,12 +184,12 @@ public class CustomMethods {
             if(dayNotes.containsKey(key)) {
                 dayNotes.remove(key);
                 if(dayNotes.isEmpty()) {
-                    Log.d("CM176", "deleting file " + notesFile.toString());
+                    //Log.d("CM176", "deleting file " + notesFile.toString());
                     notesFile.delete();
                     return;
                 }
             } else {
-                Log.d("CM181","not making Hash entry");
+                //Log.d("CM181","not making Hash entry");
                 return;
             }
         }
@@ -199,10 +204,10 @@ public class CustomMethods {
             oos.close();
             fos.close();
         } catch (FileNotFoundException e) {
-            Log.d("CM 185","FileNotFound");
-            e.printStackTrace();
+            //Log.e("CM 185","FileNotFound");
+            //e.printStackTrace();
         } catch (IOException e) {
-            Log.d("CM 188","IOException");
+            Log.e("CM 188","IOException");
             e.printStackTrace();
         }
     }

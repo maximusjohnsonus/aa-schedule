@@ -1,5 +1,7 @@
 package doop.aa_schedule;
 
+import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.Rect;
@@ -7,9 +9,10 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.util.Log;
+import android.util.DisplayMetrics;
 import android.view.Display;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
@@ -25,6 +28,9 @@ public class DayFragment extends Fragment {
     private static final String BORDER = "BORDER";
     private static final String DAY_INDEX = "DAY_INDEX";
     private static ArrayList<ArrayList<Period>> schedule;
+    private static double touchX;
+    private static double touchY;
+
     CustomMethods customMethods = new CustomMethods();
 
     //private static String[] daysOfWeek = {"Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"};
@@ -116,20 +122,37 @@ public class DayFragment extends Fragment {
                     periodView.setBackgroundColor(customMethods.paleColor(colors[p.getBlock()]));
                 }*/
 
+
                 if(CustomMethods.showNotes(getActivity())) {
                     final int notesPerIndex = i;
-                    //Adds notes to period.
-                    periodView.setOnClickListener(new View.OnClickListener() {
-                        public void onClick(View v) {
-                            FragmentManager fm = getActivity().getSupportFragmentManager();
-                            FragmentTransaction ft = fm.beginTransaction();
-                            PeriodNotes perNotes = new PeriodNotes();
-                            //perNotes.sendArgs((notes!=null ? (String) notes.get(String.valueOf(notesPerIndex)):""), index, notesPerIndex, p, periodView);
-                            perNotes.sendArgs(p, index, notesPerIndex, periodView);
-                            ft.add(R.id.container, perNotes, "");
-                            //ft.remove(DayFragment.this);
-                            ft.addToBackStack(null);
-                            ft.commit();
+                    periodView.setOnTouchListener(new View.OnTouchListener() {
+                        @Override
+                        public boolean onTouch(View v, MotionEvent event) {
+                            if (event.getAction() == android.view.MotionEvent.ACTION_DOWN) {
+                                touchX=event.getX();
+                                touchY=event.getY();
+                            } else if (event.getAction() == android.view.MotionEvent.ACTION_UP) {
+                                if(Math.pow(event.getX()-touchX,2)+Math.pow(event.getY()-touchY,2)<Math.pow(convertDpToPixel(getResources().getInteger(R.integer.touchBubble),getActivity()),2)){
+                                    FragmentManager fm = getActivity().getSupportFragmentManager();
+                                    FragmentTransaction ft = fm.beginTransaction();
+                                    PeriodNotes perNotes = new PeriodNotes();
+                                    perNotes.sendArgs(p, index, notesPerIndex, periodView);
+                                    ft.add(R.id.container, perNotes, "");
+                                    //ft.remove(DayFragment.this);
+                                    ft.addToBackStack(null);
+                                    ft.commit();
+                                }
+                            }
+
+                            return true;
+
+                            //TODO: try returning false when event is outside of touch bubble
+                            //Log.d("DF123",event.toString());
+                        }
+                        public float convertDpToPixel(float dp, Context context){
+                            Resources resources = context.getResources();
+                            DisplayMetrics metrics = resources.getDisplayMetrics();
+                            return dp * (metrics.densityDpi / 160f);
                         }
                     });
                 }
@@ -144,12 +167,12 @@ public class DayFragment extends Fragment {
     @Override
     public void onPause(){
         super.onPause();
-        Log.d("DF 146", "pausing");
+        //Log.d("DF 146", "pausing");
     }
     @Override
     public void onResume(){
         super.onResume();
-        Log.d("DF 151", "onResume");
+        //Log.d("DF 151", "onResume");
     }
 
     public void updateNotes(int dayIndex, int perIndex, String newNotes){

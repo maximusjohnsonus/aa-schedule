@@ -213,7 +213,6 @@ public class MainActivity extends AppCompatActivity
         SharedPreferences sp = getSharedPreferences(prefName, 0);
         String key=getResources().getString(R.string.schedule_JSON);
         String scheduleJSONString=sp.getString(key, "");
-        Log.d("MainActivity","213");
 
         //Log.d("MainActivity 357","JSON string recovered:"+scheduleJSONString);
         if(rewrite){
@@ -225,7 +224,6 @@ public class MainActivity extends AppCompatActivity
         }
 
         if(scheduleJSONString.length()>0) {
-            Log.d("MainActivity","224");
             try {
                 JSONArray scheduleJSONArray = new JSONArray(scheduleJSONString);
 
@@ -269,8 +267,8 @@ public class MainActivity extends AppCompatActivity
 
     public ArrayList<Integer> getDayList(){
         //0=day 0, 1=day 1, ... , -1=no school
-        int[] tempDayArray = {0, 1, -1, -1, 2, 3, 4, 5, 0, -1, -1, 6, 7, 8, 9, 1, -1, -1, -1, 2, 3, 4, 5, -1, -1, 6, 7, 8, 9, 1, -1, -1, 2, 3, 4, 5, 6, -1, -1, 0, 7, 8, 9, 1, -1, -1, 2, 3, 4, 5, -1, -1, -1, -1, 6, 0, 7, 8, -1, -1, 9, 1, 2, 3, 4, -1, -1, 5, 6, 7, 8, 9, -1, -1, 1, 2, 3, 4, -1, -1, -1, 5, 6, 7, 8, 9, -1, -1, 1, 2, 3, 4, 5, -1, -1, 6, 7, -1, -1, -1, -1, -1, 8, 9, 1, 2, 3, -1, -1, 4, 5, 6, 7, 0, -1, -1, 0, 0, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 1, 2, 3, 4, 5, -1, -1, 6, 7, 8, 9, 1, -1, -1, -1, 2, 3, 4, 5, -1, -1, 6, 7, 8, 0, 9, -1, -1, 1, 2, 3, 4, 5, -1, -1, 6, 7, 8, 9, 1, -1, -1, -1, 2, 3, 4, 5, -1, -1, 6, 7, 8, 9, 1, -1, -1, 2, 3, 4, 5, 6, -1, -1, 7, 8, 9, 1, 2, -1, -1, 3, 4, 0, 5, 6, -1, -1, 7, 8, 9, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 1, 2, 3, -1, -1, 4, 5, 6, 7, 8, -1, -1, 9, 1, 2, 3, 4, -1, -1, 5, 6, 7, 8, -1, -1, -1, 9, 1, 2, 3, 4, -1, -1, 5, 6, 7, 8, 9, -1, -1, 1, 2, 0, 0, 0};
-
+        //int[] tempDayArray = {0, 1, -1, -1, 2, 3, 4, 5, 0, -1, -1, 6, 7, 8, 9, 1, -1, -1, -1, 2, 3, 4, 5, -1, -1, 6, 7, 8, 9, 1, -1, -1, 2, 3, 4, 5, 6, -1, -1, 0, 7, 8, 9, 1, -1, -1, 2, 3, 4, 5, -1, -1, -1, -1, 6, 0, 7, 8, -1, -1, 9, 1, 2, 3, 4, -1, -1, 5, 6, 7, 8, 9, -1, -1, 1, 2, 3, 4, -1, -1, -1, 5, 6, 7, 8, 9, -1, -1, 1, 2, 3, 4, 5, -1, -1, 6, 7, -1, -1, -1, -1, -1, 8, 9, 1, 2, 3, -1, -1, 4, 5, 6, 7, 0, -1, -1, 0, 0, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 1, 2, 3, 4, 5, -1, -1, 6, 7, 8, 9, 1, -1, -1, -1, 2, 3, 4, 5, -1, -1, 6, 7, 8, 0, 9, -1, -1, 1, 2, 3, 4, 5, -1, -1, 6, 7, 8, 9, 1, -1, -1, -1, 2, 3, 4, 5, -1, -1, 6, 7, 8, 9, 1, -1, -1, 2, 3, 4, 5, 6, -1, -1, 7, 8, 9, 1, 2, -1, -1, 3, 4, 0, 5, 6, -1, -1, 7, 8, 9, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 1, 2, 3, -1, -1, 4, 5, 6, 7, 8, -1, -1, 9, 1, 2, 3, 4, -1, -1, 5, 6, 7, 8, -1, -1, -1, 9, 1, 2, 3, 4, -1, -1, 5, 6, 7, 8, 9, -1, -1, 1, 2, 0, 0, 0};
+        int[] tempDayArray = getResources().getIntArray(R.array.cycle_days);
         ArrayList <Integer> tempDayList = new ArrayList<>(0);
         for(int i:tempDayArray)
             tempDayList.add(i);

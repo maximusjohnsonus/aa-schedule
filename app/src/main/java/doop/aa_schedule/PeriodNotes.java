@@ -2,7 +2,6 @@ package doop.aa_schedule;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,7 +33,7 @@ public class PeriodNotes extends Fragment {
     public void onPause(){
         super.onPause();
 
-        Log.d("PN 23", "updating day " + dayIndex + " per " + perIndex + " to " + notes.getText().toString());
+        //Log.d("PN 23", "updating day " + dayIndex + " per " + perIndex + " to " + notes.getText().toString());
         CustomMethods.updateDayNotes(dayIndex, getActivity(), String.valueOf(perIndex), notes.getText().toString());
         //df.updateNotes(dayNum, perIndex, notes.getText().toString());
         p.setNotes(notes.getText().toString());

@@ -10,9 +10,11 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Display;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
@@ -28,6 +30,8 @@ public class EditDayViewFragment extends Fragment {
     private static CustomMethods customMethods = new CustomMethods();
     private static PauseViewPager mViewPager;
     private static FragmentActivity mActivity;
+    private static double touchX;
+    private static double touchY;
 
     public static EditDayViewFragment newInstance(int dayNum) {
         EditDayViewFragment f = new EditDayViewFragment();
@@ -98,21 +102,34 @@ public class EditDayViewFragment extends Fragment {
 
             periodView.setBackgroundColor(customMethods.getPerColor(p));
 
+            periodView.setOnTouchListener(new PeriodOnTouchListener(p, dayNum, i) {
+                @Override
+                public boolean onTouch(View v, MotionEvent event) {
+                    if (event.getAction() == android.view.MotionEvent.ACTION_DOWN) {
+                        touchX = event.getX();
+                        touchY = event.getY();
+                    } else if (event.getAction() == android.view.MotionEvent.ACTION_UP) {
+                        if (Math.pow(event.getX() - touchX, 2) + Math.pow(event.getY() - touchY, 2) < Math.pow(convertDpToPixel(getResources().getInteger(R.integer.touchBubble), getActivity()), 2)) {
+                            mViewPager.setPagingAllowed(false);
 
-            periodView.setOnClickListener(new PeriodOnClickListener(p, dayNum, i) {
-                public void onClick(View v) {
-                    mViewPager.setPagingAllowed(false);
+                            FragmentManager fm = getActivity().getSupportFragmentManager();
+                            FragmentTransaction ft = fm.beginTransaction();
+                            EditPeriodFragment epf = new EditPeriodFragment();
+                            epf.sendArgs(period, dayIndex, perIndex, mViewPager);
 
-                    FragmentManager fm = getActivity().getSupportFragmentManager();
-                    FragmentTransaction ft = fm.beginTransaction();
-                    EditPeriodFragment epf = new EditPeriodFragment();
-                    epf.sendArgs(period, dayIndex, perIndex, mViewPager);
-
-                    ft.add(R.id.container, epf, "");
-                    ft.remove(EditDayViewFragment.this);
-                    ft.addToBackStack(null);
-                    ft.commit();
-                    //ft.replace(R.id.container,epf).commit();
+                            ft.add(R.id.container, epf, "");
+                            ft.remove(EditDayViewFragment.this);
+                            ft.addToBackStack(null);
+                            ft.commit();
+                            //ft.replace(R.id.container,epf).commit();
+                        }
+                    }
+                    return true;
+                }
+                public float convertDpToPixel(float dp, Context context) {
+                    Resources resources = context.getResources();
+                    DisplayMetrics metrics = resources.getDisplayMetrics();
+                    return dp * (metrics.densityDpi / 160f);
                 }
             });
 
