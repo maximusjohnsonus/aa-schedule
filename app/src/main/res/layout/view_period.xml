@@ -9,7 +9,7 @@
     <TextView
         android:id="@+id/per_time_text"
         android:textSize="12sp"
-        android:layout_width="wrap_content"
+        android:layout_width="80dp"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_centerVertical="true"
@@ -28,9 +28,18 @@
     <TextView
         android:id="@+id/per_main_text"
         android:textSize="14sp"
+        android:ellipsize="end"
+        android:singleLine="true"
+        android:lines="1"
         android:layout_width="wrap_content"
+        android:paddingLeft="2dp"
+        android:paddingRight="2dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true" />
+        android:gravity="center"/>
+    <!--        android:layout_toRightOf="@+id/per_time_text"
 
+-->
 </RelativeLayout>

@@ -4,7 +4,6 @@ import android.app.TimePickerDialog;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -160,7 +159,6 @@ public class EditPeriodFragment extends Fragment implements ColorPickerDialog.On
                 b.putBoolean(r.getString(R.string.bdl_set_color), setColor);
                 b.putInt(r.getString(R.string.bdl_color), newColor);
 
-                Log.d("EPF 132", "end " + newEnd + " bundle " + b.toString());
                 EditDayViewFragment.updatePeriod(dayIndex, perIndex, b, getActivity());
 
                 ((MainActivity) getActivity()).getSupportActionBar().setTitle("Edit Day "+(dayIndex+1)%10);

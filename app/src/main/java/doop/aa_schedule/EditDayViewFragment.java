@@ -2,16 +2,23 @@ package doop.aa_schedule;
 
 import android.content.Context;
 import android.content.res.Resources;
+import android.graphics.Paint;
+import android.graphics.Point;
+import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.Display;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,6 +30,8 @@ public class EditDayViewFragment extends Fragment {
     private static CustomMethods customMethods = new CustomMethods();
     private static PauseViewPager mViewPager;
     private static FragmentActivity mActivity;
+    private static double touchX;
+    private static double touchY;
 
     public static EditDayViewFragment newInstance(int dayNum) {
         EditDayViewFragment f = new EditDayViewFragment();
@@ -51,7 +60,7 @@ public class EditDayViewFragment extends Fragment {
         //ll.setPadding(padding/2, padding, padding/2, 0);
 
         //TextView label = (TextView) v.findViewById(R.id.dayText);
-        getActivity().setTitle(getResources().getString(R.string.edit_day_label)+" "+(dayNum+1)%10); //Edit Day n
+        //getActivity().setTitle(getResources().getString(R.string.edit_day_label)+" "+(dayNum+1)%10); //Edit Day n
 
         LinearLayout.LayoutParams params;
         View periodView;
@@ -59,6 +68,10 @@ public class EditDayViewFragment extends Fragment {
         //TextView perStart;
         //TextView perEnd;
         TextView perMain;
+
+        Display display = getActivity().getWindowManager().getDefaultDisplay();
+        Point size = new Point();
+        display.getSize(size);
 
         Period p;
         for (int i=0; i<day.size(); i++) {
@@ -71,24 +84,52 @@ public class EditDayViewFragment extends Fragment {
             perTime.setText(p.getTimeString(getActivity()));
             //perStart.setText(p.getStartString());
             //perEnd.setText(p.getEndString());
-            perMain.setText(p.getMainText());
+            String perMainText = p.getMainText(false);
+            perMain.setText(perMainText);
+
+            Rect bounds = new Rect();
+            Paint textPaint = perMain.getPaint();
+            textPaint.getTextBounds(perMainText, 0, perMainText.length(), bounds);
+            if(bounds.width()/2 > size.x/2 - 80f * getResources().getDisplayMetrics().densityDpi/160f || customMethods.alignLeft(getActivity())) {
+                //if text box reaches time box, change left edge to be flush with time's right, set left align
+                perMain.setGravity(0);
+                RelativeLayout.LayoutParams perParams = new RelativeLayout.LayoutParams(
+                        RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+                perParams.addRule(RelativeLayout.RIGHT_OF, R.id.per_time_text);
+                perParams.addRule(RelativeLayout.CENTER_VERTICAL, 1);
+                perMain.setLayoutParams(perParams);
+            }
+
             periodView.setBackgroundColor(customMethods.getPerColor(p));
 
+            periodView.setOnTouchListener(new PeriodOnTouchListener(p, dayNum, i) {
+                @Override
+                public boolean onTouch(View v, MotionEvent event) {
+                    if (event.getAction() == android.view.MotionEvent.ACTION_DOWN) {
+                        touchX = event.getX();
+                        touchY = event.getY();
+                    } else if (event.getAction() == android.view.MotionEvent.ACTION_UP) {
+                        if (Math.pow(event.getX() - touchX, 2) + Math.pow(event.getY() - touchY, 2) < Math.pow(convertDpToPixel(getResources().getInteger(R.integer.touchBubble), getActivity()), 2)) {
+                            mViewPager.setPagingAllowed(false);
 
-            periodView.setOnClickListener(new PeriodOnClickListener(p, dayNum, i) {
-                public void onClick(View v) {
-                    mViewPager.setPagingAllowed(false);
+                            FragmentManager fm = getActivity().getSupportFragmentManager();
+                            FragmentTransaction ft = fm.beginTransaction();
+                            EditPeriodFragment epf = new EditPeriodFragment();
+                            epf.sendArgs(period, dayIndex, perIndex, mViewPager);
 
-                    FragmentManager fm = getActivity().getSupportFragmentManager();
-                    FragmentTransaction ft = fm.beginTransaction();
-                    EditPeriodFragment epf = new EditPeriodFragment();
-                    epf.sendArgs(period, dayIndex, perIndex, mViewPager);
-
-                    ft.add(R.id.container, epf, "");
-                    ft.remove(EditDayViewFragment.this);
-                    ft.addToBackStack(null);
-                    ft.commit();
-                    //ft.replace(R.id.container,epf).commit();
+                            ft.add(R.id.container, epf, "");
+                            ft.remove(EditDayViewFragment.this);
+                            ft.addToBackStack(null);
+                            ft.commit();
+                            //ft.replace(R.id.container,epf).commit();
+                        }
+                    }
+                    return true;
+                }
+                public float convertDpToPixel(float dp, Context context) {
+                    Resources resources = context.getResources();
+                    DisplayMetrics metrics = resources.getDisplayMetrics();
+                    return dp * (metrics.densityDpi / 160f);
                 }
             });
 

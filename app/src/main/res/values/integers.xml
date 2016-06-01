@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <integer name="start_year">2015</integer> <!--2015=2015-->
-    <integer name="start_month">7</integer> <!--january=0, ...-->
-    <integer name="start_day">20</integer> <!--1st=1, ...-->
     <integer name="default_min_per">14</integer>
+    <integer name="touchBubble">30</integer>
 </resources>
