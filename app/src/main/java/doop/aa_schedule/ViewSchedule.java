@@ -67,13 +67,11 @@ public class ViewSchedule extends Fragment { // http://architects.dzone.com/arti
         });
 
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getActivity());
-        String key="newToNotes";
-
-
+        String key="retUser";
         if(sp.getBoolean(key, true)){
-            TextPopup newToNotes = new TextPopup();
-            newToNotes.setMessage("We've added notes! Tap on a period in your day to add a note to it. If you don't want to use notes, you can turn them off in settings. Let us know how you like them using the feedback page!");
-            newToNotes.show(getFragmentManager(), "NewToNotesPopup");
+            TextPopup retUser = new TextPopup();
+            retUser.setMessage("Returning User? Swipe to the last page in Edit Schedule to choose a new template.");
+            retUser.show(getFragmentManager(), "RetUserPopup");
             SharedPreferences.Editor editor=sp.edit();
             editor.putBoolean(key, false);
             editor.apply();

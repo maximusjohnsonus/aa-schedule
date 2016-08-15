@@ -48,13 +48,12 @@
     <string name="edit_per_label">Edit Period</string>
     <string name="get_sch_title">Make a new schedule</string>
     <string name="get_sch_download">Download Your Schedule</string>
-    <string name="get_sch_10_12">Use 10-12 Template</string>
-    <string name="get_sch_10_12_offset">Use 10&#8211;12 Offset Lunch*</string>
-    <string name="get_sch_8_9">Use 8-9 Template</string>
+    <string name="get_sch_10_12">Use 10&#8211;12 D1 Template</string>
+    <string name="get_sch_10_12_offset">Use 10&#8211;12 D2 Template*</string>
+    <string name="get_sch_8_9">Use 8&#8211;9 Template</string>
     <string name="get_sch_6_7">Use 6&#8211;7 Template</string>
     <string name="get_sch_sample">Use Sample Schedule</string>
-    <string name="get_sch_explain">*If your D period is D10L, choose this one\n\nNOTE: Selecting a new template will remove your old schedule completely</string>
-
+    <string name="get_sch_explain">*The D2 template has D2 as the fourth block, a short break between C and D2 blocks on some days, and lunch before D2 on the others.</string>
 
 
     <string name="PSA_re_editing">Default loaded. Go to the first page of Edit Schedule to fill in the names of each block.</string>
