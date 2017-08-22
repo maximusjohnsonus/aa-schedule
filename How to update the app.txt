@@ -1,0 +1,8 @@
+1. Update the values in app > res > values > yearlyChanges.xml. If the schedule templates have changed, update them in app > java > doop.aa-schedule > GetScheduleFragment.java
+2. Increment versionCode and versionName in Gradle Scripts > build.gradle (Module: app)
+3. Build > Generate Signed APK. (Right now, the Key store path is C:\Users\Max\Documents\signature.jks, and the Key alias is mj). Select release and Finish.
+4. Log into developer.android.com as maximusjohnsonus@gmail.com. Go to Play Console. Select Albuquerque Academy as the profile in the upper right.
+5. Select Daily Charger, then on the left (the Google Play Console?) select Release management > App releases.
+6. Under Production, select Manage Production, then Create Release.
+7. Upload the APK you generated in step 3. Enter release notes. Save. Review. Start Rollout to Production.
+8. Update the git repository: Go to VCS > Commit Changes. Under Commit, select Commit & Push
