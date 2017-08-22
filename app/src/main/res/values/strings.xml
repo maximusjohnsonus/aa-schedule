@@ -22,7 +22,7 @@
         \t\tEdit Schedule allows you to change your schedule. The first page lets you edit classes by block - you can set the name, room, and color of an entire block. The next pages let you edit each day individually. To add a period, simply shorten the periods that occupy the same time as your new period. A new period is created to fill the gap. To delete a period, resize the surrounding periods to cover up the unwanted period. The final page lets you load a new schedule from a template.\n\n
         \t\tFeedback sends an email to the development team. Send us your compliments, criticisms, suggestions for features, bugs, deep thoughts, unwanted children, and snacks.
     </string>
-    <string name="feedback_info">Questions? Comments? Concerns?</string>
+    <string name="feedback_info">Questions? Comments? Concerns? Email us at AAScheduleApp@gmail.com or fill out the form below.</string>
     <string name="feedback_entry">Enter Feedback</string>
     <string name="feedback_button">Submit Feedback</string>
     <string name="type_suggest_feature">Suggest Feature</string>

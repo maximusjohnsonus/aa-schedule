@@ -67,7 +67,7 @@ public class ViewSchedule extends Fragment { // http://architects.dzone.com/arti
         });
 
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getActivity());
-        String key="retUser";
+        String key=getResources().getString(R.string.key_ret);
         if(sp.getBoolean(key, true)){
             TextPopup retUser = new TextPopup();
             retUser.setMessage("Returning User? Swipe to the last page in Edit Schedule to choose a new template.");

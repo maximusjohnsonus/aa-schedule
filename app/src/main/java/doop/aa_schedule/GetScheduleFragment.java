@@ -165,7 +165,7 @@ public class GetScheduleFragment extends Fragment {
                     "[{\"per_start_time\":480,\"per_end_time\":527,\"per_class_name\":\"A\",\"per_block\":0,\"per_is_free\":false}," +
                     "{\"per_start_time\":534,\"per_end_time\":581,\"per_class_name\":\"B\",\"per_block\":1,\"per_is_free\":false}," +
                     "{\"per_start_time\":588,\"per_end_time\":635,\"per_class_name\":\"C\",\"per_block\":2,\"per_is_free\":false}," +
-                    "{\"per_start_time\":645,\"per_end_time\":675,\"per_class_name\":\"Common Time\",\"per_block\":8,\"per_is_free\":false}," +
+                    "{\"per_start_time\":645,\"per_end_time\":675,\"per_class_name\":\"Assembly/Class Meeting\",\"per_block\":8,\"per_is_free\":false}," +
                     "{\"per_start_time\":682,\"per_end_time\":756,\"per_class_name\":\"D\",\"per_block\":3,\"per_is_free\":false}," +
                     "{\"per_start_time\":763,\"per_end_time\":797,\"per_class_name\":\"Lunch\",\"per_block\":7,\"per_is_free\":false}," +
                     "{\"per_start_time\":804,\"per_end_time\":851,\"per_class_name\":\"F\",\"per_block\":5,\"per_is_free\":false}," +
@@ -219,7 +219,7 @@ public class GetScheduleFragment extends Fragment {
                     "[{\"per_start_time\":480,\"per_end_time\":527,\"per_class_name\":\"A\",\"per_block\":0,\"per_is_free\":false}," +
                     "{\"per_start_time\":534,\"per_end_time\":581,\"per_class_name\":\"B\",\"per_block\":1,\"per_is_free\":false}," +
                     "{\"per_start_time\":588,\"per_end_time\":635,\"per_class_name\":\"C\",\"per_block\":2,\"per_is_free\":false}," +
-                    "{\"per_start_time\":645,\"per_end_time\":675,\"per_class_name\":\"Common Time\",\"per_block\":8,\"per_is_free\":false}," +
+                    "{\"per_start_time\":642,\"per_end_time\":675,\"per_class_name\":\"Advisor Time\",\"per_block\":8,\"per_is_free\":false}," +
                     "{\"per_start_time\":682,\"per_end_time\":729,\"per_class_name\":\"D\",\"per_block\":3,\"per_is_free\":false}," +
                     "{\"per_start_time\":736,\"per_end_time\":770,\"per_class_name\":\"Lunch\",\"per_block\":7,\"per_is_free\":false}," +
                     "{\"per_start_time\":777,\"per_end_time\":851,\"per_class_name\":\"E\",\"per_block\":4,\"per_is_free\":false}," +
@@ -358,7 +358,7 @@ public class GetScheduleFragment extends Fragment {
                     "[{\"per_start_time\":480,\"per_end_time\":527,\"per_class_name\":\"A\",\"per_block\":0,\"per_is_free\":false}," +
                     "{\"per_start_time\":534,\"per_end_time\":581,\"per_class_name\":\"B\",\"per_block\":1,\"per_is_free\":false}," +
                     "{\"per_start_time\":588,\"per_end_time\":635,\"per_class_name\":\"C\",\"per_block\":2,\"per_is_free\":false}," +
-                    "{\"per_start_time\":645,\"per_end_time\":675,\"per_class_name\":\"Common Time\",\"per_block\":8,\"per_is_free\":false}," +
+                    "{\"per_start_time\":645,\"per_end_time\":675,\"per_class_name\":\"Assembly/Class Meeting\",\"per_block\":8,\"per_is_free\":false}," +
                     "{\"per_start_time\":682,\"per_end_time\":716,\"per_class_name\":\"Lunch\",\"per_block\":7,\"per_is_free\":false}," +
                     "{\"per_start_time\":723,\"per_end_time\":797,\"per_class_name\":\"D\",\"per_block\":3,\"per_is_free\":false}," +
                     "{\"per_start_time\":804,\"per_end_time\":851,\"per_class_name\":\"F\",\"per_block\":5,\"per_is_free\":false}," +
@@ -415,7 +415,7 @@ public class GetScheduleFragment extends Fragment {
                     "[{\"per_start_time\":480,\"per_end_time\":527,\"per_class_name\":\"A\",\"per_block\":0,\"per_is_free\":false}," +
                     "{\"per_start_time\":534,\"per_end_time\":581,\"per_class_name\":\"B\",\"per_block\":1,\"per_is_free\":false}," +
                     "{\"per_start_time\":588,\"per_end_time\":635,\"per_class_name\":\"C\",\"per_block\":2,\"per_is_free\":false}," +
-                    "{\"per_start_time\":645,\"per_end_time\":675,\"per_class_name\":\"Common Time\",\"per_block\":8,\"per_is_free\":false}," +
+                    "{\"per_start_time\":642,\"per_end_time\":675,\"per_class_name\":\"Advisor Time\",\"per_block\":8,\"per_is_free\":false}," +
                     "{\"per_start_time\":682,\"per_end_time\":716,\"per_class_name\":\"Lunch\",\"per_block\":7,\"per_is_free\":false}," +
                     "{\"per_start_time\":723,\"per_end_time\":770,\"per_class_name\":\"D\",\"per_block\":3,\"per_is_free\":false}," +
                     "{\"per_start_time\":777,\"per_end_time\":851,\"per_class_name\":\"E\",\"per_block\":4,\"per_is_free\":false}," +
@@ -549,7 +549,7 @@ public class GetScheduleFragment extends Fragment {
                     "{\"per_start_time\":534,\"per_end_time\":581,\"per_class_name\":\"B\",\"per_block\":1,\"per_is_free\":false}," +
                     "{\"per_start_time\":588,\"per_end_time\":635,\"per_class_name\":\"C\",\"per_block\":2,\"per_is_free\":false}," +
                     "{\"per_start_time\":642,\"per_end_time\":682,\"per_class_name\":\"Lunch\",\"per_block\":7,\"per_is_free\":false}," +
-                    "{\"per_start_time\":689,\"per_end_time\":716,\"per_class_name\":\"Advisory Time\",\"per_block\":8,\"per_is_free\":false}," +
+                    "{\"per_start_time\":689,\"per_end_time\":716,\"per_class_name\":\"Advisor Time\",\"per_block\":8,\"per_is_free\":false}," +
                     "{\"per_start_time\":723,\"per_end_time\":797,\"per_class_name\":\"D\",\"per_block\":3,\"per_is_free\":false}," +
                     "{\"per_start_time\":804,\"per_end_time\":851,\"per_class_name\":\"F\",\"per_block\":5,\"per_is_free\":false}," +
                     "{\"per_start_time\":858,\"per_end_time\":878,\"per_class_name\":\"Free\",\"per_block\":8,\"per_is_free\":true}," +

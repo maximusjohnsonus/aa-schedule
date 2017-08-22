@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <integer name="start_year">2016</integer> <!--2015=2015-->
-    <integer name="start_month">7</integer> <!--january=0, ...-->
-    <integer name="start_day">18</integer> <!--1st=1, ...-->
+    <integer name="start_year">2017</integer> <!--2015=2015, ...-->
+    <integer name="start_month">7</integer> <!--january=0, ..., august=7, ...-->
+    <integer name="start_day">17</integer> <!--1st=1, ...-->
+    <string name="key_ret">key_ret_17</string> <!--Increment number every year-->
     <integer-array name="cycle_days"> <!-- 0 through 9=cycle day, -1=no school (weekend or a day with no classes) -->
-        <!-- The format may not be the nicest, but it is a more proper setup than using an array in a java file.
-         Please don't enter these numbers by hand;
-         you can convert from a list (or even html from aa.edu's calendar page) to the <item></item> format using a pretty basic regex.
-         If you don't know regex, it's such a powerful and easy tool that you should learn it. -->
+        <!-- The format may not be the nicest, but it is a more proper setup than using an array in a java file. -->
         <item>0</item>
         <item>1</item>
         <item>-1</item>
@@ -47,25 +45,25 @@
         <item>6</item>
         <item>-1</item>
         <item>-1</item>
-        <item>0</item>
         <item>7</item>
         <item>8</item>
         <item>9</item>
-        <item>-1</item>
-        <item>-1</item>
-        <item>-1</item>
-        <item>-1</item>
         <item>1</item>
         <item>2</item>
+        <item>-1</item>
+        <item>-1</item>
         <item>3</item>
         <item>4</item>
-        <item>-1</item>
-        <item>-1</item>
-        <item>-1</item>
+        <item>5</item>
         <item>6</item>
         <item>7</item>
+        <item>-1</item>
+        <item>-1</item>
+        <item>0</item>
         <item>8</item>
         <item>9</item>
+        <item>-1</item>
+        <item>-1</item>
         <item>-1</item>
         <item>-1</item>
         <item>1</item>
@@ -125,6 +123,7 @@
         <item>-1</item>
         <item>-1</item>
         <item>9</item>
+        <item>1</item>
         <item>0</item>
         <item>0</item>
         <item>0</item>
@@ -149,27 +148,68 @@
         <item>-1</item>
         <item>1</item>
         <item>2</item>
+        <item>-1</item>
+        <item>-1</item>
         <item>3</item>
-        <item>-1</item>
-        <item>-1</item>
         <item>4</item>
         <item>5</item>
         <item>6</item>
         <item>7</item>
+        <item>-1</item>
+        <item>-1</item>
+        <item>-1</item>
         <item>8</item>
-        <item>-1</item>
-        <item>-1</item>
-        <item>-1</item>
         <item>9</item>
         <item>1</item>
         <item>2</item>
+        <item>-1</item>
+        <item>-1</item>
         <item>3</item>
-        <item>-1</item>
-        <item>-1</item>
         <item>4</item>
         <item>5</item>
-        <item>6</item>
         <item>0</item>
+        <item>6</item>
+        <item>-1</item>
+        <item>-1</item>
+        <item>7</item>
+        <item>8</item>
+        <item>9</item>
+        <item>1</item>
+        <item>2</item>
+        <item>-1</item>
+        <item>-1</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>-1</item>
+        <item>-1</item>
+        <item>8</item>
+        <item>9</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>-1</item>
+        <item>-1</item>
+        <item>-1</item>
+        <item>-1</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>-1</item>
+        <item>-1</item>
+        <item>7</item>
+        <item>8</item>
+        <item>9</item>
+        <item>1</item>
+        <item>2</item>
+        <item>-1</item>
+        <item>-1</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
         <item>7</item>
         <item>-1</item>
         <item>-1</item>
@@ -183,103 +223,61 @@
         <item>4</item>
         <item>5</item>
         <item>6</item>
+        <item>-1</item>
+        <item>-1</item>
+        <item>-1</item>
+        <item>-1</item>
+        <item>-1</item>
+        <item>-1</item>
+        <item>-1</item>
+        <item>-1</item>
+        <item>-1</item>
+        <item>-1</item>
+        <item>-1</item>
+        <item>-1</item>
+        <item>-1</item>
         <item>7</item>
-        <item>8</item>
-        <item>-1</item>
-        <item>-1</item>
-        <item>9</item>
-        <item>1</item>
-        <item>2</item>
-        <item>3</item>
-        <item>4</item>
-        <item>-1</item>
-        <item>-1</item>
-        <item>-1</item>
-        <item>5</item>
-        <item>6</item>
-        <item>7</item>
-        <item>8</item>
-        <item>-1</item>
-        <item>-1</item>
-        <item>9</item>
-        <item>1</item>
-        <item>2</item>
-        <item>3</item>
-        <item>4</item>
-        <item>-1</item>
-        <item>-1</item>
-        <item>5</item>
-        <item>6</item>
-        <item>7</item>
-        <item>8</item>
-        <item>9</item>
-        <item>-1</item>
-        <item>-1</item>
-        <item>1</item>
-        <item>2</item>
-        <item>3</item>
-        <item>9</item>
-        <item>-1</item>
-        <item>-1</item>
-        <item>-1</item>
-        <item>-1</item>
-        <item>-1</item>
-        <item>-1</item>
-        <item>-1</item>
-        <item>-1</item>
-        <item>-1</item>
-        <item>-1</item>
-        <item>-1</item>
-        <item>-1</item>
-        <item>4</item>
         <item>0</item>
+        <item>8</item>
+        <item>-1</item>
+        <item>-1</item>
+        <item>9</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>-1</item>
+        <item>-1</item>
         <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
         <item>-1</item>
         <item>-1</item>
+        <item>-1</item>
+        <item>9</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>-1</item>
+        <item>-1</item>
+        <item>5</item>
         <item>6</item>
         <item>7</item>
         <item>8</item>
         <item>9</item>
+        <item>-1</item>
+        <item>-1</item>
         <item>1</item>
-        <item>-1</item>
-        <item>-1</item>
         <item>2</item>
         <item>3</item>
         <item>4</item>
         <item>5</item>
-        <item>6</item>
         <item>-1</item>
         <item>-1</item>
-        <item>7</item>
-        <item>8</item>
-        <item>9</item>
-        <item>1</item>
-        <item>2</item>
-        <item>-1</item>
-        <item>-1</item>
-        <item>3</item>
-        <item>4</item>
-        <item>5</item>
-        <item>6</item>
-        <item>-1</item>
-        <item>-1</item>
-        <item>-1</item>
-        <item>7</item>
-        <item>8</item>
-        <item>9</item>
-        <item>1</item>
-        <item>2</item>
-        <item>-1</item>
-        <item>-1</item>
-        <item>3</item>
-        <item>4</item>
-        <item>5</item>
         <item>6</item>
         <item>7</item>
-        <item>-1</item>
-        <item>-1</item>
-        <item>8</item>
-        <item>-1</item>
         <item>0</item>
         <item>0</item>
         <item>0</item>
